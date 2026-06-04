@@ -31,6 +31,25 @@ const rules = {
   email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 };
 
+function roleLabel(role: string) {
+  const labels: Record<string, string> = {
+    ADMIN: '管理员',
+    PARTNER: '服务方',
+    USER: '普通用户',
+  };
+  return labels[role] || role;
+}
+
+function roleTagType(role: string) {
+  if (role === 'ADMIN') {
+    return 'danger';
+  }
+  if (role === 'PARTNER') {
+    return 'warning';
+  }
+  return 'info';
+}
+
 onMounted(fetchUsers);
 
 async function fetchUsers() {
@@ -90,9 +109,7 @@ async function submitForm() {
 }
 
 async function removeUser(row: User) {
-  await ElMessageBox.confirm(`确认删除用户 ${row.username}？`, '删除确认', {
-    type: 'warning',
-  });
+  await ElMessageBox.confirm(`确认删除用户 ${row.username}？`, '删除确认', { type: 'warning' });
   await userApi.delete(row.id);
   ElMessage.success('删除成功');
   fetchUsers();
@@ -100,7 +117,7 @@ async function removeUser(row: User) {
 </script>
 
 <template>
-  <section class="page-section">
+  <section class="users-page">
     <div class="page-toolbar">
       <el-form :model="query" inline>
         <el-form-item label="用户名">
@@ -120,18 +137,24 @@ async function removeUser(row: User) {
           <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-button type="primary" :icon="Plus" @click="openCreate">新增</el-button>
+      <el-button type="primary" :icon="Plus" @click="openCreate">新增用户</el-button>
     </div>
 
-    <el-table v-loading="loading" :data="users" stripe border height="calc(100vh - 230px)">
+    <el-table v-loading="loading" :data="users" stripe border>
       <el-table-column prop="id" label="ID" width="80" />
       <el-table-column prop="username" label="用户名" min-width="140" />
       <el-table-column prop="email" label="邮箱" min-width="200" />
       <el-table-column prop="phone" label="手机号" min-width="140" />
-      <el-table-column prop="role" label="角色" width="110" />
+      <el-table-column prop="role" label="角色" width="110">
+        <template #default="{ row }">
+          <el-tag :type="roleTagType(row.role)" size="small" effect="light" round>
+            {{ roleLabel(row.role) }}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="状态" width="100">
         <template #default="{ row }">
-          <el-tag :type="row.status === 1 ? 'success' : 'info'">
+          <el-tag :type="row.status === 1 ? 'success' : 'info'" size="small" effect="light" round>
             {{ row.status === 1 ? '启用' : '禁用' }}
           </el-tag>
         </template>
@@ -172,6 +195,7 @@ async function removeUser(row: User) {
         <el-form-item label="角色">
           <el-select v-model="form.role" style="width: 180px">
             <el-option label="管理员" value="ADMIN" />
+            <el-option label="服务方" value="PARTNER" />
             <el-option label="普通用户" value="USER" />
           </el-select>
         </el-form-item>
@@ -186,3 +210,33 @@ async function removeUser(row: User) {
     </el-dialog>
   </section>
 </template>
+
+<style scoped>
+.users-page {
+  padding: 20px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.page-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.page-toolbar .el-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 6px;
+}
+
+.pagination-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+}
+</style>

@@ -15,3 +15,16 @@ const { messages, streaming, sendMessage, stop } = useChatSSE();
     />
   </div>
 </template>
+
+<style scoped>
+.chat-page {
+  display: flex;
+  height: calc(100vh - 172px);
+  min-height: 520px;
+  overflow: hidden;
+  background: var(--c-surface);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+</style>

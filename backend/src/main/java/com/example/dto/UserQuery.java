@@ -1,6 +1,7 @@
 package com.example.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
 public class UserQuery {
 
@@ -14,6 +15,7 @@ public class UserQuery {
     private Integer page = 1;
 
     @Min(value = 1, message = "每页数量不能小于1")
+    @Max(value = 100, message = "每页数量不能超过100")
     private Integer pageSize = 10;
 
     public String getUsername() {

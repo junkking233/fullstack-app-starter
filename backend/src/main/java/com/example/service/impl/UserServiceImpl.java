@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.dto.UserQuery;
 import com.example.entity.User;
+import com.example.exception.BusinessException;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 import com.example.util.PasswordUtils;
@@ -29,7 +30,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(Long id) {
-        return userMapper.selectById(id);
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
+        return user;
     }
 
     @Override
@@ -41,15 +46,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(Long id, User user) {
+        if (userMapper.selectById(id) == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
         user.setId(id);
         prepareForUpdate(user);
-        userMapper.updateById(user);
+        int updated = userMapper.updateById(user);
+        if (updated == 0) {
+            throw new BusinessException(404, "用户不存在");
+        }
         return userMapper.selectById(id);
     }
 
     @Override
     public void delete(Long id) {
-        userMapper.deleteById(id);
+        int deleted = userMapper.deleteById(id);
+        if (deleted == 0) {
+            throw new BusinessException(404, "用户不存在");
+        }
     }
 
     private void prepareForCreate(User user) {

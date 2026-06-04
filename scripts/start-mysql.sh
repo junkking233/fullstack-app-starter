@@ -37,6 +37,10 @@ docker exec -i mysql-docker mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" --default-ch
 CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 SQL
 
+if [ -f "db.sql" ]; then
+    docker exec -i mysql-docker mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" --default-character-set=utf8mb4 < db.sql
+fi
+
 echo ""
 echo "✅ MySQL 容器 mysql-docker 已就绪"
 docker ps --filter "name=mysql-docker" --format "   状态: {{.Status}}"

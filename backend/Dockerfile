@@ -33,6 +33,6 @@ USER app
 EXPOSE 8888
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-    CMD curl -sf http://localhost:8888/api/users?page=1 || exit 1
+    CMD curl -sf http://localhost:8888/api/health || exit 1
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

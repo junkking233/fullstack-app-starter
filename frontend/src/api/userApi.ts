@@ -1,33 +1,5 @@
-import axios from 'axios';
+import http from '@/api/http';
 import type { User, UserQuery, PageResult } from '@/types/user';
-
-interface ApiResult<T> {
-  code: number;
-  message: string;
-  data: T;
-  timestamp: string;
-}
-
-const http = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
-});
-
-http.interceptors.response.use(
-  (res) => {
-    const body = res.data as ApiResult<unknown>;
-    if (body && typeof body === 'object' && 'code' in body) {
-      if (body.code === 200) {
-        return body.data;
-      }
-      return Promise.reject(new Error(body.message || '请求失败'));
-    }
-    return res.data;
-  },
-  (err) => {
-    return Promise.reject(err);
-  },
-);
 
 export const userApi = {
   list(params: UserQuery): Promise<PageResult<User>> {

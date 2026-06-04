@@ -9,7 +9,7 @@ chmod +x scripts/start-mysql.sh
 ./scripts/start-mysql.sh
 ```
 
-2. 导入数据库：
+2. 如需手动同步数据库结构：
 
 ```bash
 docker exec -i mysql-docker mysql -uroot -padmin123 --default-character-set=utf8mb4 < db.sql
@@ -49,10 +49,10 @@ docker compose down
 
 ## 登录页面和账号
 
-当前脚手架还没有独立登录页面，启动后直接访问：
+启动后访问登录页：
 
 ```text
-http://localhost:9999
+http://localhost:9999/login
 ```
 
 预置系统角色和账号：
@@ -60,6 +60,7 @@ http://localhost:9999
 | 角色 | 账号 | 密码 |
 | --- | --- | --- |
 | 管理员 | `admin` | `admin123` |
+| 服务方 | `partner` | `123456` |
 | 普通用户 | `user` | `123456` |
 
 密码在数据库中使用 MD5 加密保存。

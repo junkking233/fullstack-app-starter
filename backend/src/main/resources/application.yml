@@ -20,3 +20,8 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+
+app:
+  auth:
+    token-secret: ${AUTH_TOKEN_SECRET:springboot-vue-starter-token-secret}
+    token-ttl-seconds: ${AUTH_TOKEN_TTL_SECONDS:86400}
