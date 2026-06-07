@@ -1,0 +1,11 @@
+<view class="page address-page">
+  <view class="address-card" wx:for="{{addresses}}" wx:key="id">
+    <view class="address-main">
+      <text class="address-user">{{item.name}} {{item.phone}}</text>
+      <text class="address-detail">{{item.region}} {{item.detail}}</text>
+    </view>
+    <text wx:if="{{item.isDefault}}" class="default-tag">默认</text>
+  </view>
+
+  <view class="primary-button add-address" bindtap="goEdit">新增地址</view>
+</view>

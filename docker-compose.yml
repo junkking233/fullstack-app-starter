@@ -1,9 +1,9 @@
 services:
   backend:
     build:
-      context: ./backend
+      context: ./apps/backend
       dockerfile: Dockerfile
-    container_name: template-backend
+    container_name: fullstack-app-backend
     ports:
       - "8888:8888"
     environment:
@@ -11,7 +11,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-docker:3306/template_db?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: admin123
-      AUTH_TOKEN_SECRET: ${AUTH_TOKEN_SECRET:-springboot-vue-starter-token-secret}
+      AUTH_TOKEN_SECRET: ${AUTH_TOKEN_SECRET:-fullstack-app-starter-token-secret}
       AUTH_TOKEN_TTL_SECONDS: 86400
     networks:
       - app-network
@@ -19,9 +19,9 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./apps/frontend
       dockerfile: Dockerfile
-    container_name: template-frontend
+    container_name: fullstack-app-frontend
     ports:
       - "9999:9999"
     environment:
@@ -35,13 +35,13 @@ services:
 
   ai-service:
     build:
-      context: ./ai-service
+      context: ./apps/ai-service
       dockerfile: Dockerfile
-    container_name: template-ai-service
+    container_name: fullstack-app-ai-service
     ports:
       - "8000:8000"
     env_file:
-      - path: ./ai-service/.env
+      - path: ./apps/ai-service/.env
         required: false
     environment:
       AI_CORS_ORIGINS: http://localhost:9999,http://127.0.0.1:9999

@@ -1,0 +1,130 @@
+.mine-page {
+  min-height: 100vh;
+}
+
+.user-header {
+  padding: 100rpx 32rpx 80rpx;
+  border-radius: 0 0 56rpx 56rpx;
+  background: linear-gradient(135deg, #2ecc71, #13b45d);
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 116rpx;
+  height: 116rpx;
+  border-radius: 58rpx;
+  background: #ffffff;
+  color: #13b45d;
+  font-size: 48rpx;
+  font-weight: 800;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.username {
+  display: block;
+  color: #ffffff;
+  font-size: 36rpx;
+  font-weight: 800;
+}
+
+.member-level {
+  display: block;
+  margin-top: 12rpx;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 26rpx;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16rpx;
+  margin: -52rpx 28rpx 0;
+  padding: 28rpx;
+  border-radius: 32rpx;
+  background: #ffffff;
+  box-shadow: 0 8rpx 22rpx rgba(15, 23, 42, 0.08);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  color: #13b45d;
+  font-size: 36rpx;
+  font-weight: 800;
+}
+
+.stat-label {
+  display: block;
+  margin-top: 8rpx;
+  color: #6b7280;
+  font-size: 24rpx;
+}
+
+.menu {
+  margin: 28rpx;
+  padding: 8rpx 28rpx;
+  border-radius: 32rpx;
+  background: #ffffff;
+  box-shadow: 0 8rpx 22rpx rgba(15, 23, 42, 0.06);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx 0;
+  border-bottom: 1rpx solid #f3f4f6;
+}
+
+.menu-item:last-child {
+  border-bottom: 0;
+}
+
+.menu-icon {
+  margin-right: 20rpx;
+  font-size: 36rpx;
+}
+
+.menu-text {
+  flex: 1;
+  color: #111827;
+  font-size: 30rpx;
+}
+
+.menu-arrow {
+  color: #9ca3af;
+  font-size: 34rpx;
+}
+
+.account-button,
+.logout-button {
+  width: auto;
+  margin: 40rpx 28rpx;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border: 1rpx solid #fecaca;
+  border-radius: 44rpx;
+  background: #ffffff;
+  color: #dc2626;
+  font-size: 30rpx;
+  font-weight: 700;
+}

@@ -1,0 +1,23 @@
+<view class="page">
+  <view wx:if="{{orders.length > 0}}" class="order-list">
+    <view class="order-card" wx:for="{{orders}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <view class="order-head">
+        <text class="order-no">{{item.id}}</text>
+        <text class="order-status">{{item.status}}</text>
+      </view>
+      <view class="order-products">
+        <text class="order-product ellipsis" wx:for="{{item.items}}" wx:key="id">{{item.product.name}} × {{item.quantity}}</text>
+      </view>
+      <view class="order-foot">
+        <text class="muted">{{item.createdAt}}</text>
+        <text class="order-amount">¥{{item.payAmountText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="empty">
+    <text class="empty-icon">📦</text>
+    <text class="empty-text">暂无订单</text>
+    <view class="primary-button empty-action" bindtap="goHome">去下单</view>
+  </view>
+</view>

@@ -1,0 +1,13 @@
+<view class="page edit-page">
+  <view class="card form-card">
+    <input class="input" placeholder="收货人" value="{{form.name}}" data-key="name" bindinput="onInput" />
+    <input class="input" placeholder="手机号" value="{{form.phone}}" data-key="phone" bindinput="onInput" />
+    <input class="input" placeholder="省市区，例如：上海市 浦东新区" value="{{form.region}}" data-key="region" bindinput="onInput" />
+    <input class="input" placeholder="详细地址" value="{{form.detail}}" data-key="detail" bindinput="onInput" />
+    <label class="default-row">
+      <checkbox checked="{{form.isDefault}}" color="#13b45d" bindtap="toggleDefault" />
+      <text>设为默认地址</text>
+    </label>
+  </view>
+  <view class="primary-button save-button" bindtap="onSave">保存地址</view>
+</view>

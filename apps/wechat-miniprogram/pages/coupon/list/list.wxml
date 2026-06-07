@@ -1,0 +1,13 @@
+<view class="page coupon-page">
+  <view class="coupon-card" wx:for="{{coupons}}" wx:key="id">
+    <view class="coupon-left">
+      <text class="coupon-price">¥{{item.discountText}}</text>
+      <text class="coupon-rule">满{{item.threshold}}元可用</text>
+    </view>
+    <view class="coupon-info">
+      <text class="coupon-name">{{item.name}}</text>
+      <text class="coupon-date">有效期至 2026-12-31</text>
+    </view>
+    <text class="coupon-status">{{item.status}}</text>
+  </view>
+</view>

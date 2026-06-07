@@ -1,0 +1,48 @@
+<view class="page login-page">
+  <view class="login-hero">
+    <view class="brand">
+      <view class="brand-mark">鲜</view>
+      <view>
+        <view class="login-title">鲜绿优选</view>
+        <view class="login-subtitle">30分钟送达 · 新鲜到家</view>
+      </view>
+    </view>
+    <view class="benefits">
+      <text>新人满39减10</text>
+      <text>门店自提</text>
+      <text>同城配送</text>
+    </view>
+  </view>
+
+  <view class="login-card">
+    <view class="card-heading">
+      <text class="card-title">账号登录</text>
+      <text class="card-desc">使用演示账号体验完整购物流程</text>
+    </view>
+
+    <van-cell-group inset>
+      <van-field
+        value="{{username}}"
+        label="账号"
+        placeholder="请输入账号"
+        clearable
+        bind:change="onUsernameChange"
+      />
+      <van-field
+        value="{{password}}"
+        label="密码"
+        placeholder="请输入密码"
+        password
+        clearable
+        bind:change="onPasswordChange"
+      />
+    </van-cell-group>
+
+    <view class="primary-button login-button {{loading ? 'is-disabled' : ''}}" bindtap="onSubmit">
+      {{loading ? '登录中...' : '登录'}}
+    </view>
+    <view class="register-link" bindtap="goRegister">还没有账号？立即注册</view>
+  </view>
+
+  <van-toast id="van-toast" />
+</view>

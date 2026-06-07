@@ -21,6 +21,8 @@ dist/
 .vite/
 *.tsbuildinfo
 npm-debug.log*
+apps/wechat-miniprogram/miniprogram_npm/
+apps/wechat-miniprogram/project.private.config.json
 
 # Python
 __pycache__/
@@ -34,7 +36,7 @@ venv/
 !.env.example
 
 # Runtime data
-ai-service/data/
+apps/ai-service/data/
 
 # Build archives
 *.jar

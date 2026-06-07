@@ -1,0 +1,34 @@
+<view class="page category-page">
+  <view class="category-layout">
+    <scroll-view scroll-y class="side">
+      <view class="side-item {{currentCatId === item.id ? 'active' : ''}}" wx:for="{{categories}}" wx:key="id" bindtap="selectCategory" data-id="{{item.id}}">
+        <text class="side-icon">{{item.icon}}</text>
+        <text class="side-name">{{item.name}}</text>
+      </view>
+    </scroll-view>
+
+    <scroll-view scroll-y class="products">
+      <view class="products-header">
+        <text class="products-title">{{currentCatName}}</text>
+        <text class="products-count">{{products.length}}件商品</text>
+      </view>
+
+      <view class="row-product" wx:for="{{products}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+        <view class="product-img" style="background: {{item.color}};">{{item.imageText}}</view>
+        <view class="product-info">
+          <text class="product-name ellipsis">{{item.name}}</text>
+          <text class="product-spec">{{item.spec}} · 已售{{item.sales}}</text>
+          <view class="product-bottom">
+            <text class="price">¥{{item.priceText}}</text>
+            <view class="add-button" catchtap="onAdd" data-id="{{item.id}}">+</view>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{products.length === 0}}" class="empty">
+        <text class="empty-icon">🔎</text>
+        <text class="empty-text">暂无商品</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>

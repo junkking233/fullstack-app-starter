@@ -1,0 +1,56 @@
+<view class="page detail-page">
+  <view class="detail-hero">
+    <view class="hero-plate">
+      <text>{{product.imageText}}</text>
+    </view>
+  </view>
+
+  <view class="detail-content">
+    <view class="card info-card">
+      <view class="title-row">
+        <text class="detail-title">{{product.name}}</text>
+        <text class="fresh-badge">鲜</text>
+      </view>
+      <view class="tags">
+        <text class="tag hot-tag">{{product.tag}}</text>
+        <text class="tag">门店库存充足</text>
+      </view>
+      <view class="price-row">
+        <text class="detail-price">¥{{priceText}}</text>
+        <text class="detail-spec">{{product.spec}}</text>
+      </view>
+      <text class="sales">已售 {{product.sales}} · 30分钟送达</text>
+    </view>
+
+    <view class="card">
+      <text class="card-title">商品说明</text>
+      <text class="desc">{{product.description}}</text>
+      <view class="note-box">
+        <text class="note-label">配送说明</text>
+        <text class="delivery-note">支持门店自提、同城配送。生鲜商品建议当日食用。</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <text class="card-title">商品参数</text>
+      <view class="param-row">
+        <text class="param-label">产地</text>
+        <text class="param-value">{{product.origin}}</text>
+      </view>
+      <view class="param-row">
+        <text class="param-label">保质期</text>
+        <text class="param-value">{{product.shelfLife}}</text>
+      </view>
+      <view class="param-row">
+        <text class="param-label">规格</text>
+        <text class="param-value">{{product.spec}}</text>
+      </view>
+    </view>
+    <view class="detail-bottom-space"></view>
+  </view>
+
+  <view class="bottom-actions">
+    <view class="cart-action action-button" bindtap="onAddCart">加入购物车</view>
+    <view class="buy-action action-button" bindtap="onBuyNow">立即购买</view>
+  </view>
+</view>
