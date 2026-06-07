@@ -17,27 +17,29 @@ export interface PieChartItem {
 }
 
 export const chartApi = {
-  userGrowth(): Promise<LineChartData> {
-    return http.get('/charts/user-growth');
-  },
-  roleDistribution(): Promise<PieChartItem[]> {
-    return http.get('/charts/role-distribution');
-  },
-  taskTrend(): Promise<LineChartData> {
-    return http.get('/charts/task-trend');
-  },
-  serviceDistribution(): Promise<PieChartItem[]> {
-    return http.get('/charts/service-distribution');
-  },
-  satisfactionTrend(): Promise<LineChartData> {
-    return http.get('/charts/satisfaction-trend');
-  },
   dashboardStats(): Promise<{
     totalUsers: number;
-    activeUsers: number;
-    apiRequests: number;
-    pendingTasks: number;
+    totalTeams: number;
+    totalMatches: number;
+    totalCities: number;
+    pendingComments: number;
+    favorites: number;
   }> {
     return http.get('/charts/dashboard-stats');
+  },
+  matchStageDistribution(): Promise<PieChartItem[]> {
+    return http.get('/charts/match-stage-distribution');
+  },
+  cityMatchCount(): Promise<PieChartItem[]> {
+    return http.get('/charts/city-match-count');
+  },
+  groupPoints(): Promise<LineChartData> {
+    return http.get('/charts/group-points');
+  },
+  topFavoriteTeams(): Promise<PieChartItem[]> {
+    return http.get('/charts/top-favorite-teams');
+  },
+  topFavoriteMatches(): Promise<PieChartItem[]> {
+    return http.get('/charts/top-favorite-matches');
   },
 };

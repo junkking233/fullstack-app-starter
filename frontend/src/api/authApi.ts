@@ -12,6 +12,10 @@ export const authApi = {
     return http.post<never, LoginResponse>('/auth/login', data);
   },
 
+  register(data: { username: string; password: string; email: string; phone?: string }): Promise<AuthUser> {
+    return http.post<never, AuthUser>('/auth/register', data);
+  },
+
   me(): Promise<AuthUser> {
     return http.get<never, AuthUser>('/auth/me');
   },

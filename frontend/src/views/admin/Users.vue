@@ -34,7 +34,6 @@ const rules = {
 function roleLabel(role: string) {
   const labels: Record<string, string> = {
     ADMIN: '管理员',
-    PARTNER: '服务方',
     USER: '普通用户',
   };
   return labels[role] || role;
@@ -43,9 +42,6 @@ function roleLabel(role: string) {
 function roleTagType(role: string) {
   if (role === 'ADMIN') {
     return 'danger';
-  }
-  if (role === 'PARTNER') {
-    return 'warning';
   }
   return 'info';
 }
@@ -195,7 +191,6 @@ async function removeUser(row: User) {
         <el-form-item label="角色">
           <el-select v-model="form.role" style="width: 180px">
             <el-option label="管理员" value="ADMIN" />
-            <el-option label="服务方" value="PARTNER" />
             <el-option label="普通用户" value="USER" />
           </el-select>
         </el-form-item>

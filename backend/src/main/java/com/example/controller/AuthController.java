@@ -5,6 +5,7 @@ import com.example.dto.AuthUserDto;
 import com.example.dto.ChangePasswordRequest;
 import com.example.dto.LoginRequest;
 import com.example.dto.LoginResponse;
+import com.example.entity.User;
 import com.example.exception.BusinessException;
 import com.example.service.AuthService;
 import com.example.util.TokenSubject;
@@ -25,6 +26,11 @@ public class AuthController {
     @PostMapping("/login")
     public Result<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         return Result.ok("登录成功", authService.login(request));
+    }
+
+    @PostMapping("/register")
+    public Result<AuthUserDto> register(@Valid @RequestBody User user) {
+        return Result.ok("注册成功", authService.register(user));
     }
 
     @GetMapping("/me")

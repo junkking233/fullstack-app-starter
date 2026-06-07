@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>template-backend</artifactId>
+    <artifactId>worldcup-backend</artifactId>
     <version>1.0.0</version>
-    <name>template-backend</name>
-    <description>Template Backend Service</description>
+    <name>worldcup-backend</name>
+    <description>World Cup Event Information System Backend</description>
 
     <properties>
         <java.version>21</java.version>

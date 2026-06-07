@@ -1,642 +1,244 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import {
-  ArrowRight,
-  ChatDotRound,
-  DocumentChecked,
-  MessageBox,
-  Notification,
-  Search,
-  Star,
-  TrendCharts,
-} from '@element-plus/icons-vue';
+import { Calendar, Flag, Star, Trophy } from '@element-plus/icons-vue';
+import { matchApi, publicStatsApi, teamApi } from '@/api/worldcupApi';
+import type { Match, PublicSummary, Team } from '@/types/worldcup';
 
 const router = useRouter();
+const teams = ref<Team[]>([]);
+const matches = ref<Match[]>([]);
+const summary = ref<PublicSummary>({
+  totalTeams: 0,
+  totalMatches: 0,
+  totalCities: 0,
+  finishedMatches: 0,
+  upcomingMatches: 0,
+  topFavoriteTeams: [],
+  topFavoriteMatches: [],
+});
 
-const services = [
-  { title: '在线办理', desc: '表单填写、预约申请、进度查询一站完成', icon: DocumentChecked, color: 'teal' },
-  { title: '消息中心', desc: '系统通知、站内信和业务提醒统一管理', icon: MessageBox, color: 'blue' },
-  { title: '智能问答', desc: '接入 AI 对话能力，快速解答常见问题', icon: ChatDotRound, color: 'amber' },
-  { title: '数据洞察', desc: '可视化数据看板，实时掌握业务动态', icon: TrendCharts, color: 'green' },
-];
-
-const notices = [
-  { title: '平台服务升级公告', date: '2025-06-01', tag: '公告', tagType: 'info' },
-  { title: '关于端午节假期服务安排的说明', date: '2025-05-28', tag: '通知', tagType: 'warning' },
-  { title: '新功能上线：在线预约系统开放体验', date: '2025-05-20', tag: '上新', tagType: 'success' },
-];
-
-const quickLinks = [
-  { label: '我要预约', path: '/portal/services', icon: Star },
-  { label: '我的订单', path: '/portal/my-business', icon: DocumentChecked },
-  { label: '意见反馈', path: '/portal/profile', icon: MessageBox },
-  { label: '帮助中心', path: '/portal/services', icon: Notification },
-];
+onMounted(async () => {
+  const [teamPage, matchPage, summaryData] = await Promise.all([
+    teamApi.list({ page: 1, pageSize: 8 }),
+    matchApi.list({ page: 1, pageSize: 8 }),
+    publicStatsApi.summary(),
+  ]);
+  teams.value = teamPage.records;
+  matches.value = matchPage.records;
+  summary.value = summaryData;
+});
 </script>
 
 <template>
-  <div class="portal-home">
-    <!-- Hero 区域 -->
-    <section class="hero">
-      <div class="hero-bg">
-        <div class="hero-orb orb-1" />
-        <div class="hero-orb orb-2" />
-      </div>
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <div class="hero-badge">
-            <el-icon><Star /></el-icon>
-            <span>面向普通用户的一站式服务平台</span>
-          </div>
-          <h1>
-            把查询、办理和消息提醒
-            <br>
-            <span class="highlight">放在一个清爽入口</span>
-          </h1>
-          <p>适合快速改造成预约系统、服务平台、资讯门户或会员中心。完善的组件体系，开箱即用。</p>
+  <section class="home-page">
+    <el-carousel height="300px" indicator-position="outside" class="hero-carousel">
+      <el-carousel-item>
+        <div class="hero hero-main">
+          <span class="hero-kicker">FIFA WORLD CUP 2026</span>
+          <h1>2026 世界杯赛事信息系统</h1>
+          <p>48 支球队、12 个小组、104 场比赛，赛程、积分榜和淘汰赛路径集中查看。</p>
           <div class="hero-actions">
-            <el-button type="primary" size="large" class="hero-btn-primary" @click="router.push('/portal/services')">
-              <el-icon><Search /></el-icon>
-              查找服务
-            </el-button>
-            <el-button size="large" class="hero-btn-secondary" @click="router.push('/portal/services')">
-              <el-icon><ChatDotRound /></el-icon>
-              咨询助手
-            </el-button>
+            <el-button type="primary" size="large" @click="router.push('/portal/matches')">查看赛程</el-button>
+            <el-button size="large" @click="router.push('/portal/bracket')">淘汰赛路径</el-button>
           </div>
         </div>
-
-        <div class="hero-card">
-          <div class="hero-card-header">
-            <div class="card-title">
-              <el-icon><DocumentChecked /></el-icon>
-              <span>业务进度</span>
-            </div>
-            <el-tag type="warning" effect="dark" round size="small">进行中</el-tag>
-          </div>
-          <el-steps :active="2" finish-status="success" direction="vertical" class="hero-steps">
-            <el-step title="提交申请" description="资料已通过基础校验" />
-            <el-step title="平台审核" description="预计 1 个工作日内完成" />
-            <el-step title="结果通知" description="短信和站内信同步提醒" />
-          </el-steps>
+      </el-carousel-item>
+      <el-carousel-item>
+        <div class="hero hero-alt">
+          <span class="hero-kicker">HOST CITIES</span>
+          <h1>加拿大 · 墨西哥 · 美国</h1>
+          <p>浏览 16 个主办城市与场馆，了解每座城市承办的比赛。</p>
+          <el-button type="primary" size="large" @click="router.push('/portal/cities')">城市场馆</el-button>
         </div>
-      </div>
-    </section>
+      </el-carousel-item>
+    </el-carousel>
 
-    <!-- 内容区域 -->
-    <div class="content-wrapper">
-      <!-- 常用能力 -->
-      <section class="section-card">
-        <div class="section-header">
-          <div class="section-title">
-            <div class="title-line" />
-            <h3>常用能力</h3>
-          </div>
-          <el-button type="primary" link class="more-link" @click="router.push('/portal/services')">
-            查看全部 <el-icon><ArrowRight /></el-icon>
-          </el-button>
-        </div>
-        <div class="service-grid">
-          <article v-for="s in services" :key="s.title" class="service-card" @click="router.push('/portal/services')">
-            <div class="service-icon" :class="s.color">
-              <el-icon><component :is="s.icon" /></el-icon>
-            </div>
-            <div class="service-body">
-              <h4>{{ s.title }}</h4>
-              <p>{{ s.desc }}</p>
-            </div>
-            <el-icon class="service-arrow"><ArrowRight /></el-icon>
-          </article>
-        </div>
-      </section>
-
-      <!-- 下半区 -->
-      <div class="split-grid">
-        <section class="section-card">
-          <div class="section-header">
-            <div class="section-title">
-              <div class="title-line" />
-              <h3>最新公告</h3>
-            </div>
-            <el-button type="primary" link class="more-link">
-              更多 <el-icon><ArrowRight /></el-icon>
-            </el-button>
-          </div>
-          <div class="notice-list">
-            <div v-for="n in notices" :key="n.title" class="notice-item">
-              <div class="notice-main">
-                <el-tag size="small" :type="n.tagType as any" effect="light" round>{{ n.tag }}</el-tag>
-                <span class="notice-title">{{ n.title }}</span>
-              </div>
-              <span class="notice-date">{{ n.date }}</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <div class="section-header">
-            <div class="section-title">
-              <div class="title-line" />
-              <h3>快捷入口</h3>
-            </div>
-          </div>
-          <div class="quick-links">
-            <div
-              v-for="link in quickLinks"
-              :key="link.label"
-              class="quick-link"
-              @click="router.push(link.path)"
-            >
-              <div class="quick-icon">
-                <el-icon><component :is="link.icon" /></el-icon>
-              </div>
-              <span>{{ link.label }}</span>
-              <el-icon class="quick-arrow"><ArrowRight /></el-icon>
-            </div>
-          </div>
-          <div class="tips-box">
-            <el-icon><Notification /></el-icon>
-            <p>接口、列表、详情、审核流和消息通知都可以从这个区域继续拆组件。</p>
-          </div>
-        </section>
-      </div>
+    <div class="metric-grid">
+      <el-card><el-icon><Flag /></el-icon><strong>{{ summary.totalTeams }}</strong><span>参赛球队</span></el-card>
+      <el-card><el-icon><Calendar /></el-icon><strong>{{ summary.totalMatches }}</strong><span>全部比赛</span></el-card>
+      <el-card><el-icon><Trophy /></el-icon><strong>{{ summary.totalCities }}</strong><span>主办城市</span></el-card>
+      <el-card><el-icon><Star /></el-icon><strong>{{ summary.upcomingMatches }}</strong><span>未开始比赛</span></el-card>
     </div>
-  </div>
+
+    <div class="content-grid">
+      <el-card header="近期赛程">
+        <el-table :data="matches" size="large">
+          <el-table-column prop="matchNo" label="编号" width="80" />
+          <el-table-column prop="stage" label="阶段" width="120" />
+          <el-table-column prop="groupName" label="小组" width="80" />
+          <el-table-column prop="matchTime" label="时间" min-width="180" />
+          <el-table-column label="操作" width="100">
+            <template #default="{ row }">
+              <el-button type="primary" link @click="router.push(`/portal/matches/${row.id}`)">详情</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
+      <el-card header="热门球队">
+        <div v-if="summary.topFavoriteTeams.length" class="ranking-list">
+          <div v-for="item in summary.topFavoriteTeams" :key="item.name" class="rank-row">
+            <strong>{{ item.name }}</strong>
+            <span>{{ item.value }} 次收藏</span>
+          </div>
+        </div>
+        <div v-else class="team-grid">
+          <div v-for="team in teams" :key="team.id" class="team-card" @click="router.push(`/portal/teams/${team.id}`)">
+            <strong>{{ team.nameCn }}</strong>
+            <span>{{ team.nameEn }}</span>
+            <el-tag size="small">Group {{ team.groupName }}</el-tag>
+          </div>
+        </div>
+      </el-card>
+      <el-card header="热门比赛">
+        <div v-if="summary.topFavoriteMatches.length" class="ranking-list">
+          <div v-for="item in summary.topFavoriteMatches" :key="item.name" class="rank-row">
+            <strong>{{ item.name }}</strong>
+            <span>{{ item.value }} 次收藏</span>
+          </div>
+        </div>
+        <el-empty v-else description="暂无收藏排行" />
+      </el-card>
+    </div>
+  </section>
 </template>
 
 <style scoped>
-.portal-home {
-  padding-bottom: 40px;
-}
-
-/* Hero */
-.hero {
-  position: relative;
-  padding: 48px 28px 36px;
-  overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
-}
-
-.orb-1 {
-  width: 400px;
-  height: 400px;
-  top: -120px;
-  right: 10%;
-  background: rgb(13 148 136 / 10%);
-}
-
-.orb-2 {
-  width: 300px;
-  height: 300px;
-  bottom: -80px;
-  left: 5%;
-  background: rgb(59 130 246 / 8%);
-}
-
-.hero-inner {
-  position: relative;
-  display: grid;
-  align-items: center;
-  gap: 32px;
-  max-width: 1180px;
-  margin: 0 auto;
-  grid-template-columns: minmax(0, 1.3fr) minmax(340px, 0.7fr);
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  color: var(--c-primary);
-  font-size: 13px;
-  font-weight: 600;
-  background: var(--c-primary-bg);
-  border: 1px solid rgb(13 148 136 / 15%);
-  border-radius: 100px;
-  margin-bottom: 20px;
-}
-
-.hero-badge .el-icon {
-  font-size: 15px;
-}
-
-.hero-copy h1 {
-  max-width: 620px;
-  margin: 0 0 16px;
-  font-size: 42px;
-  line-height: 1.2;
-  letter-spacing: -1px;
-  color: var(--c-ink);
-  font-weight: 800;
-}
-
-.hero-copy h1 .highlight {
-  background: linear-gradient(135deg, var(--c-primary), var(--c-blue));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-copy p {
-  max-width: 520px;
-  margin: 0;
-  color: var(--c-muted);
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.hero-actions {
+.home-page {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
+  flex-direction: column;
+  gap: 24px;
 }
-
-.hero-btn-primary {
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  padding: 0 28px;
-  height: 48px;
-  font-size: 15px;
-}
-
-.hero-btn-secondary {
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  padding: 0 28px;
-  height: 48px;
-  font-size: 15px;
-  background: var(--c-surface);
-  border: 1px solid var(--c-line);
-  color: var(--c-body);
-  transition: all var(--transition-fast);
-}
-
-.hero-btn-secondary:hover {
-  border-color: var(--c-primary);
-  color: var(--c-primary);
-  background: var(--c-primary-bg);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-}
-
-.hero-card {
-  padding: 28px;
-  background: var(--c-surface);
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
-  transition: box-shadow var(--transition-base);
-}
-
-.hero-card:hover {
+.hero-carousel {
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 18px;
   box-shadow: var(--shadow-xl);
 }
-
-.hero-card-header {
+.hero {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 42px 52px;
+  color: #fff;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgb(5 20 26 / 88%), rgb(8 47 73 / 66%) 52%, rgb(15 118 110 / 24%)),
+    url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=1600&q=80") center / cover;
 }
-
-.card-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  font-size: 15px;
+.hero-alt {
+  background:
+    linear-gradient(90deg, rgb(5 20 26 / 88%), rgb(15 118 110 / 65%) 55%, rgb(234 88 12 / 38%)),
+    url("https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1600&q=80") center / cover;
 }
-
-.card-title .el-icon {
-  color: var(--c-primary);
-  font-size: 18px;
+.hero::after {
+  position: absolute;
+  right: 38px;
+  bottom: 28px;
+  color: rgb(255 255 255 / 12%);
+  content: "26";
+  font-size: 142px;
+  font-weight: 900;
+  line-height: 1;
 }
-
-.hero-steps :deep(.el-step__title) {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.hero-steps :deep(.el-step__description) {
+.hero-kicker {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 10px;
+  color: #fde68a;
   font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 12px;
+  max-width: 720px;
+  font-size: 42px;
+  line-height: 1.14;
+}
+.hero p {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin-bottom: 24px;
+  color: #dbeafe;
+  font-size: 16px;
+}
+.hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 12px;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.metric-grid :deep(.el-card__body) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 88px;
+}
+.metric-grid strong {
+  color: var(--c-ink);
+  font-size: 30px;
+  line-height: 1;
+}
+.metric-grid span {
   color: var(--c-muted);
 }
-
-/* Content */
-.content-wrapper {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 28px;
+.content-grid {
+  display: grid;
+  grid-template-columns: minmax(420px, 1.35fr) minmax(260px, 0.9fr) minmax(260px, 0.9fr);
+  gap: 16px;
 }
-
-.section-card {
-  padding: 24px;
-  background: var(--c-surface);
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow var(--transition-base);
-}
-
-.section-card:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
-
-.title-line {
-  width: 4px;
-  height: 20px;
-  background: linear-gradient(180deg, var(--c-primary), var(--c-blue));
-  border-radius: 2px;
-}
-
-.section-title h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--c-ink);
-}
-
-.more-link {
-  font-weight: 600;
-}
-
-/* Service Grid */
-.service-grid {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.service-card {
+.team-card {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  cursor: pointer;
-  background: linear-gradient(135deg, var(--c-surface), var(--c-line-light));
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background: linear-gradient(180deg, #fff, var(--c-bg));
   border: 1px solid var(--c-line);
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-base);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
-
-.service-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-  border-color: rgb(13 148 136 / 20%);
+.team-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
-
-.service-icon {
-  display: grid;
-  flex-shrink: 0;
-  width: 50px;
-  height: 50px;
-  place-items: center;
-  color: #fff;
-  font-size: 22px;
-  border-radius: var(--radius-md);
-  transition: transform var(--transition-base);
-}
-
-.service-card:hover .service-icon {
-  transform: scale(1.08);
-}
-
-.service-icon.teal { background: linear-gradient(135deg, #0d9488, #0f766e); }
-.service-icon.blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
-.service-icon.amber { background: linear-gradient(135deg, #f59e0b, #f97316); }
-.service-icon.green { background: linear-gradient(135deg, #22c55e, #16a34a); }
-
-.service-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.service-body h4 {
-  margin: 0 0 6px;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--c-ink);
-}
-
-.service-body p {
-  margin: 0;
+.team-card span {
   color: var(--c-muted);
-  font-size: 13px;
-  line-height: 1.6;
 }
-
-.service-arrow {
-  color: var(--c-muted-light);
-  font-size: 16px;
-  transition: all var(--transition-fast);
-}
-
-.service-card:hover .service-arrow {
-  color: var(--c-primary);
-  transform: translateX(3px);
-}
-
-/* Split Grid */
-.split-grid {
-  display: grid;
-  gap: 16px;
-  margin-top: 16px;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-}
-
-/* Notice */
-.notice-list {
+.ranking-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
-.notice-item {
+.rank-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  cursor: pointer;
-  background: var(--c-bg);
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #fff, #f8fafc);
   border: 1px solid var(--c-line);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  border-radius: 8px;
+  box-shadow: var(--shadow-xs);
 }
-
-.notice-item:hover {
-  background: var(--c-primary-bg);
-  border-color: rgb(13 148 136 / 15%);
-  transform: translateX(4px);
-}
-
-.notice-main {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
-.notice-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 14px;
-  color: var(--c-body);
-  font-weight: 500;
-}
-
-.notice-date {
-  flex-shrink: 0;
-  color: var(--c-muted-light);
-  font-size: 12px;
-}
-
-/* Quick Links */
-.quick-links {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.quick-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px;
-  cursor: pointer;
-  background: var(--c-bg);
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-}
-
-.quick-link:hover {
-  background: var(--c-primary-bg);
-  border-color: rgb(13 148 136 / 15%);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
-}
-
-.quick-icon {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  color: var(--c-primary);
-  font-size: 18px;
-  background: var(--c-primary-bg);
-  border-radius: var(--radius-sm);
-  flex-shrink: 0;
-}
-
-.quick-link span {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--c-body);
-}
-
-.quick-arrow {
-  color: var(--c-muted-light);
-  font-size: 13px;
-  transition: all var(--transition-fast);
-}
-
-.quick-link:hover .quick-arrow {
-  color: var(--c-primary);
-  transform: translateX(3px);
-}
-
-/* Tips */
-.tips-box {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-  padding: 14px;
+.rank-row span {
   color: var(--c-muted);
   font-size: 13px;
-  line-height: 1.6;
-  background: linear-gradient(135deg, var(--c-bg), var(--c-line-light));
-  border: 1px dashed var(--c-line);
-  border-radius: var(--radius-md);
-}
-
-.tips-box .el-icon {
-  color: var(--c-amber);
-  font-size: 18px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.tips-box p {
-  margin: 0;
-}
-
-/* Responsive */
-@media (max-width: 1120px) {
-  .hero-inner,
-  .split-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-copy h1 {
-    font-size: 32px;
-  }
-}
-
-@media (max-width: 860px) {
-  .hero {
-    padding: 28px 16px 24px;
-  }
-
-  .hero-copy h1 {
-    font-size: 26px;
-  }
-
-  .content-wrapper {
-    padding: 0 16px;
-  }
-
-  .service-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .quick-links {
-    grid-template-columns: 1fr;
-  }
-
-  .split-grid {
-    grid-template-columns: 1fr;
-  }
 }
 </style>

@@ -30,7 +30,7 @@ public class User {
 
     private String phone;
 
-    @Pattern(regexp = "ADMIN|PARTNER|USER", message = "角色不合法")
+    @Pattern(regexp = "ADMIN|USER", message = "角色不合法")
     private String role;
 
     @Min(value = 0, message = "状态不合法")

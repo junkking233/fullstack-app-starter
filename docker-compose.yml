@@ -3,12 +3,12 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: template-backend
+    container_name: worldcup-backend
     ports:
       - "8888:8888"
     environment:
       SERVER_PORT: 8888
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-docker:3306/template_db?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-docker:3306/worldcup_event_db?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: admin123
       AUTH_TOKEN_SECRET: ${AUTH_TOKEN_SECRET:-springboot-vue-starter-token-secret}
@@ -21,7 +21,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: template-frontend
+    container_name: worldcup-frontend
     ports:
       - "9999:9999"
     environment:
@@ -37,7 +37,7 @@ services:
     build:
       context: ./ai-service
       dockerfile: Dockerfile
-    container_name: template-ai-service
+    container_name: worldcup-ai-service
     ports:
       - "8000:8000"
     env_file:

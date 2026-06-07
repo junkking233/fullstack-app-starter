@@ -1,283 +1,150 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { MessageBox, Search, User } from '@element-plus/icons-vue';
+import { SwitchButton, User } from '@element-plus/icons-vue';
+import { clearAuthState, useCurrentUser } from '@/utils/auth';
 
 const route = useRoute();
 const router = useRouter();
+const currentUser = useCurrentUser();
 
 const navItems = [
   { label: '首页', path: '/portal/home' },
-  { label: '服务大厅', path: '/portal/services' },
-  { label: '我的业务', path: '/portal/my-business' },
+  { label: '赛程', path: '/portal/matches' },
+  { label: '球队', path: '/portal/teams' },
+  { label: '城市场馆', path: '/portal/cities' },
+  { label: '积分榜', path: '/portal/standings' },
+  { label: '淘汰赛', path: '/portal/bracket' },
+  { label: '我的收藏', path: '/portal/favorites' },
   { label: '个人中心', path: '/portal/profile' },
 ];
+
+function logout() {
+  clearAuthState();
+  router.push('/portal/home');
+}
 </script>
 
 <template>
   <div class="portal-layout">
-    <!-- 顶部导航 -->
     <header class="portal-header">
       <div class="header-inner">
         <div class="brand" @click="router.push('/portal/home')">
-          <div class="brand-mark">
-            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="40" height="40" rx="10" fill="url(#portalGrad)" />
-              <path d="M12 28V14l8 7 8-7v14" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              <defs>
-                <linearGradient id="portalGrad" x1="0" y1="0" x2="40" y2="40">
-                  <stop stop-color="#0d9488" />
-                  <stop offset="1" stop-color="#3b82f6" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <div class="brand-text">
-            <div class="brand-title">智享门户</div>
-            <div class="brand-subtitle">Smart Portal</div>
+          <div class="brand-mark">26</div>
+          <div>
+            <div class="brand-title">世界杯赛事信息系统</div>
+            <div class="brand-subtitle">FIFA World Cup 2026</div>
           </div>
         </div>
-
         <el-menu :default-active="route.path" mode="horizontal" class="portal-menu" router>
           <el-menu-item v-for="item in navItems" :key="item.path" :index="item.path">
             {{ item.label }}
           </el-menu-item>
         </el-menu>
-
         <div class="header-actions">
-          <el-tooltip content="搜索" placement="bottom">
-            <el-button :icon="Search" circle class="action-btn" />
-          </el-tooltip>
-          <el-tooltip content="消息" placement="bottom">
-            <el-button :icon="MessageBox" circle class="action-btn" />
-          </el-tooltip>
-          <el-button type="primary" :icon="User" class="login-btn" @click="router.push('/login')">
-            登录
-          </el-button>
+          <el-button v-if="!currentUser" type="primary" :icon="User" @click="router.push('/login')">登录</el-button>
+          <template v-else>
+            <span class="user-name">{{ currentUser.username }}</span>
+            <el-button :icon="SwitchButton" @click="logout">退出</el-button>
+          </template>
         </div>
       </div>
     </header>
-
-    <!-- 页面内容 -->
     <main class="portal-main">
-      <router-view v-slot="{ Component }">
-        <transition name="page" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
+      <router-view />
     </main>
-
-    <!-- 页脚 -->
-    <footer class="portal-footer">
-      <div class="footer-inner">
-        <div class="footer-left">
-          <span class="footer-brand">智享门户</span>
-          <span class="footer-divider">|</span>
-          <span>一站式服务平台</span>
-        </div>
-        <div class="footer-right">
-          <span>技术支持：SpringBoot Vue Starter</span>
-        </div>
-      </div>
-    </footer>
   </div>
 </template>
 
 <style scoped>
 .portal-layout {
-  display: flex;
   min-height: 100vh;
-  flex-direction: column;
-  background:
-    radial-gradient(ellipse 80% 60% at 10% 0%, rgb(13 148 136 / 6%), transparent),
-    radial-gradient(ellipse 60% 50% at 90% 100%, rgb(59 130 246 / 5%), transparent),
-    var(--c-bg);
+  background: var(--c-bg);
 }
 
-/* Header */
 .portal-header {
   position: sticky;
-  z-index: 50;
   top: 0;
-  background: rgb(255 255 255 / 80%);
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid var(--c-line);
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(18px) saturate(1.4);
 }
 
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 18px;
   max-width: 1280px;
+  min-height: 70px;
   margin: 0 auto;
-  padding: 0 28px;
-  min-height: 68px;
+  padding: 0 24px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 220px;
   cursor: pointer;
-  transition: opacity var(--transition-fast);
-}
-
-.brand:hover {
-  opacity: 0.85;
 }
 
 .brand-mark {
-  width: 40px;
-  height: 40px;
-}
-
-.brand-mark svg {
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 2px 4px rgb(13 148 136 / 25%));
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, #facc15, #0d9488 55%, #2563eb);
+  border-radius: 8px;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgb(13 148 136 / 30%);
 }
 
 .brand-title {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
   color: var(--c-ink);
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .brand-subtitle {
-  margin-top: 1px;
-  color: var(--c-muted-light);
+  color: var(--c-primary);
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
 }
 
 .portal-menu {
-  flex: 1 1 auto;
+  flex: 1;
   min-width: 0;
-  max-width: 480px;
-  margin: 0 20px;
   border-bottom: 0;
-  justify-content: center;
   background: transparent;
 }
 
 .portal-menu :deep(.el-menu-item) {
-  height: 48px;
-  font-size: 15px;
-  font-weight: 500;
   color: var(--c-body);
-  border-bottom-width: 2.5px;
-  transition: all var(--transition-fast);
+  border-bottom-color: transparent;
 }
 
-.portal-menu :deep(.el-menu-item:hover) {
+.portal-menu :deep(.el-menu-item:hover),
+.portal-menu :deep(.el-menu-item.is-active) {
   color: var(--c-primary);
-  background: transparent;
+  background: var(--c-primary-bg);
+  border-bottom-color: var(--c-primary);
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
+  gap: 10px;
 }
 
-.action-btn {
-  color: var(--c-muted);
-  background: var(--c-line-light);
-  border: 1px solid var(--c-line);
-  transition: all var(--transition-fast);
+.user-name {
+  color: var(--c-ink);
+  font-size: 14px;
 }
 
-.action-btn:hover {
-  color: var(--c-primary);
-  background: var(--c-primary-bg);
-  border-color: rgb(13 148 136 / 20%);
-  transform: translateY(-1px);
-}
-
-.login-btn {
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  padding: 0 20px;
-}
-
-/* Main */
 .portal-main {
-  flex: 1;
-  min-width: 0;
-}
-
-/* Footer */
-.portal-footer {
-  padding: 20px 28px;
-  background: var(--c-surface);
-  border-top: 1px solid var(--c-line);
-}
-
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   max-width: 1280px;
   margin: 0 auto;
-  color: var(--c-muted);
-  font-size: 13px;
-}
-
-.footer-brand {
-  font-weight: 700;
-  color: var(--c-ink-light);
-}
-
-.footer-divider {
-  margin: 0 8px;
-  color: var(--c-line);
-}
-
-/* Page transition */
-.page-enter-active,
-.page-leave-active {
-  transition: all 0.25s ease;
-}
-
-.page-enter-from {
-  opacity: 0;
-  transform: translateY(12px);
-}
-
-.page-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-/* Responsive */
-@media (max-width: 860px) {
-  .header-inner {
-    flex-wrap: wrap;
-    padding: 10px 16px;
-    gap: 6px;
-    min-height: auto;
-  }
-
-  .portal-menu {
-    order: 3;
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    overflow-x: auto;
-  }
-
-  .portal-menu :deep(.el-menu--horizontal) {
-    justify-content: center;
-  }
-
-  .footer-inner {
-    flex-direction: column;
-    gap: 6px;
-    text-align: center;
-  }
+  padding: 28px 24px 40px;
 }
 </style>
