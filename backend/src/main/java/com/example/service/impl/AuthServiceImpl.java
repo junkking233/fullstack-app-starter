@@ -41,6 +41,25 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public AuthUserDto register(User user) {
+        if (userMapper.selectOne(new QueryWrapper<User>().eq("username", user.getUsername())) != null) {
+            throw new BusinessException(409, "用户名已存在");
+        }
+        if (userMapper.selectOne(new QueryWrapper<User>().eq("email", user.getEmail())) != null) {
+            throw new BusinessException(409, "邮箱已存在");
+        }
+        user.setRole("USER");
+        user.setStatus(1);
+        if (user.getPassword() == null || user.getPassword().isBlank()) {
+            user.setPassword(PasswordUtils.md5("123456"));
+        } else {
+            user.setPassword(PasswordUtils.md5IfNeeded(user.getPassword()));
+        }
+        userMapper.insert(user);
+        return AuthUserDto.from(user);
+    }
+
+    @Override
     public AuthUserDto getCurrentUser(Long userId) {
         User user = userMapper.selectById(userId);
         if (user == null || user.getStatus() == null || user.getStatus() != 1) {

@@ -27,6 +27,11 @@ public class AuthInterceptor implements HandlerInterceptor {
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             return true;
         }
+        if ("GET".equalsIgnoreCase(request.getMethod())
+                && (isPublicGetPath(request.getRequestURI()) || request.getRequestURI().startsWith("/api/comments/match/")
+                || request.getRequestURI().equals("/api/charts/public-summary"))) {
+            return true;
+        }
 
         String authorization = request.getHeader("Authorization");
         if (authorization == null || !authorization.startsWith("Bearer ")) {
@@ -41,16 +46,51 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         TokenSubject subject = new TokenSubject(user.getId(), user.getUsername(), user.getRole(), tokenSubject.getExpiresAt());
         request.setAttribute("currentUser", subject);
-        checkPermission(request.getRequestURI(), subject);
+        checkPermission(request.getRequestURI(), request.getMethod(), subject);
         return true;
     }
 
-    private void checkPermission(String path, TokenSubject subject) {
+    private void checkPermission(String path, String method, TokenSubject subject) {
+        if (isPublicGetPath(path) && "GET".equalsIgnoreCase(method)) {
+            return;
+        }
+        if (path.startsWith("/api/teams") || path.startsWith("/api/matches")
+                || path.startsWith("/api/standings") || path.startsWith("/api/bracket")
+                || path.startsWith("/api/comments") || path.startsWith("/api/favorites")
+                || path.startsWith("/api/charts")) {
+            if (path.equals("/api/charts/public-summary") && "GET".equalsIgnoreCase(method)) {
+                return;
+            }
+            if (path.startsWith("/api/comments/match/") && "GET".equalsIgnoreCase(method)) {
+                return;
+            }
+            if (path.equals("/api/comments") && "GET".equalsIgnoreCase(method) && !"ADMIN".equals(subject.getRole())) {
+                throw new BusinessException(403, "无权访问评论审核列表");
+            }
+            if (!"GET".equalsIgnoreCase(method) && !"ADMIN".equals(subject.getRole())) {
+                if (path.equals("/api/comments") && "POST".equalsIgnoreCase(method)) {
+                    return;
+                }
+                if (path.startsWith("/api/favorites")) {
+                    return;
+                }
+                throw new BusinessException(403, "无权执行后台维护操作");
+            }
+        }
         if (path.startsWith("/api/users") && !"ADMIN".equals(subject.getRole())) {
             throw new BusinessException(403, "无权访问用户管理接口");
         }
-        if (path.startsWith("/api/charts") && !("ADMIN".equals(subject.getRole()) || "PARTNER".equals(subject.getRole()))) {
+        if (path.startsWith("/api/data-maintenance") && !"ADMIN".equals(subject.getRole())) {
+            throw new BusinessException(403, "无权访问数据维护接口");
+        }
+        if (path.startsWith("/api/charts") && !"ADMIN".equals(subject.getRole())) {
             throw new BusinessException(403, "无权访问图表接口");
         }
+    }
+
+    private boolean isPublicGetPath(String path) {
+        return path.startsWith("/api/teams") || path.startsWith("/api/cities")
+                || path.startsWith("/api/stadiums") || path.startsWith("/api/matches")
+                || path.startsWith("/api/standings") || path.startsWith("/api/bracket");
     }
 }

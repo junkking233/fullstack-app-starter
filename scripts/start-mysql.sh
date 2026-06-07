@@ -5,7 +5,7 @@
 
 set -e
 
-DATABASE_NAME="template_db"
+DATABASE_NAME="worldcup_event_db"
 MYSQL_ROOT_PASSWORD="admin123"
 
 docker network create shared-network >/dev/null 2>&1 || true

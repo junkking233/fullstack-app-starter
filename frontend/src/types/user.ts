@@ -4,7 +4,7 @@ export interface User {
   password?: string;
   email: string;
   phone: string;
-  role: 'ADMIN' | 'PARTNER' | 'USER' | string;
+  role: 'ADMIN' | 'USER' | string;
   status: number;
   createTime: string;
   updateTime: string;

@@ -1,4 +1,5 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import router from '@/router';
 import { clearAuthState, getAuthToken } from '@/utils/auth';
 
 interface ApiResult<T> {
@@ -35,6 +36,13 @@ http.interceptors.response.use(
   (err: AxiosError<ApiResult<unknown>>) => {
     if (err.response?.status === 401) {
       clearAuthState();
+      const requestUrl = err.config?.url ?? '';
+      if (!requestUrl.includes('/auth/login') && router.currentRoute.value.path !== '/login') {
+        router.replace({
+          path: '/login',
+          query: { redirect: router.currentRoute.value.fullPath },
+        });
+      }
     }
     const message = err.response?.data?.message || err.message || '请求失败';
     return Promise.reject(new Error(message));

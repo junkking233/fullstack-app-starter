@@ -1,6 +1,6 @@
 /**
  * ============================================================
- *  Design System - SpringBoot Vue Starter
+ *  Design System - World Cup Event Information System
  * ============================================================
  */
 
@@ -42,13 +42,15 @@
   --c-line-light: #f1f5f9;
   --c-bg: #f8fafc;
   --c-surface: #ffffff;
+  --c-panel: rgb(255 255 255 / 88%);
+  --c-deep: #071318;
 
   /* Shadows */
   --shadow-xs: 0 1px 2px rgb(15 23 42 / 5%);
   --shadow-sm: 0 1px 3px rgb(15 23 42 / 8%), 0 1px 2px rgb(15 23 42 / 4%);
   --shadow-md: 0 4px 6px -1px rgb(15 23 42 / 8%), 0 2px 4px -2px rgb(15 23 42 / 4%);
-  --shadow-lg: 0 10px 15px -3px rgb(15 23 42 / 8%), 0 4px 6px -4px rgb(15 23 42 / 4%);
-  --shadow-xl: 0 20px 25px -5px rgb(15 23 42 / 8%), 0 8px 10px -6px rgb(15 23 42 / 4%);
+  --shadow-lg: 0 14px 30px -18px rgb(15 23 42 / 32%), 0 8px 16px -12px rgb(15 23 42 / 18%);
+  --shadow-xl: 0 28px 60px -30px rgb(15 23 42 / 42%), 0 14px 24px -18px rgb(15 23 42 / 28%);
   --shadow-glow: 0 0 0 3px rgb(13 148 136 / 12%);
 
   /* Radius */
@@ -80,7 +82,9 @@ body,
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
   color: var(--c-ink);
-  background: var(--c-bg);
+  background:
+    linear-gradient(180deg, rgb(240 253 250 / 80%), rgb(248 250 252 / 96%) 360px),
+    var(--c-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -96,7 +100,7 @@ select {
 
 /* Primary Button */
 .el-button--primary:not(.is-link):not(.is-text) {
-  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
+  background: linear-gradient(135deg, #0f766e, #0d9488);
   border-color: transparent;
   box-shadow: 0 2px 6px rgb(13 148 136 / 25%);
   transition: all var(--transition-base);
@@ -105,7 +109,7 @@ select {
 .el-button--primary:not(.is-link):not(.is-text):hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgb(13 148 136 / 35%);
-  background: linear-gradient(135deg, var(--c-primary-light), var(--c-primary));
+  background: linear-gradient(135deg, #14b8a6, #0f766e);
 }
 
 .el-button--primary:not(.is-link):not(.is-text):active {
@@ -123,8 +127,9 @@ select {
 }
 
 /* Input focus */
-.el-input__wrapper.is-focus {
-  box-shadow: 0 0 0 3px rgb(13 148 136 / 10%), inset 0 0 0 1px var(--c-primary) !important;
+.el-input__wrapper.is-focus,
+.el-input__wrapper:focus-within {
+  box-shadow: 0 0 0 3px rgb(13 148 136 / 10%), inset 0 0 0 1px var(--c-primary);
 }
 
 /* Menu */
@@ -145,9 +150,17 @@ select {
 
 /* Card */
 .el-card {
-  border-radius: var(--radius-lg);
-  border-color: var(--c-line);
-  box-shadow: var(--shadow-sm);
+  border-color: rgb(226 232 240 / 76%);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  background: var(--c-panel);
+  backdrop-filter: blur(14px);
+}
+
+.el-card__header {
+  color: #0f172a;
+  font-weight: 700;
+  border-bottom-color: rgb(226 232 240 / 72%);
 }
 
 /* Dialog */
@@ -162,10 +175,14 @@ select {
   overflow: hidden;
 }
 
-.el-table th.el-table__cell {
-  background: var(--c-line-light) !important;
+.el-table .el-table__header-wrapper th.el-table__cell {
+  background: #eef6f4;
   font-weight: 600;
   color: var(--c-ink-light);
+}
+
+.el-table .el-table__body-wrapper .el-table__row:hover > td.el-table__cell {
+  background: #f0fdfa;
 }
 
 /* Pagination */
@@ -355,4 +372,42 @@ select {
   .message-bubble {
     max-width: 90%;
   }
+}
+
+/* ---------- 8. Selection & Focus ---------- */
+::selection {
+  background: rgb(13 148 136 / 18%);
+  color: var(--c-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- 9. Utility Classes ---------- */
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-ellipsis-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
