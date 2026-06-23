@@ -1,84 +1,75 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import PortalLayout from '@/layouts/PortalLayout.vue';
-import PartnerLayout from '@/layouts/PartnerLayout.vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
-import BlankLayout from '@/layouts/BlankLayout.vue';
-import { defaultPathForRole, getCurrentUser, hasRoutePermission } from '@/utils/auth';
+import { getCurrentUser } from '@/utils/auth';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    // 普通用户门户
     {
       path: '/',
-      component: PortalLayout,
-      redirect: '/portal/home',
-      children: [
-        {
-          path: 'portal/home',
-          name: 'PortalHome',
-          component: () => import('@/views/portal/Home.vue'),
-          meta: { title: '首页' },
-        },
-        {
-          path: 'portal/services',
-          name: 'PortalServices',
-          component: () => import('@/views/portal/Services.vue'),
-          meta: { title: '服务大厅' },
-        },
-        {
-          path: 'portal/my-business',
-          name: 'PortalMyBusiness',
-          component: () => import('@/views/portal/MyBusiness.vue'),
-          meta: { title: '我的业务', requiresAuth: true },
-        },
-        {
-          path: 'portal/profile',
-          name: 'PortalProfile',
-          component: () => import('@/views/portal/Profile.vue'),
-          meta: { title: '个人中心', requiresAuth: true },
-        },
-      ],
+      name: 'Home',
+      component: () => import('@/views/Home.vue'),
+      meta: { title: '知问社区' },
     },
-    // 服务方门户
     {
-      path: '/partner',
-      component: PartnerLayout,
-      redirect: '/partner/dashboard',
-      meta: { requiresAuth: true, roles: ['ADMIN', 'PARTNER'] },
-      children: [
-        {
-          path: 'dashboard',
-          name: 'PartnerDashboard',
-          component: () => import('@/views/partner/Dashboard.vue'),
-          meta: { title: '总览' },
-        },
-        {
-          path: 'tasks',
-          name: 'PartnerTasks',
-          component: () => import('@/views/partner/Tasks.vue'),
-          meta: { title: '工单管理' },
-        },
-        {
-          path: 'resources',
-          name: 'PartnerResources',
-          component: () => import('@/views/partner/Resources.vue'),
-          meta: { title: '资源管理' },
-        },
-        {
-          path: 'reports',
-          name: 'PartnerReports',
-          component: () => import('@/views/partner/Reports.vue'),
-          meta: { title: '报表中心' },
-        },
-      ],
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/common/Login.vue'),
+      meta: { title: '登录' },
     },
-    // 管理后台
     {
-      path: '/admin/screen',
-      name: 'AdminScreen',
-      component: () => import('@/views/admin/Screen.vue'),
-      meta: { title: '数据大屏', requiresAuth: true, roles: ['ADMIN'] },
+      path: '/register',
+      name: 'Register',
+      component: () => import('@/views/common/Register.vue'),
+      meta: { title: '注册' },
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: () => import('@/views/Profile.vue'),
+      meta: { title: '个人中心', requiresAuth: true },
+    },
+    {
+      path: '/question/create',
+      name: 'QuestionCreate',
+      component: () => import('@/views/QuestionCreate.vue'),
+      meta: { title: '发布问题', requiresAuth: true },
+    },
+    {
+      path: '/question/:id',
+      name: 'QuestionDetail',
+      component: () => import('@/views/QuestionDetail.vue'),
+      meta: { title: '问题详情' },
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: () => import('@/views/Search.vue'),
+      meta: { title: '搜索' },
+    },
+    {
+      path: '/notifications',
+      name: 'Notifications',
+      component: () => import('@/views/Notifications.vue'),
+      meta: { title: '消息通知', requiresAuth: true },
+    },
+    {
+      path: '/featured',
+      name: 'Featured',
+      component: () => import('@/views/Featured.vue'),
+      meta: { title: '精华区' },
+    },
+    {
+      path: '/hot',
+      name: 'Hot',
+      component: () => import('@/views/Hot.vue'),
+      meta: { title: '热榜' },
+    },
+    {
+      path: '/leaderboard',
+      name: 'Leaderboard',
+      component: () => import('@/views/Leaderboard.vue'),
+      meta: { title: '排行榜' },
     },
     {
       path: '/admin',
@@ -89,26 +80,32 @@ const router = createRouter({
         {
           path: 'dashboard',
           name: 'AdminDashboard',
-          component: () => import('@/admin-platform/views/DashboardView.vue'),
-          meta: { title: '运营概览', icon: 'DataAnalysis' },
+          component: () => import('@/views/admin/Dashboard.vue'),
+          meta: { title: '仪表盘', icon: 'DataAnalysis' },
         },
         {
-          path: 'management',
-          name: 'AdminManagement',
-          component: () => import('@/admin-platform/views/ManagementView.vue'),
-          meta: { title: '数据管理', icon: 'Tickets' },
+          path: 'categories',
+          name: 'AdminCategories',
+          component: () => import('@/views/admin/Categories.vue'),
+          meta: { title: '分类管理', icon: 'Collection' },
         },
         {
-          path: 'visual-list',
-          name: 'AdminVisualList',
-          component: () => import('@/admin-platform/views/VisualListView.vue'),
-          meta: { title: '可视化列表', icon: 'List' },
+          path: 'tags',
+          name: 'AdminTags',
+          component: () => import('@/views/admin/Tags.vue'),
+          meta: { title: '标签管理', icon: 'PriceTag' },
         },
         {
-          path: 'analytics',
-          name: 'AdminAnalytics',
-          component: () => import('@/admin-platform/views/AnalyticsView.vue'),
-          meta: { title: '数据可视化', icon: 'Histogram' },
+          path: 'sensitive-words',
+          name: 'AdminSensitiveWords',
+          component: () => import('@/views/admin/SensitiveWords.vue'),
+          meta: { title: '敏感词管理', icon: 'Warning' },
+        },
+        {
+          path: 'review',
+          name: 'AdminReview',
+          component: () => import('@/views/admin/Review.vue'),
+          meta: { title: '内容审核', icon: 'Checked' },
         },
         {
           path: 'users',
@@ -117,29 +114,22 @@ const router = createRouter({
           meta: { title: '用户管理', icon: 'UserFilled' },
         },
         {
-          path: 'chat',
-          name: 'AdminChat',
-          component: () => import('@/views/admin/Chat.vue'),
-          meta: { title: 'AI 助手', icon: 'ChatDotRound' },
+          path: 'questions',
+          name: 'AdminQuestions',
+          component: () => import('@/views/admin/Questions.vue'),
+          meta: { title: '问题管理', icon: 'QuestionFilled' },
         },
         {
-          path: 'settings',
-          name: 'AdminSettings',
-          component: () => import('@/admin-platform/views/SettingsView.vue'),
-          meta: { title: '系统配置', icon: 'Setting' },
+          path: 'reports',
+          name: 'AdminReports',
+          component: () => import('@/views/admin/Reports.vue'),
+          meta: { title: '举报处理', icon: 'Warning' },
         },
-      ],
-    },
-    // 公共页面
-    {
-      path: '/login',
-      component: BlankLayout,
-      children: [
         {
-          path: '',
-          name: 'Login',
-          component: () => import('@/views/common/Login.vue'),
-          meta: { title: '登录' },
+          path: 'export',
+          name: 'AdminExport',
+          component: () => import('@/views/admin/Export.vue'),
+          meta: { title: '数据导出', icon: 'Download' },
         },
       ],
     },
@@ -151,27 +141,25 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _from, next) => {
-  document.title = to.meta.title ? `${to.meta.title} - 平台名称` : '平台名称';
+  document.title = to.meta.title ? `${to.meta.title} - 知问社区` : '知问社区';
 
   const currentUser = getCurrentUser();
-  if (to.path === '/login' && currentUser) {
-    next(defaultPathForRole(currentUser.role));
+
+  // If logged in and going to login/register, redirect to home
+  if (currentUser && (to.path === '/login' || to.path === '/register')) {
+    next('/');
     return;
   }
 
+  // If admin route and not admin, redirect to home
+  if (to.path.startsWith('/admin') && currentUser?.role !== 'ADMIN') {
+    next('/');
+    return;
+  }
+
+  // If route requires auth and not logged in, redirect to login
   if (to.meta.requiresAuth && !currentUser) {
-    next({ path: '/login', query: { redirect: to.fullPath } });
-    return;
-  }
-
-  const roles = to.meta.roles as string[] | undefined;
-  if (currentUser && roles && !roles.includes(currentUser.role)) {
-    next(defaultPathForRole(currentUser.role));
-    return;
-  }
-
-  if (currentUser && !hasRoutePermission(to.path, currentUser.role)) {
-    next(defaultPathForRole(currentUser.role));
+    next('/login');
     return;
   }
 

@@ -7,10 +7,10 @@
 /* ---------- 1. Color Tokens ---------- */
 :root {
   /* Primary */
-  --c-primary: #0d9488;
-  --c-primary-light: #14b8a6;
-  --c-primary-dark: #0f766e;
-  --c-primary-bg: #f0fdfa;
+  --c-primary: #2f6bff;
+  --c-primary-light: #5b8cff;
+  --c-primary-dark: #1a4fd4;
+  --c-primary-bg: #eef3ff;
 
   /* Blue */
   --c-blue: #3b82f6;

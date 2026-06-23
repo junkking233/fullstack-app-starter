@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiqu.community.mapper.QuestionMapper">
+
+    <select id="selectByCondition" resultType="com.zhiqu.community.entity.Question">
+        SELECT q.*,
+            (
+                (IFNULL(q.view_count,0)*0.3 + IFNULL(q.answer_count,0)*1 + IFNULL(q.vote_count,0)*2 + IFNULL(q.favorite_count,0)*1.5)
+                * GREATEST(0.1, POW(0.85, GREATEST(0, TIMESTAMPDIFF(HOUR, q.created_at, NOW()) - 24) / 24.0))
+                * CASE WHEN q.is_featured = 1 THEN 1.5 ELSE 1.0 END
+            ) AS _score
+        FROM t_question q
+        <if test="query.tagId != null">
+            INNER JOIN t_question_tag qt ON q.id = qt.question_id AND qt.tag_id = #{query.tagId}
+        </if>
+        WHERE q.status = 'published'
+        <if test="query.categoryId != null">
+            AND q.category_id = #{query.categoryId}
+        </if>
+        <choose>
+            <when test="query.sort == 'hot'">
+                ORDER BY q.answer_count DESC, q.view_count DESC, q.created_at DESC
+            </when>
+            <when test="query.sort == 'latest'">
+                ORDER BY q.created_at DESC
+            </when>
+            <otherwise>
+                ORDER BY q.is_pinned DESC, _score DESC, q.created_at DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="updateViewCount">
+        UPDATE t_question SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>

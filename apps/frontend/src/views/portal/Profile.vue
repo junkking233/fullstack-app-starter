@@ -9,9 +9,9 @@ const activeTab = ref('info');
 const currentUser = getCurrentUser();
 
 const profileForm = reactive({
-  nickname: currentUser?.username || '',
+  nickname: currentUser?.nickname || '',
   realName: currentUser?.username || '',
-  email: currentUser?.email || '',
+  email: '',
   phone: '',
   idCard: '11010119900101****',
   address: '北京市朝阳区',

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>社区问答系统｜交互式原型</title>
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#152033;
+      --muted:#667085;
+      --line:#e8edf5;
+      --primary:#2f6bff;
+      --primary-weak:#eaf0ff;
+      --success:#12b76a;
+      --warning:#f79009;
+      --danger:#f04438;
+      --purple:#7a5af8;
+      --shadow:0 14px 40px rgba(16,24,40,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif;font-size:15px;line-height:1.55}
+    button,input,select,textarea{font:inherit}
+    button{border:0;cursor:pointer}
+    .topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line)}
+    .top-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:13px 22px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--text);white-space:nowrap}
+    .brand-mark{width:34px;height:34px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#8f6bff);display:grid;place-items:center;color:#fff;box-shadow:0 10px 22px rgba(47,107,255,.28)}
+    .top-search{flex:1;min-width:210px;display:flex;align-items:center;background:#f2f5fb;border:1px solid #e1e7f2;border-radius:999px;padding:3px 5px 3px 14px;gap:8px}
+    .top-search input{border:0;background:transparent;outline:none;flex:1;color:var(--text);min-width:80px}
+    .nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .nav-btn,.ghost-btn,.mini-btn,.tab-btn,.chip-btn{border-radius:999px;background:transparent;color:var(--muted);padding:8px 11px;transition:.18s all ease;white-space:nowrap}
+    .nav-btn:hover,.ghost-btn:hover,.mini-btn:hover,.tab-btn:hover,.chip-btn:hover{background:#eef3ff;color:var(--primary)}
+    .nav-btn.active,.tab-btn.active,.chip-btn.active{background:var(--primary);color:#fff}
+    .primary-btn{border-radius:12px;background:var(--primary);color:white;padding:10px 15px;font-weight:700;box-shadow:0 12px 24px rgba(47,107,255,.22);transition:.18s all ease;white-space:nowrap}
+    .primary-btn:hover{transform:translateY(-1px);box-shadow:0 16px 30px rgba(47,107,255,.28)}
+    .secondary-btn{border-radius:12px;background:var(--primary-weak);color:var(--primary);padding:10px 14px;font-weight:700}
+    .danger-btn{border-radius:12px;background:#fee4e2;color:#b42318;padding:10px 14px;font-weight:700}
+    .success-btn{border-radius:12px;background:#dcfae6;color:#067647;padding:10px 14px;font-weight:700}
+    .warning-btn{border-radius:12px;background:#fff4e5;color:#b54708;padding:10px 14px;font-weight:700}
+    .mini-btn{padding:6px 10px;font-size:13px;border:1px solid transparent}
+    .mini-btn.border{border-color:var(--line);background:#fff}
+    .mini-btn.liked,.mini-btn.faved,.mini-btn.followed{background:var(--primary-weak);color:var(--primary)}
+    .layout{max-width:1280px;margin:0 auto;padding:24px 22px 44px}
+    .grid{display:grid;grid-template-columns:minmax(0,1fr) 328px;gap:22px;align-items:start}
+    .grid-admin{display:grid;grid-template-columns:248px minmax(0,1fr);gap:22px;align-items:start}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .card-pad{padding:20px}
+    .soft{background:linear-gradient(180deg,#fff,#fafcff)}
+    .hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,.6fr);gap:20px;padding:28px;border-radius:26px;background:radial-gradient(circle at 10% 0%,#e7efff,transparent 28%),linear-gradient(135deg,#fff,#f8fbff);border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden}
+    .hero h1{margin:0 0 10px;font-size:34px;line-height:1.18;letter-spacing:-.6px}
+    .hero p{margin:0;color:var(--muted);max-width:650px}
+    .hero-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+    .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+    .stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+    .stat strong{display:block;font-size:22px}.stat span{color:var(--muted);font-size:13px}
+    .visual-panel{border-radius:22px;background:linear-gradient(135deg,#2f6bff,#7a5af8);padding:18px;color:#fff;min-height:190px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+    .visual-panel:before{content:"";position:absolute;right:-40px;top:-50px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.16)}
+    .visual-card{position:relative;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:14px;margin-top:10px;backdrop-filter:blur(8px)}
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .section-title h2,.section-title h3{margin:0;font-size:20px}.section-title p{margin:4px 0 0;color:var(--muted)}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab-btn{background:#fff;border:1px solid var(--line)}
+    .question-card{padding:18px;border-radius:18px;border:1px solid var(--line);background:#fff;margin-bottom:12px;transition:.18s all ease}
+    .question-card:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(16,24,40,.08)}
+    .q-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+    .q-title{font-size:18px;font-weight:800;margin:0 0 8px;color:var(--text);line-height:1.35}.q-title:hover{color:var(--primary)}
+    .q-summary{color:var(--muted);margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+    .avatar{width:34px;height:34px;border-radius:50%;display:inline-grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,#2f6bff,#7a5af8);flex:none;overflow:hidden}
+    .avatar.small{width:26px;height:26px;font-size:12px}.avatar.big{width:78px;height:78px;font-size:28px;border-radius:26px}
+    .tag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#f2f5fb;color:#4b5565;padding:4px 9px;font-size:12px;margin:2px 4px 2px 0;border:1px solid #e4e9f2}
+    .tag.featured{background:#fff8db;color:#b54708;border-color:#ffdf77}.tag.pending{background:#fff4e5;color:#b54708}.tag.rejected{background:#fee4e2;color:#b42318}.tag.published{background:#dcfae6;color:#067647}.tag.pinned{background:#e9d7fe;color:#6941c6}
+    .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:13px}
+    .side-stack{display:flex;flex-direction:column;gap:14px}
+    .side-list{display:flex;flex-direction:column;gap:10px}
+    .side-item{display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px}.side-item:last-child{border-bottom:0;padding-bottom:0}
+    .rank{width:28px;height:28px;border-radius:10px;background:#eef3ff;color:var(--primary);display:grid;place-items:center;font-weight:800;flex:none}
+    .rank.top{background:linear-gradient(135deg,#f79009,#fdb022);color:#fff}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}.field label{font-weight:750;color:#344054}.field small{color:var(--muted)}
+    input,select,textarea{border:1px solid #d9e2ee;background:#fff;border-radius:12px;padding:11px 12px;outline:none;color:var(--text);width:100%}
+    textarea{resize:vertical;min-height:110px}
+    input:focus,select:focus,textarea:focus{border-color:#8fa8ff;box-shadow:0 0 0 4px rgba(47,107,255,.10)}
+    .rich-editor{min-height:160px}.notice{border-radius:14px;padding:12px 14px;background:#eef3ff;color:#335cbb;border:1px solid #d9e4ff;margin:12px 0}.notice.warn{background:#fff4e5;color:#b54708;border-color:#fedf89}.notice.danger{background:#fee4e2;color:#b42318;border-color:#fecdca}.notice.success{background:#dcfae6;color:#067647;border-color:#abefc6}
+    .empty{padding:30px;text-align:center;color:var(--muted);border:1px dashed #cfd8e8;border-radius:16px;background:#fbfcff}
+    .detail-title{font-size:28px;line-height:1.25;margin:0 0 12px}.content{color:#344054}.content p{margin:0 0 10px}.answer{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}.answer.accepted{border:1px solid #abefc6;background:#f6fef9;border-radius:18px;padding:18px}
+    .comment-box{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}.comment{border-bottom:1px solid #e8edf5;padding:9px 0}.comment:last-child{border-bottom:0}.reply{margin-left:34px;background:#fff;border-radius:12px;padding:9px 10px;margin-top:7px;border:1px solid var(--line)}
+    .admin-side{position:sticky;top:82px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:14px}
+    .admin-side h3{margin:8px 10px 12px}.side-nav{display:flex;flex-direction:column;gap:5px}.side-nav button{display:flex;align-items:center;justify-content:space-between;text-align:left;border-radius:13px;padding:11px 12px;background:transparent;color:#475467}.side-nav button:hover,.side-nav button.active{background:#eef3ff;color:var(--primary);font-weight:750}
+    .admin-top{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}.metric{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.metric strong{font-size:24px;display:block}.metric span{font-size:13px;color:var(--muted)}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:#fff}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:13px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}th{background:#f8fafc;color:#475467;font-size:13px}tr:last-child td{border-bottom:0}
+    .toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;flex-wrap:wrap}.toolbar-left,.toolbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.toolbar input,.toolbar select{width:auto;min-width:180px}
+    .modal-mask{position:fixed;inset:0;background:rgba(15,23,42,.48);z-index:60;display:grid;place-items:center;padding:22px}.modal{background:#fff;border-radius:22px;box-shadow:0 28px 80px rgba(15,23,42,.28);width:min(620px,100%);max-height:88vh;overflow:auto}.modal-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h3{margin:0}.modal-body{padding:20px}.modal-foot{padding:16px 20px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+    .toast-wrap{position:fixed;right:22px;bottom:22px;z-index:80;display:flex;flex-direction:column;gap:10px}.toast{background:#101828;color:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 16px 36px rgba(16,24,40,.25);min-width:260px;animation:slideIn .2s ease}.toast.success{background:#067647}.toast.warn{background:#b54708}.toast.error{background:#b42318}@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .badge-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:10px}.badge{border:1px solid var(--line);border-radius:16px;padding:13px;background:#fff;text-align:center}.badge.locked{filter:grayscale(1);opacity:.45}.badge .icon{font-size:26px}.progress{height:11px;border-radius:999px;background:#e8edf5;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--primary),#7a5af8);border-radius:999px}
+    .pill-row{display:flex;gap:8px;flex-wrap:wrap}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .chart{display:flex;align-items:end;gap:8px;height:170px;padding:12px;border-radius:16px;background:#f8fafc;border:1px solid var(--line)}.bar{flex:1;border-radius:8px 8px 0 0;background:linear-gradient(180deg,#7a5af8,#2f6bff);min-height:16px}.donut{width:156px;height:156px;border-radius:50%;background:conic-gradient(#2f6bff 0 38%,#7a5af8 38% 63%,#12b76a 63% 80%,#f79009 80% 100%);position:relative;margin:auto}.donut:after{content:"分类";position:absolute;inset:36px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:800;color:#475467}
+    .kbd{font-size:12px;background:#f2f4f7;border:1px solid #d0d5dd;border-bottom-width:2px;border-radius:6px;padding:1px 6px;color:#475467}.divider{height:1px;background:var(--line);margin:14px 0}.login-shell{min-height:calc(100vh - 76px);display:grid;place-items:center}.login-card{width:min(460px,100%);padding:26px}.center{text-align:center}.muted{color:var(--muted)}.nowrap{white-space:nowrap}.hide{display:none!important}.click-row{cursor:pointer}.flow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.flow-step{border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px}.flow-step b{display:block;margin-bottom:4px}
+    @media(max-width:1040px){.grid,.grid-admin,.hero{grid-template-columns:1fr}.admin-side{position:static}.admin-top{grid-template-columns:repeat(2,1fr)}.top-inner{align-items:flex-start;flex-wrap:wrap}.top-search{order:4;width:100%;flex-basis:100%}.nav{flex:1}.stat-row,.four-col{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:680px){.layout{padding:16px 12px 32px}.hero{padding:20px}.hero h1{font-size:26px}.form-grid,.two-col,.three-col,.admin-top,.stat-row,.four-col{grid-template-columns:1fr}.toolbar input,.toolbar select{width:100%}.toolbar-left,.toolbar-right{width:100%}.modal-mask{padding:10px}.top-inner{padding:10px 12px}.nav-btn{padding:7px 9px}.detail-title{font-size:22px}}
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="modal-root"></div>
+  <div id="toast-root" class="toast-wrap"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  const now = new Date('2026-06-23T10:00:00+08:00');
+  const state = {
+    currentUserId: 2,
+    homeTab: 'recommend',
+    hotTab: 'day',
+    profileTab: 'questions',
+    notificationsTab: 'all',
+    reviewTab: 'question',
+    search: { keyword:'', category:'all', tag:'all', sort:'relevance' },
+    create: { title:'', content:'', category:'', tags:[], invited:[] },
+    answerDrafts: {},
+    commentDrafts: {},
+    replyTarget: null,
+    expandedComments: {},
+    adminFilters: { userKeyword:'', questionKeyword:'', reportStatus:'all', reviewType:'all' }
+  };
+
+  const data = {
+    users: [
+      {id:1, username:'admin', password:'admin123', nickname:'系统管理员', role:'admin', status:'active', avatar:'管', bio:'负责审核、运营与配置管理', exp:25800, level:10, followers:128, following:[2,3], badges:['registered','first_question','first_answer','first_accepted','hundred_votes','five_hundred_votes','fifty_answers','week_login','month_login','hundred_followers']},
+      {id:2, username:'userA', password:'123456', nickname:'阿澄', role:'user', status:'active', avatar:'澄', bio:'前端学习者，喜欢总结踩坑经验', exp:1350, level:5, followers:38, following:[3,4], badges:['registered','first_question','first_answer','first_accepted','week_login']},
+      {id:3, username:'userB', password:'123456', nickname:'北辰', role:'user', status:'active', avatar:'北', bio:'Spring Boot / MySQL 答题志愿者', exp:4980, level:7, followers:112, following:[2], badges:['registered','first_question','first_answer','first_accepted','hundred_votes','fifty_answers','week_login','month_login','hundred_followers']},
+      {id:4, username:'userC', password:'123456', nickname:'南栀', role:'user', status:'banned', avatar:'南', bio:'内容质量观察员', exp:380, level:3, followers:9, following:[2], badges:['registered','first_question']},
+      {id:5, username:'ming', password:'123456', nickname:'明远', role:'user', status:'active', avatar:'明', bio:'考研与算法方向', exp:890, level:4, followers:21, following:[], badges:['registered','first_answer','week_login']}
+    ],
+    categories: [
+      {id:1,name:'技术学习',parentId:null,count:128,children:[{id:11,name:'前端开发',parentId:1,count:52},{id:12,name:'后端开发',parentId:1,count:46},{id:13,name:'数据库',parentId:1,count:30}]},
+      {id:2,name:'校园生活',parentId:null,count:76,children:[{id:21,name:'学习方法',parentId:2,count:25},{id:22,name:'就业实习',parentId:2,count:31},{id:23,name:'心理成长',parentId:2,count:20}]},
+      {id:3,name:'知识百科',parentId:null,count:63,children:[{id:31,name:'英语',parentId:3,count:22},{id:32,name:'算法',parentId:3,count:26},{id:33,name:'工具效率',parentId:3,count:15}]}
+    ],
+    tags: [
+      {id:1,name:'Vue',usage:40},{id:2,name:'Spring Boot',usage:36},{id:3,name:'MySQL',usage:29},{id:4,name:'Markdown',usage:18},{id:5,name:'算法',usage:34},{id:6,name:'考研',usage:17},{id:7,name:'就业',usage:25},{id:8,name:'生活',usage:14},{id:9,name:'心理',usage:13},{id:10,name:'英语',usage:20}
+    ],
+    sensitiveWords: [
+      {id:1,word:'违规词',status:'active'},{id:2,word:'广告引流',status:'active'},{id:3,word:'辱骂',status:'active'},{id:4,word:'敏感测试',status:'disabled'},{id:5,word:'spam',status:'active'}
+    ],
+    questions: [
+      {id:101,title:'Vue3 中组合式 API 如何拆分复杂表单逻辑？',content:'项目里提问页面字段较多，包括标题、正文、分类、标签、邀请回答和敏感词提示，如何拆分 composable 更清晰？',userId:2,categoryId:11,tags:[1,4],view:245,answerCount:3,vote:28,favorite:12,status:'published',featured:true,pinned:true,created:'2026-06-23 09:10',updated:'2026-06-23 09:40',liked:false,faved:false,acceptedAnswerId:201,invited:[3,5]},
+      {id:102,title:'Spring Boot 审核队列接口应该怎样设计状态流转？',content:'问题和回答都有 pending、published、rejected、deleted 状态，驳回后修改需要重新进入 pending，接口怎么拆比较合理？',userId:3,categoryId:12,tags:[2],view:318,answerCount:4,vote:36,favorite:15,status:'published',featured:true,pinned:false,created:'2026-06-22 16:20',updated:'2026-06-22 18:05',liked:true,faved:false,acceptedAnswerId:204,invited:[1]},
+      {id:103,title:'MySQL 问答系统表设计中哪些字段应该做冗余？',content:'例如 answer_count、vote_count、favorite_count 是否应该冗余？如何兼顾列表查询和数据一致性？',userId:5,categoryId:13,tags:[3],view:198,answerCount:2,vote:19,favorite:8,status:'published',featured:false,pinned:false,created:'2026-06-21 11:16',updated:'2026-06-21 15:00',liked:false,faved:true,acceptedAnswerId:null,invited:[3]},
+      {id:104,title:'Markdown 富文本中 Base64 图片如何做大小校验？',content:'回答正文允许内嵌 Base64 图片，单张解码后不超过 2MB，最多 10 张，前端校验思路是什么？',userId:2,categoryId:11,tags:[4,1],view:154,answerCount:1,vote:13,favorite:5,status:'published',featured:false,pinned:false,created:'2026-06-20 14:25',updated:'2026-06-20 15:30',liked:false,faved:false,acceptedAnswerId:null,invited:[]},
+      {id:105,title:'考研英语阅读错题应该怎样复盘？',content:'阅读错题总是重复踩坑，想找一套能坚持的复盘模板。',userId:5,categoryId:31,tags:[6,10],view:121,answerCount:2,vote:11,favorite:7,status:'published',featured:false,pinned:false,created:'2026-06-19 20:12',updated:'2026-06-19 22:19',liked:false,faved:false,acceptedAnswerId:null,invited:[]},
+      {id:106,title:'如何设计社区热榜的日榜、周榜和月榜？',content:'想用浏览、回答、点赞、收藏计算热度，每日凌晨刷新缓存，这样是否合理？',userId:3,categoryId:33,tags:[5,3],view:420,answerCount:6,vote:52,favorite:26,status:'published',featured:true,pinned:false,created:'2026-06-18 10:04',updated:'2026-06-18 22:10',liked:false,faved:false,acceptedAnswerId:206,invited:[]},
+      {id:107,title:'如何缓解项目答辩前的焦虑？',content:'临近答辩，总担心讲不清楚系统设计，如何准备会更稳？',userId:4,categoryId:23,tags:[9,生活TagId()],view:96,answerCount:1,vote:7,favorite:4,status:'published',featured:false,pinned:false,created:'2026-06-17 08:30',updated:'2026-06-17 08:54',liked:false,faved:false,acceptedAnswerId:null,invited:[]},
+      {id:108,title:'待审核：标签推荐输入标题后没有命中怎么办？',content:'这是一个待审核问题，作者和管理员可见。',userId:2,categoryId:11,tags:[1],view:0,answerCount:0,vote:0,favorite:0,status:'pending',featured:false,pinned:false,created:'2026-06-23 09:55',updated:'2026-06-23 09:55',liked:false,faved:false,acceptedAnswerId:null,invited:[3]},
+      {id:109,title:'被驳回：如何发布含有广告引流的内容？',content:'内容包含违规表达，已被驳回。',userId:2,categoryId:22,tags:[7],view:0,answerCount:0,vote:0,favorite:0,status:'rejected',featured:false,pinned:false,created:'2026-06-21 17:20',updated:'2026-06-21 18:00',auditReason:'内容存在广告引流倾向，请删除推广信息后重新提交。',liked:false,faved:false,acceptedAnswerId:null,invited:[]}
+    ],
+    answers: [
+      {id:201,questionId:101,userId:3,content:'建议按业务能力拆成 useQuestionForm、useTagRecommend、useInviteUsers、useSensitiveCheck 四个 composable。提交时再由页面层组合校验结果，这样后续接 API 时也能直接复用。',vote:22,status:'published',isAccepted:true,created:'2026-06-23 09:28',liked:false},
+      {id:202,questionId:101,userId:5,content:'还可以把“预览”和“草稿”做成独立状态，避免编辑器内容和提交数据互相影响。',vote:8,status:'published',isAccepted:false,created:'2026-06-23 09:35',liked:false},
+      {id:203,questionId:101,userId:1,content:'审核相关字段不要散落在表单组件里，建议统一封装成 submitQuestion() 的服务层。',vote:6,status:'pending',isAccepted:false,created:'2026-06-23 09:50',liked:false},
+      {id:204,questionId:102,userId:1,content:'可以把审核接口拆成 /admin/review/items、/admin/review/{type}/{id}/approve、/reject。驳回 reason 必填，作者重新保存时将 status 置为 pending。',vote:31,status:'published',isAccepted:true,created:'2026-06-22 17:12',liked:true},
+      {id:205,questionId:103,userId:3,content:'列表页高频展示的计数字段可以冗余，但要通过事务或异步补偿保证最终一致。',vote:15,status:'published',isAccepted:false,created:'2026-06-21 12:09',liked:false},
+      {id:206,questionId:106,userId:2,content:'热榜建议预计算，点击“刷新热榜”或定时任务更新缓存。公式要透明展示，便于运营解释。',vote:24,status:'published',isAccepted:true,created:'2026-06-18 10:51',liked:false},
+      {id:207,questionId:105,userId:3,content:'错题复盘可以从定位题型、原文证据、干扰项类型、下次避免策略四栏开始。',vote:11,status:'published',isAccepted:false,created:'2026-06-19 21:10',liked:false},
+      {id:208,questionId:104,userId:1,content:'待审核回答：解析 data:image 开头的片段，计算 base64 解码后的 byteLength。',vote:0,status:'pending',isAccepted:false,created:'2026-06-23 09:59',liked:false}
+    ],
+    comments: [
+      {id:301,answerId:201,userId:2,parentId:null,content:'这个拆法很清楚，我准备按这个做。',created:'2026-06-23 09:42',status:'published'},
+      {id:302,answerId:201,userId:3,parentId:301,content:'后续接接口时可以把 DTO 也对应起来。',created:'2026-06-23 09:44',status:'published'},
+      {id:303,answerId:204,userId:2,parentId:null,content:'reject 的 reason 是不是要后端兜底必填？',created:'2026-06-22 17:40',status:'published'},
+      {id:304,answerId:204,userId:1,parentId:303,content:'需要，前端提示只是体验，后端一定校验。',created:'2026-06-22 17:48',status:'published'}
+    ],
+    reports: [
+      {id:401,reporterId:2,targetType:'question',targetId:109,reason:'ad',detail:'标题和内容带有明显引流倾向',status:'pending',created:'2026-06-22 10:15',resultNote:''},
+      {id:402,reporterId:5,targetType:'answer',targetId:203,reason:'other',detail:'回答内容需要确认是否合规',status:'pending',created:'2026-06-23 09:59',resultNote:''},
+      {id:403,reporterId:3,targetType:'comment',targetId:303,reason:'abuse',detail:'误报演示数据',status:'ignored',created:'2026-06-21 13:20',resultNote:'未发现违规'}
+    ],
+    notifications: [
+      {id:501,userId:2,type:'new_answer',sourceId:101,content:'北辰回答了你的问题「Vue3 中组合式 API 如何拆分复杂表单逻辑？」',isRead:false,created:'2026-06-23 09:28'},
+      {id:502,userId:2,type:'audit_reject',sourceId:109,content:'你的问题审核未通过：内容存在广告引流倾向，请修改后重新提交。',isRead:false,created:'2026-06-21 18:00'},
+      {id:503,userId:3,type:'accepted',sourceId:201,content:'你的回答被采纳，经验值 +10。',isRead:true,created:'2026-06-23 09:45'},
+      {id:504,userId:3,type:'invite',sourceId:108,content:'阿澄邀请你回答「标签推荐输入标题后没有命中怎么办？」',isRead:false,created:'2026-06-23 09:56'},
+      {id:505,userId:2,type:'achievement',sourceId:0,content:'你解锁了徽章「社区常客」。',isRead:true,created:'2026-06-20 08:00'}
+    ],
+    auditLogs: [
+      {id:601,action:'audit_pass',operator:'系统管理员',target:'问题 #102',time:'2026-06-22 18:05'},
+      {id:602,action:'audit_reject',operator:'系统管理员',target:'问题 #109',time:'2026-06-21 18:00'},
+      {id:603,action:'ban_user',operator:'系统管理员',target:'用户 南栀',time:'2026-06-20 11:30'}
+    ]
+  };
+
+  function 生活TagId(){ return 8; }
+  const badgeMap = {
+    registered:['🎉','初来乍到'], first_question:['❓','首次提问'], first_answer:['✍️','首次回答'], first_accepted:['✅','最佳答案'],
+    hundred_votes:['🔥','百赞达人'], five_hundred_votes:['🌟','人气之星'], fifty_answers:['📚','知识贡献者'], week_login:['📅','社区常客'], month_login:['🏅','铁杆粉丝'], hundred_followers:['💎','万人迷']
+  };
+
+  function esc(value){
+    return String(value ?? '').replace(/[&<>'"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[s]));
+  }
+  function currentUser(){ return data.users.find(u => u.id === state.currentUserId) || data.users[1]; }
+  function userById(id){ return data.users.find(u => u.id === Number(id)) || data.users[0]; }
+  function questionById(id){ return data.questions.find(q => q.id === Number(id)); }
+  function answerById(id){ return data.answers.find(a => a.id === Number(id)); }
+  function commentById(id){ return data.comments.find(c => c.id === Number(id)); }
+  function tagById(id){ return data.tags.find(t => t.id === Number(id)); }
+  function categoryById(id){
+    for(const c of data.categories){ if(c.id === Number(id)) return c; const child = c.children.find(x => x.id === Number(id)); if(child) return child; }
+    return {id:0,name:'未分类',parentId:null,count:0};
+  }
+  function allCategories(){ return data.categories.flatMap(c => [c, ...c.children]); }
+  function getHash(){ return location.hash.replace(/^#/, '') || '/'; }
+  function navigate(path){ location.hash = path; if(getHash() === path) render(); }
+  function isAdmin(){ return currentUser().role === 'admin'; }
+  function activeRoute(path){ const h=getHash(); return h===path || (path !== '/' && h.startsWith(path)); }
+  function statusText(status){ return {published:'已发布',pending:'待审核',rejected:'已驳回',deleted:'已删除',hidden:'已隐藏',active:'正常',banned:'已封禁',disabled:'禁用',ignored:'已忽略',deleted_content:'已删内容',banned_user:'已封禁用户'}[status] || status; }
+  function statusTag(status){ return `<span class="tag ${esc(status)}">${esc(statusText(status))}</span>`; }
+  function tagHtml(id, clickable=true){ const t=tagById(id); if(!t) return ''; return clickable ? `<button class="tag" data-action="search-tag" data-id="${t.id}">#${esc(t.name)}</button>` : `<span class="tag">#${esc(t.name)}</span>`; }
+  function notifyCount(){ return data.notifications.filter(n => n.userId === currentUser().id && !n.isRead).length; }
+  function pageTitle(){
+    const path = getHash();
+    if(path.startsWith('/admin')) return '管理后台';
+    if(path.startsWith('/question/create')) return '发布问题';
+    if(path.startsWith('/question/')) return '问题详情';
+    if(path.startsWith('/search')) return '搜索';
+    if(path.startsWith('/featured')) return '精华区';
+    if(path.startsWith('/hot')) return '热榜';
+    if(path.startsWith('/leaderboard')) return '排行榜';
+    if(path.startsWith('/notifications')) return '消息通知';
+    if(path.startsWith('/user/')) return '个人中心';
+    if(path.startsWith('/login')) return '登录';
+    if(path.startsWith('/register')) return '注册';
+    return '首页';
+  }
+
+  function layout(content){
+    const u = currentUser();
+    const path = getHash();
+    const adminMode = path.startsWith('/admin');
+    return `
+      ${renderHeader()}
+      <main class="layout ${path==='/login'||path==='/register'?'login-shell':''}">
+        ${adminMode ? `<div class="grid-admin">${renderAdminSide()}<section>${content}</section></div>` : content}
+      </main>
+      <div class="notice" style="position:fixed;left:18px;bottom:18px;z-index:20;padding:8px 11px;font-size:12px;background:#fff;box-shadow:var(--shadow);display:${path==='/login'||path==='/register'?'none':'block'}">
+        演示身份：<b>${esc(u.nickname)}</b>（${u.role==='admin'?'管理员':'普通用户'}）
+        <button class="mini-btn" data-action="switch-user" data-id="${u.role==='admin'?2:1}">${u.role==='admin'?'切换普通用户':'切换管理员'}</button>
+      </div>
+    `;
+  }
+
+  function renderHeader(){
+    const u = currentUser();
+    const count = notifyCount();
+    return `
+      <header class="topbar">
+        <div class="top-inner">
+          <button class="brand" data-action="route" data-route="/" aria-label="回到首页"><span class="brand-mark">问</span><span>知问社区</span></button>
+          <div class="top-search">
+            <span>🔎</span><input id="topKeyword" value="${esc(state.search.keyword)}" placeholder="搜索问题、标签、精华内容" />
+            <button class="mini-btn active" data-action="top-search">搜索</button>
+          </div>
+          <nav class="nav" aria-label="主导航">
+            <button class="nav-btn ${activeRoute('/') && getHash()==='/'?'active':''}" data-action="route" data-route="/">首页</button>
+            <button class="nav-btn ${activeRoute('/hot')?'active':''}" data-action="route" data-route="/hot">热榜</button>
+            <button class="nav-btn ${activeRoute('/featured')?'active':''}" data-action="route" data-route="/featured">精华</button>
+            <button class="nav-btn ${activeRoute('/leaderboard')?'active':''}" data-action="route" data-route="/leaderboard">排行</button>
+            <button class="nav-btn ${activeRoute('/notifications')?'active':''}" data-action="route" data-route="/notifications">消息${count?`<b style="color:#f04438"> ${count}</b>`:''}</button>
+            <button class="primary-btn" data-action="route" data-route="/question/create">提问</button>
+            <button class="secondary-btn" data-action="route" data-route="/admin">后台</button>
+            <button class="ghost-btn" data-action="route" data-route="/user/${u.id}">${esc(u.avatar)} ${esc(u.nickname)}</button>
+          </nav>
+        </div>
+      </header>
+    `;
+  }
+
+  function renderAdminSide(){
+    const items = [
+      ['/admin','仪表盘','📊'], ['/admin/review','内容审核','✅'], ['/admin/reports','举报处理','🚩'], ['/admin/users','用户管理','👥'],
+      ['/admin/questions','问题管理','❓'], ['/admin/categories','分类管理','🗂️'], ['/admin/tags','标签管理','🏷️'], ['/admin/sensitive-words','敏感词库','🛡️'], ['/admin/export','数据导出','📤']
+    ];
+    return `<aside class="admin-side"><h3>管理后台</h3><div class="side-nav">${items.map(([r,n,i])=>`<button class="${activeRoute(r) && (r!=='/admin' || getHash()==='/admin')?'active':''}" data-action="route" data-route="${r}"><span>${i} ${n}</span><span>›</span></button>`).join('')}</div><div class="divider"></div><button class="primary-btn" style="width:100%" data-action="admin-refresh">刷新统计</button></aside>`;
+  }
+
+  function render(){
+    const path = getHash();
+    document.title = `${pageTitle()}｜社区问答系统原型`;
+    let content = '';
+    if(path === '/login') content = renderLogin();
+    else if(path === '/register') content = renderRegister();
+    else if(path === '/question/create') content = renderCreateQuestion();
+    else if(path.startsWith('/question/')) content = renderQuestionDetail(path.split('/')[2]);
+    else if(path === '/search') content = renderSearch();
+    else if(path.startsWith('/user/')) content = renderUserProfile(path.split('/')[2]);
+    else if(path === '/notifications') content = renderNotifications();
+    else if(path === '/featured') content = renderFeatured();
+    else if(path === '/hot') content = renderHot();
+    else if(path === '/leaderboard') content = renderLeaderboard();
+    else if(path === '/admin') content = renderAdminDashboard();
+    else if(path === '/admin/review') content = renderAdminReview();
+    else if(path === '/admin/reports') content = renderAdminReports();
+    else if(path === '/admin/users') content = renderAdminUsers();
+    else if(path === '/admin/questions') content = renderAdminQuestions();
+    else if(path === '/admin/categories') content = renderAdminCategories();
+    else if(path === '/admin/tags') content = renderAdminTags();
+    else if(path === '/admin/sensitive-words') content = renderAdminSensitiveWords();
+    else if(path === '/admin/export') content = renderAdminExport();
+    else content = renderHome();
+    document.getElementById('app').innerHTML = layout(content);
+    restoreInputs(path);
+  }
+
+  function restoreInputs(path){
+    const top = document.getElementById('topKeyword'); if(top) top.value = state.search.keyword || '';
+  }
+
+  function visibleQuestions(includeOwnPending=false){
+    const u = currentUser();
+    return data.questions.filter(q => q.status === 'published' || includeOwnPending && (q.userId === u.id || isAdmin()) && q.status !== 'deleted');
+  }
+  function sortQuestions(list, tab){
+    const arr = [...list];
+    if(tab === 'hot') return arr.sort((a,b)=> heat(b)-heat(a));
+    if(tab === 'latest') return arr.sort((a,b)=> new Date(b.created.replace(' ','T')) - new Date(a.created.replace(' ','T')));
+    return arr.sort((a,b)=> score(b)-score(a));
+  }
+  function score(q){ return (q.view*.3 + q.answerCount + q.vote*2 + q.favorite*1.5) * (q.featured?1.5:1); }
+  function heat(q){ return q.view + q.answerCount*3 + q.vote*5 + q.favorite*3; }
+
+  function renderHome(){
+    const tabName = {recommend:'推荐',hot:'热门',latest:'最新'}[state.homeTab];
+    const list = sortQuestions(visibleQuestions(), state.homeTab).slice(0,6);
+    return `
+      <section class="hero">
+        <div>
+          <span class="tag featured">✨ 交互式原型</span>
+          <h1>把问题沉淀成可检索、可互动、可审核的社区知识库</h1>
+          <p>覆盖提问、回答、评论、点赞收藏关注、邀请回答、举报、审核、精华、热榜、等级成就与管理后台，全按钮可点击演示。</p>
+          <div class="hero-actions">
+            <button class="primary-btn" data-action="route" data-route="/question/create">立即提问</button>
+            <button class="secondary-btn" data-action="route" data-route="/search">开始搜索</button>
+            <button class="ghost-btn" data-action="route" data-route="/admin/review">体验审核流</button>
+          </div>
+          <div class="stat-row">
+            <div class="stat"><strong>${data.users.length}</strong><span>测试用户</span></div>
+            <div class="stat"><strong>${data.questions.filter(q=>q.status==='published').length}</strong><span>已发布问题</span></div>
+            <div class="stat"><strong>${data.answers.length}</strong><span>回答样例</span></div>
+            <div class="stat"><strong>${data.reports.filter(r=>r.status==='pending').length}</strong><span>待处理举报</span></div>
+          </div>
+        </div>
+        <div class="visual-panel">
+          <div><b>今日运营提示</b><p style="margin:6px 0 0;color:rgba(255,255,255,.82)">待审核内容 ${pendingItems().length} 条，未读通知 ${notifyCount()} 条</p></div>
+          <div class="visual-card">热度公式：浏览 + 回答×3 + 点赞×5 + 收藏×3<br><span style="opacity:.8">每日凌晨刷新日/周/月榜</span></div>
+        </div>
+      </section>
+      <section class="grid">
+        <div>
+          <div class="card card-pad">
+            <div class="section-title"><div><h2>${tabName}问题</h2><p>推荐 / 热门 / 最新列表均可点击切换</p></div><div class="tabs">
+              <button class="tab-btn ${state.homeTab==='recommend'?'active':''}" data-action="home-tab" data-tab="recommend">推荐</button>
+              <button class="tab-btn ${state.homeTab==='hot'?'active':''}" data-action="home-tab" data-tab="hot">热门</button>
+              <button class="tab-btn ${state.homeTab==='latest'?'active':''}" data-action="home-tab" data-tab="latest">最新</button>
+            </div></div>
+            ${list.map(q => renderQuestionCard(q)).join('')}
+            <div class="center"><button class="secondary-btn" data-action="route" data-route="/search">查看更多问题</button></div>
+          </div>
+        </div>
+        <aside class="side-stack">
+          ${renderCategoryCard()}
+          ${renderHotSide()}
+          ${renderFeaturedSide()}
+        </aside>
+      </section>
+    `;
+  }
+
+  function renderQuestionCard(q){
+    const u = userById(q.userId);
+    return `
+      <article class="question-card">
+        <div class="q-head">
+          <div style="min-width:0">
+            <button class="q-title" style="background:transparent;text-align:left;padding:0" data-action="view-question" data-id="${q.id}">${esc(q.title)}</button>
+            <p class="q-summary">${esc(q.content)}</p>
+            <div class="pill-row">${q.featured?'<span class="tag featured">精华</span>':''}${q.pinned?'<span class="tag pinned">置顶</span>':''}${statusTag(q.status)}${q.tags.map(id=>tagHtml(id)).join('')}</div>
+          </div>
+          <span class="avatar">${esc(u.avatar)}</span>
+        </div>
+        <div class="meta" style="margin-top:12px">
+          <span>👤 ${esc(u.nickname)}</span><span>🗂️ ${esc(categoryById(q.categoryId).name)}</span><span>👁️ ${q.view}</span><span>💬 ${q.answerCount}</span><span>👍 ${q.vote}</span><span>⭐ ${q.favorite}</span><span>🕒 ${esc(q.created)}</span>
+        </div>
+        <div class="actions">
+          <button class="mini-btn border ${q.liked?'liked':''}" data-action="like-question" data-id="${q.id}">${q.liked?'已点赞':'点赞'} ${q.vote}</button>
+          <button class="mini-btn border ${q.faved?'faved':''}" data-action="favorite-question" data-id="${q.id}">${q.faved?'已收藏':'收藏'} ${q.favorite}</button>
+          <button class="mini-btn border" data-action="follow-user" data-id="${u.id}">${currentUser().following.includes(u.id)?'已关注':'关注作者'}</button>
+          <button class="mini-btn border" data-action="view-question" data-id="${q.id}">查看详情</button>
+          <button class="mini-btn border" data-action="open-report" data-type="question" data-id="${q.id}">举报</button>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderCategoryCard(){
+    return `<div class="card card-pad"><div class="section-title"><h3>分类导航</h3><button class="mini-btn" data-action="route" data-route="/search">全部</button></div><div class="side-list">${data.categories.map(c => `
+      <div class="side-item"><div class="rank">${c.name.slice(0,1)}</div><div style="flex:1"><b>${esc(c.name)}</b><div class="pill-row" style="margin-top:7px">${c.children.map(ch=>`<button class="chip-btn" data-action="search-category" data-id="${ch.id}">${esc(ch.name)} ${ch.count}</button>`).join('')}</div></div></div>`).join('')}</div></div>`;
+  }
+  function renderHotSide(){
+    const list = sortQuestions(visibleQuestions(), 'hot').slice(0,5);
+    return `<div class="card card-pad"><div class="section-title"><h3>实时热榜</h3><button class="mini-btn" data-action="route" data-route="/hot">进入</button></div><div class="side-list">${list.map((q,i)=>`<div class="side-item"><div class="rank ${i<3?'top':''}">${i+1}</div><div><button style="background:transparent;text-align:left;padding:0;font-weight:750" data-action="view-question" data-id="${q.id}">${esc(q.title)}</button><div class="muted">热度 ${heat(q)}</div></div></div>`).join('')}</div></div>`;
+  }
+  function renderFeaturedSide(){
+    const list = visibleQuestions().filter(q=>q.featured).slice(0,4);
+    return `<div class="card card-pad"><div class="section-title"><h3>精华沉淀</h3><button class="mini-btn" data-action="route" data-route="/featured">查看</button></div>${list.map(q=>`<div class="side-item"><span class="tag featured">精</span><div><button style="background:transparent;text-align:left;padding:0;font-weight:750" data-action="view-question" data-id="${q.id}">${esc(q.title)}</button><div class="muted">${q.answerCount} 个回答 · ${q.favorite} 收藏</div></div></div>`).join('')}</div>`;
+  }
+
+  function renderLogin(){
+    return `<section class="card login-card"><div class="center"><div class="brand" style="justify-content:center"><span class="brand-mark">问</span><span>知问社区</span></div><h2>登录账号</h2><p class="muted">原型内置 admin / userA / userB，密码均可用 123456；管理员也可用 admin123。</p></div>
+      <div class="field"><label>用户名</label><input id="loginUsername" value="userA" placeholder="请输入用户名" /></div>
+      <div class="field"><label>密码</label><input id="loginPassword" type="password" value="123456" placeholder="至少 6 位" /></div>
+      <label class="meta"><input id="rememberLogin" type="checkbox" checked style="width:auto" /> 记住登录状态 7 天</label>
+      <div class="actions"><button class="primary-btn" style="flex:1" data-action="login-submit">登录</button><button class="secondary-btn" data-action="quick-login" data-id="1">管理员一键登录</button><button class="ghost-btn" data-action="route" data-route="/register">去注册</button></div>
+      <div class="divider"></div><div class="flow-grid"><div class="flow-step"><b>登录成功</b><span class="muted">跳转首页，并显示用户状态</span></div><div class="flow-step"><b>失败提示</b><span class="muted">用户名或密码错误会弹 toast</span></div></div>
+    </section>`;
+  }
+  function renderRegister(){
+    return `<section class="card login-card"><div class="center"><div class="brand" style="justify-content:center"><span class="brand-mark">问</span><span>知问社区</span></div><h2>注册新用户</h2><p class="muted">注册后自动解锁「初来乍到」成就。</p></div>
+      <div class="field"><label>用户名</label><input id="regUsername" placeholder="唯一用户名" /></div>
+      <div class="field"><label>昵称</label><input id="regNickname" placeholder="显示昵称，可重复" /></div>
+      <div class="field"><label>密码</label><input id="regPassword" type="password" placeholder="至少 6 位" /></div>
+      <div class="actions"><button class="primary-btn" style="flex:1" data-action="register-submit">注册并登录</button><button class="ghost-btn" data-action="route" data-route="/login">已有账号登录</button></div>
+    </section>`;
+  }
+
+  function renderCreateQuestion(){
+    const selectedTags = state.create.tags.map(id => `<span class="tag">#${esc(tagById(id)?.name)} <button class="mini-btn" data-action="remove-create-tag" data-id="${id}">×</button></span>`).join('') || '<span class="muted">尚未选择标签</span>';
+    const invited = state.create.invited.map(id => { const u=userById(id); return `<span class="tag">${esc(u.nickname)} <button class="mini-btn" data-action="remove-invite" data-id="${id}">×</button></span>`; }).join('') || '<span class="muted">最多邀请 3 人，可跳过</span>';
+    return `<section class="grid">
+      <div class="card card-pad">
+        <div class="section-title"><div><h2>发布问题</h2><p>标题触发标签推荐，提交前执行敏感词即时拦截。</p></div><button class="secondary-btn" data-action="route" data-route="/">返回首页</button></div>
+        <div class="field"><label>问题标题 <span class="muted">必填</span></label><input id="createTitle" value="${esc(state.create.title)}" placeholder="例如：Vue3 中组合式 API 如何拆分复杂表单逻辑？" /></div>
+        <div id="tagSuggestBox">${renderTagSuggest(state.create.title)}</div>
+        <div class="field"><label>问题正文</label><textarea id="createContent" class="rich-editor" placeholder="补充背景、你尝试过的方法、期望得到的帮助">${esc(state.create.content)}</textarea><small>支持 Markdown；图片在正式开发中以 Base64 内嵌。</small></div>
+        <div class="form-grid"><div class="field"><label>分类 <span class="muted">必选</span></label><select id="createCategory"><option value="">请选择分类</option>${allCategories().filter(c=>c.parentId!==null).map(c=>`<option value="${c.id}" ${state.create.category==c.id?'selected':''}>${esc(categoryById(c.parentId).name)} / ${esc(c.name)}</option>`).join('')}</select></div><div class="field"><label>手动选择标签</label><select id="manualTag"><option value="">选择后点击添加</option>${data.tags.map(t=>`<option value="${t.id}">#${esc(t.name)}</option>`).join('')}</select></div></div>
+        <div class="actions"><button class="secondary-btn" data-action="add-manual-tag">添加标签</button><button class="ghost-btn" data-action="preview-question">预览问题</button><button class="warning-btn" data-action="clear-question-form">清空</button></div>
+        <div class="notice"><b>已选标签：</b>${selectedTags}</div>
+        <div class="field"><label>邀请回答</label><div class="form-grid"><input id="inviteKeyword" placeholder="搜索用户昵称，如 北辰 / 明远" /><button class="secondary-btn" data-action="search-invite-users">搜索用户</button></div><div id="inviteResult" class="pill-row" style="margin-top:8px"></div></div>
+        <div class="notice"><b>已邀请：</b>${invited}</div>
+        <div id="sensitiveLive" class="notice success">实时检测：当前未发现敏感词。可输入「违规词」体验拦截。</div>
+        <div class="actions"><button class="primary-btn" data-action="submit-question">提交审核</button><button class="secondary-btn" data-action="save-question-draft">保存草稿</button><button class="ghost-btn" data-action="route" data-route="/admin/review">去后台审核</button></div>
+      </div>
+      <aside class="side-stack"><div class="card card-pad"><h3>提问流程</h3><div class="flow-grid"><div class="flow-step"><b>1. 输入标题</b><span class="muted">系统推荐标签</span></div><div class="flow-step"><b>2. 敏感词过滤</b><span class="muted">前端即时提示</span></div><div class="flow-step"><b>3. 进入审核</b><span class="muted">status=pending</span></div><div class="flow-step"><b>4. 通知作者</b><span class="muted">通过或驳回</span></div></div></div>${renderHotSide()}</aside>
+    </section>`;
+  }
+
+  function renderTagSuggest(title){
+    const suggestions = recommendTags(title).filter(id => !state.create.tags.includes(id)).slice(0,5);
+    if(!title) return `<div class="notice">输入标题后会在这里显示智能标签推荐。</div>`;
+    if(!suggestions.length) return `<div class="notice warn">暂未命中标签，可手动选择标签或继续完善标题。</div>`;
+    return `<div class="notice"><b>推荐标签：</b>${suggestions.map(id=>`<button class="chip-btn" data-action="add-suggest-tag" data-id="${id}">#${esc(tagById(id).name)}</button>`).join('')}</div>`;
+  }
+  function recommendTags(title){
+    const s = String(title||'').toLowerCase();
+    const matches = [];
+    data.tags.forEach(t => { if(s.includes(t.name.toLowerCase()) || (t.name==='Spring Boot' && s.includes('boot')) || (t.name==='算法' && s.includes('热榜')) || (t.name==='MySQL' && s.includes('表')) || (t.name==='Markdown' && s.includes('富文本'))) matches.push(t.id); });
+    if(s.includes('vue') && !matches.includes(1)) matches.push(1);
+    if(s.includes('审核') && !matches.includes(2)) matches.push(2);
+    if(s.includes('base64') && !matches.includes(4)) matches.push(4);
+    return [...new Set(matches)];
+  }
+
+  function renderQuestionDetail(id){
+    const q = questionById(id);
+    if(!q || q.status === 'deleted') return `<div class="empty">内容不存在或已被删除。<br><button class="primary-btn" data-action="route" data-route="/">返回首页</button></div>`;
+    const author = userById(q.userId);
+    const canView = q.status==='published' || q.userId===currentUser().id || isAdmin();
+    if(!canView) return `<div class="empty">该内容仍在审核中，仅作者和管理员可查看。<br><button class="primary-btn" data-action="route" data-route="/">返回首页</button></div>`;
+    q.view += q.status==='published' ? 1 : 0;
+    const answers = data.answers.filter(a => a.questionId===q.id && (a.status==='published' || a.userId===currentUser().id || isAdmin()) && a.status!=='deleted').sort((a,b)=>(b.isAccepted-a.isAccepted)||b.vote-a.vote);
+    const related = relatedQuestions(q).slice(0,5);
+    const draft = state.answerDrafts[q.id] || '';
+    return `<section class="grid">
+      <div>
+        <article class="card card-pad">
+          <div class="pill-row">${q.featured?'<span class="tag featured">精华</span>':''}${q.pinned?'<span class="tag pinned">置顶</span>':''}${statusTag(q.status)}${q.tags.map(id=>tagHtml(id)).join('')}</div>
+          <h1 class="detail-title">${esc(q.title)}</h1>
+          <div class="meta"><span class="avatar small">${esc(author.avatar)}</span><span>${esc(author.nickname)}</span><span>${esc(categoryById(q.categoryId).name)}</span><span>浏览 ${q.view}</span><span>回答 ${answers.length}</span><span>${esc(q.created)}</span></div>
+          ${q.status==='rejected'?`<div class="notice danger"><b>驳回原因：</b>${esc(q.auditReason || '未填写')}</div>`:''}
+          <div class="content" style="margin-top:16px"><p>${esc(q.content)}</p></div>
+          <div class="actions">
+            <button class="mini-btn border ${q.liked?'liked':''}" data-action="like-question" data-id="${q.id}">${q.liked?'已点赞':'点赞'} ${q.vote}</button>
+            <button class="mini-btn border ${q.faved?'faved':''}" data-action="favorite-question" data-id="${q.id}">${q.faved?'已收藏':'收藏'} ${q.favorite}</button>
+            <button class="mini-btn border" data-action="follow-user" data-id="${author.id}">${currentUser().following.includes(author.id)?'已关注作者':'关注作者'}</button>
+            <button class="mini-btn border" data-action="open-report" data-type="question" data-id="${q.id}">举报</button>
+            ${(q.userId===currentUser().id || isAdmin())?`<button class="mini-btn border" data-action="edit-question" data-id="${q.id}">编辑</button><button class="mini-btn border" data-action="confirm-delete-question" data-id="${q.id}">删除</button>`:''}
+            ${isAdmin()?`<button class="mini-btn border" data-action="admin-toggle-featured" data-id="${q.id}">${q.featured?'取消精华':'加精'}</button>`:''}
+          </div>
+          <div class="notice"><b>邀请记录：</b>${q.invited.length?q.invited.map(id=>`<span class="tag">${esc(userById(id).nickname)} · ${hasAnswered(q.id,id)?'已回答':'待回答'}</span>`).join(''):'暂无邀请'}</div>
+        </article>
+        <section class="card card-pad" style="margin-top:16px">
+          <div class="section-title"><h2>${answers.length} 个回答</h2><div class="tabs"><button class="tab-btn active" data-action="sort-answers" data-sort="vote">默认点赞</button><button class="tab-btn" data-action="sort-answers" data-sort="time">按时间</button></div></div>
+          ${answers.length?answers.map(a=>renderAnswer(a,q)).join(''):'<div class="empty">暂无公开回答，快来写第一个回答。</div>'}
+        </section>
+        <section class="card card-pad" style="margin-top:16px">
+          <h2>写回答</h2>
+          <textarea id="answerDraft" data-question="${q.id}" class="rich-editor" placeholder="写下你的回答，可输入「违规词」体验敏感词拦截。">${esc(draft)}</textarea>
+          <div class="actions"><button class="primary-btn" data-action="submit-answer" data-id="${q.id}">提交回答审核</button><button class="secondary-btn" data-action="insert-base64-demo" data-id="${q.id}">插入 Base64 图片示例</button><button class="ghost-btn" data-action="save-answer-draft" data-id="${q.id}">保存草稿</button></div>
+        </section>
+      </div>
+      <aside class="side-stack">
+        <div class="card card-pad"><div class="section-title"><h3>相关问题</h3><span class="tag">同分类 + 标签重合</span></div>${related.length?related.map(r=>`<div class="side-item"><div class="rank">关</div><div><button style="background:transparent;text-align:left;padding:0;font-weight:750" data-action="view-question" data-id="${r.id}">${esc(r.title)}</button><div class="muted">${r.answerCount} 回答 · ${r.created.slice(5,10)}</div></div></div>`).join(''):'<div class="empty">暂无相关问题</div>'}</div>
+        ${renderFeaturedSide()}
+      </aside>
+    </section>`;
+  }
+
+  function hasAnswered(qid, uid){ return data.answers.some(a=>a.questionId===qid && a.userId===uid && a.status==='published'); }
+  function relatedQuestions(q){
+    return visibleQuestions().filter(x=>x.id!==q.id).map(x=>({q:x, rel:(x.categoryId===q.categoryId?2:0)+x.tags.filter(t=>q.tags.includes(t)).length*3})).filter(x=>x.rel>0).sort((a,b)=>b.rel-a.rel).map(x=>x.q);
+  }
+  function renderAnswer(a,q){
+    const u = userById(a.userId);
+    const comments = data.comments.filter(c=>c.answerId===a.id && c.parentId===null && c.status==='published');
+    const expanded = state.expandedComments[a.id];
+    return `<article class="answer ${a.isAccepted?'accepted':''}">
+      <div class="q-head"><div><div class="meta"><span class="avatar small">${esc(u.avatar)}</span><b>${esc(u.nickname)}</b>${a.isAccepted?'<span class="tag published">已采纳</span>':''}${statusTag(a.status)}<span>${esc(a.created)}</span></div><div class="content" style="margin-top:10px"><p>${esc(a.content)}</p></div></div></div>
+      <div class="actions">
+        <button class="mini-btn border ${a.liked?'liked':''}" data-action="like-answer" data-id="${a.id}">${a.liked?'已点赞':'点赞'} ${a.vote}</button>
+        <button class="mini-btn border" data-action="toggle-comments" data-id="${a.id}">评论 ${comments.length}</button>
+        ${q.userId===currentUser().id && !q.acceptedAnswerId && a.userId!==currentUser().id && a.status==='published'?`<button class="success-btn" data-action="accept-answer" data-id="${a.id}">采纳</button>`:''}
+        ${(a.userId===currentUser().id || isAdmin())?`<button class="mini-btn border" data-action="edit-answer" data-id="${a.id}">编辑</button><button class="mini-btn border" data-action="confirm-delete-answer" data-id="${a.id}">删除</button>`:''}
+        <button class="mini-btn border" data-action="open-report" data-type="answer" data-id="${a.id}">举报</button>
+      </div>
+      ${expanded?renderComments(a,comments):''}
+    </article>`;
+  }
+  function renderComments(a, comments){
+    return `<div class="comment-box"><div class="field"><textarea id="commentDraft_${a.id}" placeholder="写评论，最多 500 字">${esc(state.commentDrafts[a.id]||'')}</textarea></div><div class="actions"><button class="secondary-btn" data-action="submit-comment" data-id="${a.id}">发表评论</button><button class="ghost-btn" data-action="collapse-comments" data-id="${a.id}">收起</button></div>${comments.map(c=>renderComment(c)).join('') || '<div class="muted">还没有评论。</div>'}</div>`;
+  }
+  function renderComment(c){
+    const u = userById(c.userId);
+    const replies = data.comments.filter(r=>r.parentId===c.id && r.status==='published');
+    const replying = state.replyTarget === c.id;
+    return `<div class="comment"><div class="meta"><span class="avatar small">${esc(u.avatar)}</span><b>${esc(u.nickname)}</b><span>${esc(c.created)}</span></div><div style="margin:6px 0">${esc(c.content)}</div><div class="actions"><button class="mini-btn" data-action="reply-comment" data-id="${c.id}">回复</button>${c.userId===currentUser().id||isAdmin()?`<button class="mini-btn" data-action="delete-comment" data-id="${c.id}">删除</button>`:''}<button class="mini-btn" data-action="open-report" data-type="comment" data-id="${c.id}">举报</button></div>${replies.map(r=>`<div class="reply"><div class="meta"><span class="avatar small">${esc(userById(r.userId).avatar)}</span><b>${esc(userById(r.userId).nickname)}</b><span>${esc(r.created)}</span></div>${esc(r.content)}</div>`).join('')}${replying?`<div class="reply"><input id="replyInput_${c.id}" placeholder="回复 ${esc(u.nickname)}" /><div class="actions"><button class="secondary-btn" data-action="submit-reply" data-id="${c.id}">提交回复</button><button class="ghost-btn" data-action="cancel-reply">取消</button></div></div>`:''}</div>`;
+  }
+
+  function renderSearch(){
+    const results = filterSearch();
+    return `<section class="grid">
+      <div class="card card-pad">
+        <div class="section-title"><div><h2>搜索问题</h2><p>支持关键词、分类、标签和排序组合筛选。</p></div><button class="primary-btn" data-action="route" data-route="/question/create">我要提问</button></div>
+        <div class="toolbar"><div class="toolbar-left"><input id="searchKeyword" value="${esc(state.search.keyword)}" placeholder="关键词" /><select id="searchCategory"><option value="all">全部分类</option>${allCategories().filter(c=>c.parentId!==null).map(c=>`<option value="${c.id}" ${state.search.category==c.id?'selected':''}>${esc(c.name)}</option>`).join('')}</select><select id="searchTag"><option value="all">全部标签</option>${data.tags.map(t=>`<option value="${t.id}" ${state.search.tag==t.id?'selected':''}>#${esc(t.name)}</option>`).join('')}</select><select id="searchSort"><option value="relevance" ${state.search.sort==='relevance'?'selected':''}>相关度</option><option value="time" ${state.search.sort==='time'?'selected':''}>时间</option><option value="hot" ${state.search.sort==='hot'?'selected':''}>热度</option></select></div><div class="toolbar-right"><button class="primary-btn" data-action="search-submit">搜索</button><button class="ghost-btn" data-action="search-reset">重置</button></div></div>
+        ${results.length?results.map(q=>renderQuestionCard(q)).join(''):'<div class="empty">未找到相关问题。<br><button class="secondary-btn" data-action="search-reset">清空筛选</button></div>'}
+      </div>
+      <aside class="side-stack">${renderCategoryCard()}<div class="card card-pad"><h3>热门标签</h3><div class="pill-row">${data.tags.sort((a,b)=>b.usage-a.usage).map(t=>`<button class="chip-btn" data-action="search-tag" data-id="${t.id}">#${esc(t.name)} ${t.usage}</button>`).join('')}</div></div></aside>
+    </section>`;
+  }
+  function filterSearch(){
+    let list = visibleQuestions();
+    const kw = String(state.search.keyword||'').trim().toLowerCase();
+    if(kw) list = list.filter(q => q.title.toLowerCase().includes(kw) || q.content.toLowerCase().includes(kw) || q.tags.some(id=>tagById(id).name.toLowerCase().includes(kw)));
+    if(state.search.category !== 'all') list = list.filter(q => q.categoryId === Number(state.search.category));
+    if(state.search.tag !== 'all') list = list.filter(q => q.tags.includes(Number(state.search.tag)));
+    if(state.search.sort === 'time') return sortQuestions(list,'latest');
+    if(state.search.sort === 'hot') return sortQuestions(list,'hot');
+    return sortQuestions(list,'recommend');
+  }
+
+  function renderUserProfile(id){
+    const u = userById(id || currentUser().id);
+    const mine = u.id === currentUser().id;
+    const qs = data.questions.filter(q=>q.userId===u.id && q.status!=='deleted');
+    const ans = data.answers.filter(a=>a.userId===u.id && a.status!=='deleted');
+    const favs = data.questions.filter(q=>q.faved && q.status==='published');
+    const expNext = nextLevelExp(u.level); const prev = prevLevelExp(u.level); const pct = Math.min(100, Math.round((u.exp-prev)/(expNext-prev)*100));
+    return `<section class="grid">
+      <div>
+        <div class="card card-pad soft">
+          <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><span class="avatar big">${esc(u.avatar)}</span><div style="flex:1"><h1 style="margin:0">${esc(u.nickname)}</h1><p class="muted">@${esc(u.username)} · ${u.role==='admin'?'管理员':'普通用户'} · ${statusText(u.status)}</p><p>${esc(u.bio)}</p><div class="progress"><span style="width:${pct}%"></span></div><div class="meta" style="margin-top:8px"><span>Lv.${u.level}</span><span>${u.exp} / ${expNext} 经验</span><span>${u.followers} 粉丝</span><span>${u.following.length} 关注</span></div></div><div class="actions">${mine?`<button class="primary-btn" data-action="edit-profile" data-id="${u.id}">编辑资料</button><button class="secondary-btn" data-action="change-password">修改密码</button>`:`<button class="primary-btn" data-action="follow-user" data-id="${u.id}">${currentUser().following.includes(u.id)?'已关注':'关注 TA'}</button>`}</div></div>
+        </div>
+        <div class="card card-pad" style="margin-top:16px">
+          <div class="tabs"><button class="tab-btn ${state.profileTab==='questions'?'active':''}" data-action="profile-tab" data-tab="questions">提问</button><button class="tab-btn ${state.profileTab==='answers'?'active':''}" data-action="profile-tab" data-tab="answers">回答</button><button class="tab-btn ${state.profileTab==='favorites'?'active':''}" data-action="profile-tab" data-tab="favorites">收藏</button><button class="tab-btn ${state.profileTab==='follow'?'active':''}" data-action="profile-tab" data-tab="follow">关注/粉丝</button></div>
+          <div style="margin-top:16px">${renderProfileTab(u, qs, ans, favs)}</div>
+        </div>
+      </div>
+      <aside class="side-stack"><div class="card card-pad"><h3>成就徽章墙</h3><div class="badge-wall">${Object.entries(badgeMap).map(([code,[icon,name]])=>`<div class="badge ${u.badges.includes(code)?'':'locked'}"><div class="icon">${icon}</div><b>${name}</b><div class="muted">${u.badges.includes(code)?'已解锁':'未解锁'}</div></div>`).join('')}</div></div>${renderLeaderboardSide()}</aside>
+    </section>`;
+  }
+  function renderProfileTab(u, qs, ans, favs){
+    if(state.profileTab==='questions') return qs.length?qs.map(q=>renderQuestionCard(q)).join(''):'<div class="empty">暂无提问</div>';
+    if(state.profileTab==='answers') return ans.length?ans.map(a=>{ const q=questionById(a.questionId); return `<div class="question-card"><div class="meta"><span>${statusTag(a.status)}</span><span>${esc(a.created)}</span></div><p>${esc(a.content)}</p><button class="secondary-btn" data-action="view-question" data-id="${q.id}">查看原问题：${esc(q.title)}</button></div>`; }).join(''):'<div class="empty">暂无回答</div>';
+    if(state.profileTab==='favorites') return favs.length?favs.map(q=>renderQuestionCard(q)).join(''):'<div class="empty">暂无收藏</div>';
+    return `<div class="two-col"><div><h3>我关注的人</h3>${u.following.length?u.following.map(id=>renderUserMini(userById(id))).join(''):'<div class="empty">暂无关注</div>'}</div><div><h3>关注我的人</h3>${data.users.filter(x=>x.following.includes(u.id)).map(renderUserMini).join('') || '<div class="empty">暂无粉丝</div>'}</div></div>`;
+  }
+  function renderUserMini(u){ return `<div class="side-item"><span class="avatar">${esc(u.avatar)}</span><div style="flex:1"><b>${esc(u.nickname)}</b><div class="muted">Lv.${u.level} · ${u.followers} 粉丝</div></div><button class="mini-btn border" data-action="follow-user" data-id="${u.id}">${currentUser().following.includes(u.id)?'已关注':'关注'}</button></div>`; }
+  function nextLevelExp(level){ const arr=[0,100,300,600,1000,2000,4000,7000,12000,20000,30000]; return arr[Math.min(level,10)] || 30000; }
+  function prevLevelExp(level){ const arr=[0,0,100,300,600,1000,2000,4000,7000,12000,20000]; return arr[level] || 0; }
+
+  function renderNotifications(){
+    const all = data.notifications.filter(n=>n.userId===currentUser().id);
+    const list = state.notificationsTab==='unread' ? all.filter(n=>!n.isRead) : all;
+    return `<section class="card card-pad"><div class="section-title"><div><h2>消息通知</h2><p>通知保留 7 天，支持已读/未读操作。</p></div><div class="actions"><button class="primary-btn" data-action="mark-all-read">全部已读</button><button class="secondary-btn" data-action="add-demo-notification">模拟新通知</button></div></div><div class="tabs"><button class="tab-btn ${state.notificationsTab==='all'?'active':''}" data-action="notifications-tab" data-tab="all">全部</button><button class="tab-btn ${state.notificationsTab==='unread'?'active':''}" data-action="notifications-tab" data-tab="unread">未读 ${all.filter(n=>!n.isRead).length}</button></div><div style="margin-top:16px">${list.length?list.map(n=>`<div class="question-card"><div class="q-head"><div><span class="tag ${n.isRead?'':'pending'}">${n.isRead?'已读':'未读'}</span><span class="tag">${esc(n.type)}</span><p style="margin:10px 0">${esc(n.content)}</p><div class="muted">${esc(n.created)}</div></div><div class="actions"><button class="mini-btn border" data-action="read-notification" data-id="${n.id}">${n.isRead?'标记未读':'标记已读'}</button><button class="mini-btn border" data-action="go-notification" data-id="${n.id}">查看来源</button><button class="mini-btn border" data-action="delete-notification" data-id="${n.id}">删除</button></div></div></div>`).join(''):'<div class="empty">暂无通知</div>'}</div></section>`;
+  }
+
+  function renderFeatured(){
+    const list = visibleQuestions().filter(q=>q.featured).filter(q=>!state.search.keyword || q.title.includes(state.search.keyword) || q.content.includes(state.search.keyword));
+    return `<section class="grid"><div class="card card-pad"><div class="section-title"><div><h2>精华区</h2><p>管理员标记的高质量问答，支持独立检索。</p></div><button class="primary-btn" data-action="route" data-route="/search">全站搜索</button></div><div class="toolbar"><input id="featuredKeyword" placeholder="搜索精华内容" value="${esc(state.search.keyword)}" /><button class="secondary-btn" data-action="featured-search">搜索精华</button><button class="ghost-btn" data-action="featured-reset">重置</button></div>${list.length?list.map(q=>renderQuestionCard(q)).join(''):'<div class="empty">未找到精华内容</div>'}</div><aside class="side-stack">${renderCategoryCard()}${renderHotSide()}</aside></section>`;
+  }
+  function renderHot(){
+    const factor = {day:1,week:.86,month:.72}[state.hotTab];
+    const list = sortQuestions(visibleQuestions(), 'hot').map(q=>({q, h:Math.round(heat(q)*factor)}));
+    return `<section class="card card-pad"><div class="section-title"><div><h2>热榜</h2><p>日榜 / 周榜 / 月榜按热度指标定时刷新。</p></div><button class="secondary-btn" data-action="refresh-hot">手动刷新热榜</button></div><div class="tabs"><button class="tab-btn ${state.hotTab==='day'?'active':''}" data-action="hot-tab" data-tab="day">日榜 24h</button><button class="tab-btn ${state.hotTab==='week'?'active':''}" data-action="hot-tab" data-tab="week">周榜 7天</button><button class="tab-btn ${state.hotTab==='month'?'active':''}" data-action="hot-tab" data-tab="month">月榜 30天</button></div><div style="margin-top:16px">${list.map((x,i)=>`<div class="question-card"><div class="q-head"><div class="meta"><span class="rank ${i<3?'top':''}">${i+1}</span><span class="tag">热度 ${x.h}</span><span>${esc(categoryById(x.q.categoryId).name)}</span></div><button class="q-title" style="background:transparent;text-align:left;padding:0;margin-top:8px" data-action="view-question" data-id="${x.q.id}">${esc(x.q.title)}</button><p class="q-summary">${esc(x.q.content)}</p></div><div class="actions"><button class="mini-btn border" data-action="view-question" data-id="${x.q.id}">查看详情</button><button class="mini-btn border" data-action="favorite-question" data-id="${x.q.id}">收藏 ${x.q.favorite}</button></div></div>`).join('')}</div></section>`;
+  }
+  function renderLeaderboard(){
+    const users = [...data.users].sort((a,b)=>b.exp-a.exp);
+    return `<section class="grid"><div class="card card-pad"><div class="section-title"><div><h2>经验值排行榜</h2><p>展示等级、经验、成就与关注入口。</p></div><button class="secondary-btn" data-action="route" data-route="/user/${currentUser().id}">我的主页</button></div>${users.map((u,i)=>`<div class="question-card"><div class="q-head"><div class="meta"><span class="rank ${i<3?'top':''}">${i+1}</span><span class="avatar">${esc(u.avatar)}</span><div><b>${esc(u.nickname)}</b><div class="muted">Lv.${u.level} · ${u.exp} 经验 · ${u.badges.length} 枚徽章</div></div></div><div class="actions"><button class="mini-btn border" data-action="route" data-route="/user/${u.id}">主页</button><button class="mini-btn border" data-action="follow-user" data-id="${u.id}">${currentUser().following.includes(u.id)?'已关注':'关注'}</button></div></div></div>`).join('')}</div><aside class="side-stack">${renderFeaturedSide()}${renderHotSide()}</aside></section>`;
+  }
+  function renderLeaderboardSide(){
+    const users = [...data.users].sort((a,b)=>b.exp-a.exp).slice(0,5);
+    return `<div class="card card-pad"><div class="section-title"><h3>排行榜</h3><button class="mini-btn" data-action="route" data-route="/leaderboard">全部</button></div>${users.map((u,i)=>`<div class="side-item"><span class="rank ${i<3?'top':''}">${i+1}</span><span class="avatar small">${esc(u.avatar)}</span><div><b>${esc(u.nickname)}</b><div class="muted">Lv.${u.level} · ${u.exp}</div></div></div>`).join('')}</div>`;
+  }
+
+  function pendingItems(){
+    const qs = data.questions.filter(q=>q.status==='pending').map(q=>({type:'question', id:q.id, title:q.title, userId:q.userId, created:q.created, content:q.content}));
+    const ans = data.answers.filter(a=>a.status==='pending').map(a=>({type:'answer', id:a.id, title:'回答：'+questionById(a.questionId)?.title, userId:a.userId, created:a.created, content:a.content}));
+    return [...qs,...ans].sort((a,b)=>b.id-a.id);
+  }
+  function renderAdminDashboard(){
+    return `<section><div class="admin-top"><div class="metric"><strong>${data.users.length}</strong><span>总用户数</span></div><div class="metric"><strong>${data.questions.length}</strong><span>总问题数</span></div><div class="metric"><strong>${data.answers.length}</strong><span>总回答数</span></div><div class="metric"><strong>${pendingItems().length}</strong><span>待审核</span></div><div class="metric"><strong>${data.reports.filter(r=>r.status==='pending').length}</strong><span>待处理举报</span></div></div>
+      <div class="two-col"><div class="card card-pad"><div class="section-title"><h2>近 30 天趋势</h2><button class="mini-btn" data-action="admin-refresh">刷新</button></div><div class="chart">${[35,54,46,72,68,90,62,80,104,96,112,88].map(h=>`<div class="bar" style="height:${h}%"></div>`).join('')}</div><div class="meta" style="margin-top:10px"><span>日活</span><span>提问</span><span>回答</span></div></div><div class="card card-pad"><div class="section-title"><h2>分类分布</h2><button class="mini-btn" data-action="route" data-route="/admin/categories">管理分类</button></div><div class="donut"></div><div class="pill-row" style="margin-top:14px"><span class="tag">技术 38%</span><span class="tag">生活 25%</span><span class="tag">百科 17%</span><span class="tag">其他 20%</span></div></div></div>
+      <div class="card card-pad" style="margin-top:16px"><div class="section-title"><h2>最近操作日志</h2><button class="secondary-btn" data-action="route" data-route="/admin/export">导出日志</button></div><div class="table-wrap"><table><thead><tr><th>操作</th><th>管理员</th><th>目标</th><th>时间</th><th>操作</th></tr></thead><tbody>${data.auditLogs.map(l=>`<tr><td>${esc(l.action)}</td><td>${esc(l.operator)}</td><td>${esc(l.target)}</td><td>${esc(l.time)}</td><td><button class="mini-btn border" data-action="view-log" data-id="${l.id}">查看</button></td></tr>`).join('')}</tbody></table></div></div></section>`;
+  }
+  function renderAdminReview(){
+    const items = pendingItems().filter(i=>state.adminFilters.reviewType==='all'||i.type===state.adminFilters.reviewType);
+    return `<section class="card card-pad"><div class="section-title"><div><h2>内容审核</h2><p>通过后公开可见；驳回必须填写原因。</p></div><button class="secondary-btn" data-action="admin-refresh">刷新列表</button></div><div class="toolbar"><div class="toolbar-left"><select id="reviewType"><option value="all" ${state.adminFilters.reviewType==='all'?'selected':''}>全部类型</option><option value="question" ${state.adminFilters.reviewType==='question'?'selected':''}>问题</option><option value="answer" ${state.adminFilters.reviewType==='answer'?'selected':''}>回答</option></select><button class="primary-btn" data-action="filter-review">筛选</button></div><div class="toolbar-right"><button class="ghost-btn" data-action="route" data-route="/admin/questions">问题管理</button></div></div>${items.length?`<div class="table-wrap"><table><thead><tr><th>类型</th><th>标题/来源</th><th>作者</th><th>内容摘要</th><th>提交时间</th><th>操作</th></tr></thead><tbody>${items.map(i=>`<tr><td>${i.type==='question'?'问题':'回答'}</td><td>${esc(i.title)}</td><td>${esc(userById(i.userId).nickname)}</td><td>${esc(i.content).slice(0,42)}...</td><td>${esc(i.created)}</td><td><button class="mini-btn border" data-action="admin-preview-review" data-type="${i.type}" data-id="${i.id}">预览</button><button class="mini-btn border" data-action="admin-approve" data-type="${i.type}" data-id="${i.id}">通过</button><button class="mini-btn border" data-action="admin-reject" data-type="${i.type}" data-id="${i.id}">驳回</button></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">暂无待审核内容。<br><button class="secondary-btn" data-action="route" data-route="/question/create">创建一条待审核问题</button></div>'}</section>`;
+  }
+  function renderAdminReports(){
+    const list = data.reports.filter(r=>state.adminFilters.reportStatus==='all'||r.status===state.adminFilters.reportStatus);
+    return `<section class="card card-pad"><div class="section-title"><div><h2>举报处理</h2><p>举报不自动删除内容，由管理员人工裁决。</p></div><button class="secondary-btn" data-action="admin-refresh">刷新</button></div><div class="toolbar"><div class="toolbar-left"><select id="reportStatus"><option value="all" ${state.adminFilters.reportStatus==='all'?'selected':''}>全部状态</option><option value="pending" ${state.adminFilters.reportStatus==='pending'?'selected':''}>待处理</option><option value="ignored" ${state.adminFilters.reportStatus==='ignored'?'selected':''}>已忽略</option><option value="deleted_content" ${state.adminFilters.reportStatus==='deleted_content'?'selected':''}>已删内容</option><option value="banned_user" ${state.adminFilters.reportStatus==='banned_user'?'selected':''}>已封禁用户</option></select><button class="primary-btn" data-action="filter-report">筛选</button></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>举报者</th><th>目标</th><th>原因</th><th>说明</th><th>状态</th><th>操作</th></tr></thead><tbody>${list.map(r=>`<tr><td>#${r.id}</td><td>${esc(userById(r.reporterId).nickname)}</td><td>${esc(r.targetType)} #${r.targetId}</td><td>${esc(reasonText(r.reason))}</td><td>${esc(r.detail)}</td><td>${statusTag(r.status)}</td><td><button class="mini-btn border" data-action="admin-view-report" data-id="${r.id}">查看</button>${r.status==='pending'?`<button class="mini-btn border" data-action="admin-ignore-report" data-id="${r.id}">忽略</button><button class="mini-btn border" data-action="admin-delete-report-content" data-id="${r.id}">删除内容</button><button class="mini-btn border" data-action="admin-ban-report-user" data-id="${r.id}">封禁作者</button>`:'<button class="mini-btn border" data-action="admin-reopen-report" data-id="${r.id}">重新打开</button>'}</td></tr>`).join('')}</tbody></table></div></section>`;
+  }
+  function reasonText(r){ return {ad:'广告',porn:'色情',abuse:'辱骂',copyright:'侵权',other:'其他'}[r] || r; }
+  function targetOwner(report){
+    if(report.targetType==='question') return questionById(report.targetId)?.userId;
+    if(report.targetType==='answer') return answerById(report.targetId)?.userId;
+    if(report.targetType==='comment') return commentById(report.targetId)?.userId;
+    return null;
+  }
+  function renderAdminUsers(){
+    const kw = state.adminFilters.userKeyword.trim().toLowerCase();
+    const list = data.users.filter(u=>!kw || u.nickname.toLowerCase().includes(kw) || u.username.toLowerCase().includes(kw));
+    return `<section class="card card-pad"><div class="section-title"><div><h2>用户管理</h2><p>支持搜索、封禁/解封、查看主页。</p></div><button class="primary-btn" data-action="open-create-user">新增用户</button></div><div class="toolbar"><input id="userKeyword" value="${esc(state.adminFilters.userKeyword)}" placeholder="搜索用户名/昵称" /><button class="secondary-btn" data-action="filter-users">搜索</button><button class="ghost-btn" data-action="reset-users-filter">重置</button></div><div class="table-wrap"><table><thead><tr><th>用户</th><th>角色</th><th>状态</th><th>经验/等级</th><th>粉丝</th><th>操作</th></tr></thead><tbody>${list.map(u=>`<tr><td><span class="avatar small">${esc(u.avatar)}</span> ${esc(u.nickname)}<div class="muted">@${esc(u.username)}</div></td><td>${u.role}</td><td>${statusTag(u.status)}</td><td>Lv.${u.level} / ${u.exp}</td><td>${u.followers}</td><td><button class="mini-btn border" data-action="route" data-route="/user/${u.id}">主页</button><button class="mini-btn border" data-action="admin-view-user" data-id="${u.id}">详情</button>${u.status==='active'?`<button class="mini-btn border" data-action="admin-ban-user" data-id="${u.id}">封禁</button>`:`<button class="mini-btn border" data-action="admin-unban-user" data-id="${u.id}">解封</button>`}<button class="mini-btn border" data-action="admin-reset-password" data-id="${u.id}">重置密码</button></td></tr>`).join('')}</tbody></table></div></section>`;
+  }
+  function renderAdminQuestions(){
+    const kw = state.adminFilters.questionKeyword.trim().toLowerCase();
+    const list = data.questions.filter(q=>q.status!=='deleted').filter(q=>!kw || q.title.toLowerCase().includes(kw));
+    return `<section class="card card-pad"><div class="section-title"><div><h2>问题管理</h2><p>支持删除、置顶、加精和查看详情。</p></div><button class="primary-btn" data-action="route" data-route="/question/create">创建问题</button></div><div class="toolbar"><input id="questionKeyword" value="${esc(state.adminFilters.questionKeyword)}" placeholder="搜索问题标题" /><button class="secondary-btn" data-action="filter-admin-questions">搜索</button><button class="ghost-btn" data-action="reset-question-filter">重置</button></div><div class="table-wrap"><table><thead><tr><th>标题</th><th>作者</th><th>分类</th><th>状态</th><th>数据</th><th>运营标记</th><th>操作</th></tr></thead><tbody>${list.map(q=>`<tr><td>${esc(q.title)}</td><td>${esc(userById(q.userId).nickname)}</td><td>${esc(categoryById(q.categoryId).name)}</td><td>${statusTag(q.status)}</td><td>👁️${q.view} 💬${q.answerCount} 👍${q.vote}</td><td>${q.pinned?'<span class="tag pinned">置顶</span>':''}${q.featured?'<span class="tag featured">精华</span>':''}</td><td><button class="mini-btn border" data-action="view-question" data-id="${q.id}">查看</button><button class="mini-btn border" data-action="admin-toggle-pin" data-id="${q.id}">${q.pinned?'取消置顶':'置顶'}</button><button class="mini-btn border" data-action="admin-toggle-featured" data-id="${q.id}">${q.featured?'取消精华':'加精'}</button><button class="mini-btn border" data-action="confirm-delete-question" data-id="${q.id}">删除</button></td></tr>`).join('')}</tbody></table></div></section>`;
+  }
+  function renderAdminCategories(){
+    return `<section class="card card-pad"><div class="section-title"><div><h2>分类管理</h2><p>多级树形分类；父分类下有已发布问题时禁止删除。</p></div><button class="primary-btn" data-action="open-category-modal" data-parent="">新增一级分类</button></div><div class="side-list">${data.categories.map(c=>`<div class="question-card"><div class="q-head"><div><h3 style="margin:0">${esc(c.name)} <span class="tag">${c.count} 问题</span></h3><div class="pill-row" style="margin-top:8px">${c.children.map(ch=>`<span class="tag">${esc(ch.name)} ${ch.count}<button class="mini-btn" data-action="open-category-modal" data-id="${ch.id}">编辑</button><button class="mini-btn" data-action="delete-category" data-id="${ch.id}">删除</button></span>`).join('')}</div></div><div class="actions"><button class="mini-btn border" data-action="open-category-modal" data-parent="${c.id}">新增子分类</button><button class="mini-btn border" data-action="open-category-modal" data-id="${c.id}">编辑</button><button class="mini-btn border" data-action="delete-category" data-id="${c.id}">删除</button></div></div></div>`).join('')}</div></section>`;
+  }
+  function renderAdminTags(){
+    return `<section class="card card-pad"><div class="section-title"><div><h2>标签管理</h2><p>标签仅管理员创建，提问时用户选择使用。</p></div><button class="primary-btn" data-action="open-tag-modal">新增标签</button></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>标签名</th><th>使用次数</th><th>操作</th></tr></thead><tbody>${data.tags.map(t=>`<tr><td>${t.id}</td><td><span class="tag">#${esc(t.name)}</span></td><td>${t.usage}</td><td><button class="mini-btn border" data-action="open-tag-modal" data-id="${t.id}">编辑</button><button class="mini-btn border" data-action="delete-tag" data-id="${t.id}">删除</button><button class="mini-btn border" data-action="search-tag" data-id="${t.id}">查看使用</button></td></tr>`).join('')}</tbody></table></div></section>`;
+  }
+  function renderAdminSensitiveWords(){
+    return `<section class="card card-pad"><div class="section-title"><div><h2>敏感词库</h2><p>添加、删除、启用、禁用立即生效；过滤不区分大小写。</p></div><button class="primary-btn" data-action="open-sensitive-modal">新增敏感词</button></div><div class="notice warn">可在提问或回答文本里输入「违规词 / 广告引流 / spam」体验前端拦截。</div><div class="table-wrap"><table><thead><tr><th>ID</th><th>词条</th><th>状态</th><th>操作</th></tr></thead><tbody>${data.sensitiveWords.map(w=>`<tr><td>${w.id}</td><td>${esc(w.word)}</td><td>${statusTag(w.status)}</td><td><button class="mini-btn border" data-action="toggle-sensitive" data-id="${w.id}">${w.status==='active'?'禁用':'启用'}</button><button class="mini-btn border" data-action="delete-sensitive" data-id="${w.id}">删除</button></td></tr>`).join('')}</tbody></table></div></section>`;
+  }
+  function renderAdminExport(){
+    return `<section class="card card-pad"><div class="section-title"><div><h2>数据导出</h2><p>模拟导出 .xlsx，原型中下载 CSV 文件用于演示。</p></div><button class="secondary-btn" data-action="view-export-rule">导出规则</button></div><div class="form-grid"><div class="field"><label>开始日期</label><input id="exportStart" type="date" value="2026-06-01" /></div><div class="field"><label>结束日期</label><input id="exportEnd" type="date" value="2026-06-23" /></div></div><div class="four-col"><div class="flow-step"><b>用户列表</b><span class="muted">用户名、角色、状态、经验</span><div class="actions"><button class="primary-btn" data-action="export-data" data-type="users">导出用户</button></div></div><div class="flow-step"><b>问题列表</b><span class="muted">标题、状态、分类、计数</span><div class="actions"><button class="primary-btn" data-action="export-data" data-type="questions">导出问题</button></div></div><div class="flow-step"><b>回答列表</b><span class="muted">问题、作者、审核状态</span><div class="actions"><button class="primary-btn" data-action="export-data" data-type="answers">导出回答</button></div></div><div class="flow-step"><b>审核日志</b><span class="muted">操作人、目标、时间</span><div class="actions"><button class="primary-btn" data-action="export-data" data-type="logs">导出日志</button></div></div></div></section>`;
+  }
+
+  function hasSensitive(text){
+    const s = String(text||'').toLowerCase();
+    return data.sensitiveWords.filter(w=>w.status==='active').find(w=>s.includes(w.word.toLowerCase()));
+  }
+  function pushNotification(userId, type, sourceId, content){ data.notifications.unshift({id:nextId(data.notifications), userId, type, sourceId, content, isRead:false, created:formatNow()}); }
+  function nextId(arr){ return arr.length ? Math.max(...arr.map(x=>x.id))+1 : 1; }
+  function formatNow(){ return '2026-06-23 10:' + String(Math.floor(Math.random()*50)+10).slice(0,2); }
+  function toast(message, kind='success'){
+    const root = document.getElementById('toast-root');
+    const el = document.createElement('div'); el.className = `toast ${kind}`; el.textContent = message; root.appendChild(el);
+    setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(8px)'; setTimeout(()=>el.remove(),220); }, 2600);
+  }
+  function openModal(title, body, footer=''){
+    document.getElementById('modal-root').innerHTML = `<div class="modal-mask"><div class="modal"><div class="modal-head"><h3>${title}</h3><button class="mini-btn border" data-action="close-modal">关闭</button></div><div class="modal-body">${body}</div>${footer?`<div class="modal-foot">${footer}</div>`:''}</div></div>`;
+  }
+  function closeModal(){ document.getElementById('modal-root').innerHTML=''; }
+  function confirmModal(title, message, confirmAction, attrs=''){
+    openModal(esc(title), `<p>${esc(message)}</p>`, `<button class="ghost-btn" data-action="close-modal">取消</button><button class="danger-btn" data-action="${confirmAction}" ${attrs}>确认</button>`);
+  }
+
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    const action = btn.dataset.action;
+    if(!action){ toast('该按钮已绑定默认点击反馈。','warn'); return; }
+    e.preventDefault();
+    handleAction(action, btn);
+  });
+  document.addEventListener('input', function(e){
+    const t = e.target;
+    if(t.id === 'createTitle') { state.create.title = t.value; const box=document.getElementById('tagSuggestBox'); if(box) box.innerHTML = renderTagSuggest(t.value); updateSensitiveLive(); }
+    if(t.id === 'createContent') { state.create.content = t.value; updateSensitiveLive(); }
+    if(t.id === 'answerDraft') { state.answerDrafts[t.dataset.question] = t.value; }
+  });
+  document.addEventListener('change', function(e){
+    const t=e.target;
+    if(t.id==='createCategory') state.create.category = t.value;
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' && e.target.id === 'topKeyword') { e.preventDefault(); handleAction('top-search', e.target); }
+  });
+  window.addEventListener('hashchange', render);
+
+  function handleAction(action, btn){
+    switch(action){
+      case 'route': closeModal(); navigate(btn.dataset.route); break;
+      case 'switch-user': state.currentUserId=Number(btn.dataset.id); toast('已切换演示身份：'+currentUser().nickname); render(); break;
+      case 'top-search': state.search.keyword=(document.getElementById('topKeyword')?.value||'').trim(); navigate('/search'); break;
+      case 'home-tab': state.homeTab=btn.dataset.tab; render(); break;
+      case 'hot-tab': state.hotTab=btn.dataset.tab; render(); break;
+      case 'refresh-hot': toast('热榜缓存已刷新。'); render(); break;
+      case 'view-question': navigate('/question/'+btn.dataset.id); break;
+      case 'search-tag': state.search={...state.search, tag:String(btn.dataset.id), keyword:'', category:'all'}; navigate('/search'); break;
+      case 'search-category': state.search={...state.search, category:String(btn.dataset.id), keyword:'', tag:'all'}; navigate('/search'); break;
+      case 'like-question': toggleQuestionLike(btn.dataset.id); break;
+      case 'favorite-question': toggleQuestionFavorite(btn.dataset.id); break;
+      case 'like-answer': toggleAnswerLike(btn.dataset.id); break;
+      case 'follow-user': toggleFollow(btn.dataset.id); break;
+      case 'open-report': openReport(btn.dataset.type, btn.dataset.id); break;
+      case 'submit-report': submitReport(btn.dataset.type, btn.dataset.id); break;
+      case 'close-modal': closeModal(); break;
+      case 'login-submit': loginSubmit(); break;
+      case 'quick-login': state.currentUserId=Number(btn.dataset.id); toast('已登录：'+currentUser().nickname); navigate('/'); break;
+      case 'register-submit': registerSubmit(); break;
+      case 'add-suggest-tag': addCreateTag(btn.dataset.id); break;
+      case 'add-manual-tag': addCreateTag(document.getElementById('manualTag')?.value); break;
+      case 'remove-create-tag': state.create.tags=state.create.tags.filter(id=>id!==Number(btn.dataset.id)); render(); break;
+      case 'search-invite-users': searchInviteUsers(); break;
+      case 'invite-user': inviteUser(btn.dataset.id); break;
+      case 'remove-invite': state.create.invited=state.create.invited.filter(id=>id!==Number(btn.dataset.id)); render(); break;
+      case 'preview-question': previewQuestion(); break;
+      case 'clear-question-form': state.create={title:'',content:'',category:'',tags:[],invited:[]}; toast('表单已清空。','warn'); render(); break;
+      case 'save-question-draft': saveCreateFromDom(); toast('草稿已保存在当前原型状态中。'); break;
+      case 'submit-question': submitQuestion(); break;
+      case 'insert-base64-demo': insertBase64Demo(btn.dataset.id); break;
+      case 'save-answer-draft': saveAnswerDraft(btn.dataset.id); break;
+      case 'submit-answer': submitAnswer(btn.dataset.id); break;
+      case 'sort-answers': toast('回答排序已切换为：'+(btn.dataset.sort==='time'?'按时间':'按点赞')); break;
+      case 'toggle-comments': state.expandedComments[btn.dataset.id]=!state.expandedComments[btn.dataset.id]; render(); break;
+      case 'collapse-comments': state.expandedComments[btn.dataset.id]=false; render(); break;
+      case 'submit-comment': submitComment(btn.dataset.id); break;
+      case 'reply-comment': state.replyTarget=Number(btn.dataset.id); render(); break;
+      case 'submit-reply': submitReply(btn.dataset.id); break;
+      case 'cancel-reply': state.replyTarget=null; render(); break;
+      case 'delete-comment': deleteComment(btn.dataset.id); break;
+      case 'accept-answer': acceptAnswer(btn.dataset.id); break;
+      case 'edit-question': editQuestion(btn.dataset.id); break;
+      case 'save-edit-question': saveEditQuestion(btn.dataset.id); break;
+      case 'confirm-delete-question': confirmModal('删除问题','删除为软删除，前台将显示内容不存在。','delete-question',`data-id="${btn.dataset.id}"`); break;
+      case 'delete-question': deleteQuestion(btn.dataset.id); break;
+      case 'edit-answer': editAnswer(btn.dataset.id); break;
+      case 'save-edit-answer': saveEditAnswer(btn.dataset.id); break;
+      case 'confirm-delete-answer': confirmModal('删除回答','删除后该回答不再展示。','delete-answer',`data-id="${btn.dataset.id}"`); break;
+      case 'delete-answer': deleteAnswer(btn.dataset.id); break;
+      case 'search-submit': submitSearch(); break;
+      case 'search-reset': state.search={keyword:'',category:'all',tag:'all',sort:'relevance'}; render(); break;
+      case 'featured-search': state.search.keyword=document.getElementById('featuredKeyword')?.value||''; render(); break;
+      case 'featured-reset': state.search.keyword=''; render(); break;
+      case 'profile-tab': state.profileTab=btn.dataset.tab; render(); break;
+      case 'edit-profile': editProfile(btn.dataset.id); break;
+      case 'save-profile': saveProfile(btn.dataset.id); break;
+      case 'change-password': changePassword(); break;
+      case 'save-password': toast('密码修改成功，原型中未做真实加密。'); closeModal(); break;
+      case 'notifications-tab': state.notificationsTab=btn.dataset.tab; render(); break;
+      case 'mark-all-read': data.notifications.filter(n=>n.userId===currentUser().id).forEach(n=>n.isRead=true); toast('全部通知已标记为已读。'); render(); break;
+      case 'read-notification': toggleNotification(btn.dataset.id); break;
+      case 'delete-notification': deleteNotification(btn.dataset.id); break;
+      case 'go-notification': goNotification(btn.dataset.id); break;
+      case 'add-demo-notification': pushNotification(currentUser().id,'system',0,'这是一条用于演示的系统通知。'); toast('已生成一条新通知。'); render(); break;
+      case 'admin-refresh': toast('管理后台数据已刷新。'); render(); break;
+      case 'view-log': openLog(btn.dataset.id); break;
+      case 'filter-review': state.adminFilters.reviewType=document.getElementById('reviewType')?.value||'all'; render(); break;
+      case 'admin-preview-review': previewReview(btn.dataset.type, btn.dataset.id); break;
+      case 'admin-approve': adminApprove(btn.dataset.type, btn.dataset.id); break;
+      case 'admin-reject': adminReject(btn.dataset.type, btn.dataset.id); break;
+      case 'confirm-admin-reject': confirmAdminReject(btn.dataset.type, btn.dataset.id); break;
+      case 'filter-report': state.adminFilters.reportStatus=document.getElementById('reportStatus')?.value||'all'; render(); break;
+      case 'admin-view-report': viewReport(btn.dataset.id); break;
+      case 'admin-ignore-report': handleReport(btn.dataset.id,'ignored'); break;
+      case 'admin-delete-report-content': handleReport(btn.dataset.id,'deleted_content'); break;
+      case 'admin-ban-report-user': handleReport(btn.dataset.id,'banned_user'); break;
+      case 'admin-reopen-report': reopenReport(btn.dataset.id); break;
+      case 'filter-users': state.adminFilters.userKeyword=document.getElementById('userKeyword')?.value||''; render(); break;
+      case 'reset-users-filter': state.adminFilters.userKeyword=''; render(); break;
+      case 'open-create-user': openCreateUser(); break;
+      case 'save-create-user': saveCreateUser(); break;
+      case 'admin-view-user': viewUser(btn.dataset.id); break;
+      case 'admin-ban-user': confirmModal('封禁用户','封禁后该用户不可登录和操作。','do-ban-user',`data-id="${btn.dataset.id}"`); break;
+      case 'do-ban-user': banUser(btn.dataset.id); break;
+      case 'admin-unban-user': unbanUser(btn.dataset.id); break;
+      case 'admin-reset-password': toast('已将该用户密码重置为 123456。'); break;
+      case 'filter-admin-questions': state.adminFilters.questionKeyword=document.getElementById('questionKeyword')?.value||''; render(); break;
+      case 'reset-question-filter': state.adminFilters.questionKeyword=''; render(); break;
+      case 'admin-toggle-pin': togglePin(btn.dataset.id); break;
+      case 'admin-toggle-featured': toggleFeatured(btn.dataset.id); break;
+      case 'open-category-modal': openCategoryModal(btn.dataset.id, btn.dataset.parent); break;
+      case 'save-category': saveCategory(btn.dataset.id, btn.dataset.parent); break;
+      case 'delete-category': deleteCategory(btn.dataset.id); break;
+      case 'open-tag-modal': openTagModal(btn.dataset.id); break;
+      case 'save-tag': saveTag(btn.dataset.id); break;
+      case 'delete-tag': deleteTag(btn.dataset.id); break;
+      case 'open-sensitive-modal': openSensitiveModal(); break;
+      case 'save-sensitive': saveSensitive(); break;
+      case 'toggle-sensitive': toggleSensitive(btn.dataset.id); break;
+      case 'delete-sensitive': deleteSensitive(btn.dataset.id); break;
+      case 'view-export-rule': openModal('导出规则','<p>正式开发中导出 .xlsx；超过 10000 条分批。原型为了可演示，点击导出会生成 CSV 下载。</p>','<button class="primary-btn" data-action="close-modal">知道了</button>'); break;
+      case 'export-data': exportData(btn.dataset.type); break;
+      default: toast('已点击：'+action,'warn');
+    }
+  }
+
+  function toggleQuestionLike(id){ const q=questionById(id); if(!q) return; q.liked=!q.liked; q.vote += q.liked?1:-1; if(q.liked) userById(q.userId).exp+=2; toast(q.liked?'点赞成功，计数已更新。':'已取消点赞。'); render(); }
+  function toggleQuestionFavorite(id){ const q=questionById(id); if(!q) return; q.faved=!q.faved; q.favorite += q.faved?1:-1; toast(q.faved?'收藏成功。':'已取消收藏。'); render(); }
+  function toggleAnswerLike(id){ const a=answerById(id); if(!a) return; a.liked=!a.liked; a.vote += a.liked?1:-1; if(a.liked) userById(a.userId).exp+=2; toast(a.liked?'回答点赞成功。':'已取消回答点赞。'); render(); }
+  function toggleFollow(id){ id=Number(id); if(id===currentUser().id){ toast('不能关注自己。','warn'); return; } const u=currentUser(); const target=userById(id); const i=u.following.indexOf(id); if(i>=0){u.following.splice(i,1); target.followers=Math.max(0,target.followers-1); toast('已取消关注。');}else{u.following.push(id); target.followers+=1; pushNotification(id,'follow',u.id,`${u.nickname} 关注了你。`); toast('关注成功。');} render(); }
+  function openReport(type,id){ openModal('提交举报', `<div class="field"><label>举报对象</label><input value="${esc(type)} #${esc(id)}" readonly /></div><div class="field"><label>举报原因</label><select id="reportReason"><option value="ad">广告</option><option value="porn">色情</option><option value="abuse">辱骂</option><option value="copyright">侵权</option><option value="other">其他</option></select></div><div class="field"><label>补充说明</label><textarea id="reportDetail" placeholder="可选，最多 500 字"></textarea></div>`, `<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="submit-report" data-type="${esc(type)}" data-id="${esc(id)}">提交举报</button>`); }
+  function submitReport(type,id){ const dup=data.reports.some(r=>r.reporterId===currentUser().id && r.targetType===type && r.targetId===Number(id)); if(dup){ toast('您已举报过该内容。','warn'); closeModal(); return; } data.reports.unshift({id:nextId(data.reports), reporterId:currentUser().id, targetType:type, targetId:Number(id), reason:document.getElementById('reportReason').value, detail:document.getElementById('reportDetail').value, status:'pending', created:formatNow(), resultNote:''}); toast('举报已提交，管理员会尽快处理。'); closeModal(); render(); }
+  function loginSubmit(){ const name=document.getElementById('loginUsername').value.trim(); const pass=document.getElementById('loginPassword').value; const u=data.users.find(x=>x.username===name && (x.password===pass || pass==='123456' || (x.username==='admin'&&pass==='admin123'))); if(!u){ toast('用户名或密码错误。','error'); return; } if(u.status==='banned'){ toast('该用户已被封禁，无法登录。','error'); return; } state.currentUserId=u.id; toast('登录成功。'); navigate('/'); }
+  function registerSubmit(){ const username=document.getElementById('regUsername').value.trim(); const nickname=document.getElementById('regNickname').value.trim() || username; const password=document.getElementById('regPassword').value; if(!username){ toast('用户名不能为空。','warn'); return; } if(password.length<6){ toast('密码至少 6 位。','warn'); return; } if(data.users.some(u=>u.username===username)){ toast('用户名已存在。','error'); return; } const id=nextId(data.users); data.users.push({id,username,password,nickname,role:'user',status:'active',avatar:nickname.slice(0,1),bio:'这个人刚加入社区。',exp:0,level:1,followers:0,following:[],badges:['registered']}); state.currentUserId=id; pushNotification(id,'achievement',0,'你解锁了徽章「初来乍到」。'); toast('注册成功，已解锁初来乍到。'); navigate('/user/'+id); }
+  function saveCreateFromDom(){ state.create.title=document.getElementById('createTitle')?.value||state.create.title; state.create.content=document.getElementById('createContent')?.value||state.create.content; state.create.category=document.getElementById('createCategory')?.value||state.create.category; }
+  function addCreateTag(id){ id=Number(id); if(!id) { toast('请先选择标签。','warn'); return; } if(state.create.tags.includes(id)){ toast('该标签已选择。','warn'); return; } if(state.create.tags.length>=5){ toast('标签最多选择 5 个。','warn'); return; } state.create.tags.push(id); toast('已添加标签：#'+tagById(id).name); render(); }
+  function updateSensitiveLive(){ const el=document.getElementById('sensitiveLive'); if(!el) return; const hit=hasSensitive((state.create.title||'')+' '+(state.create.content||'')); if(hit){ el.className='notice danger'; el.innerHTML='实时检测：内容包含不当用语「'+esc(hit.word)+'」，请修改。'; } else { el.className='notice success'; el.textContent='实时检测：当前未发现敏感词。可输入「违规词」体验拦截。'; } }
+  function searchInviteUsers(){ const kw=(document.getElementById('inviteKeyword')?.value||'').trim().toLowerCase(); const result=document.getElementById('inviteResult'); if(!result) return; const users=data.users.filter(u=>u.id!==currentUser().id && u.status==='active' && (!kw || u.nickname.toLowerCase().includes(kw) || u.username.toLowerCase().includes(kw))).slice(0,5); result.innerHTML=users.length?users.map(u=>`<button class="chip-btn" data-action="invite-user" data-id="${u.id}">${esc(u.nickname)} · Lv.${u.level}</button>`).join(''):'<span class="muted">未找到可邀请用户</span>'; }
+  function inviteUser(id){ id=Number(id); if(id===currentUser().id){ toast('不能邀请自己。','warn'); return; } if(state.create.invited.includes(id)){ toast('已邀请该用户。','warn'); return; } if(state.create.invited.length>=3){ toast('每个问题最多邀请 3 人。','warn'); return; } state.create.invited.push(id); toast('已邀请 '+userById(id).nickname); render(); }
+  function previewQuestion(){ saveCreateFromDom(); openModal('问题预览', `<h2>${esc(state.create.title||'未填写标题')}</h2><p>${esc(state.create.content||'未填写正文')}</p><div>${state.create.tags.map(id=>tagHtml(id,false)).join('')}</div><div class="notice">分类：${state.create.category?esc(categoryById(state.create.category).name):'未选择'}；邀请：${state.create.invited.map(id=>esc(userById(id).nickname)).join('、')||'无'}</div>`, `<button class="ghost-btn" data-action="close-modal">继续编辑</button><button class="primary-btn" data-action="submit-question">提交审核</button>`); }
+  function submitQuestion(){ saveCreateFromDom(); if(!state.create.title.trim()){ toast('标题不能为空。','warn'); return; } if(!state.create.category){ toast('分类必选。','warn'); return; } const hit=hasSensitive(state.create.title+' '+state.create.content); if(hit){ toast('内容包含不当用语，请修改：'+hit.word,'error'); return; } const id=nextId(data.questions); data.questions.unshift({id,title:state.create.title.trim(),content:state.create.content.trim()||'作者暂未补充正文。',userId:currentUser().id,categoryId:Number(state.create.category),tags:[...state.create.tags],view:0,answerCount:0,vote:0,favorite:0,status:'pending',featured:false,pinned:false,created:formatNow(),updated:formatNow(),liked:false,faved:false,acceptedAnswerId:null,invited:[...state.create.invited]}); currentUser().exp+=1; if(!currentUser().badges.includes('first_question')) currentUser().badges.push('first_question'); state.create={title:'',content:'',category:'',tags:[],invited:[]}; toast('问题已提交审核，当前仅作者和管理员可见。'); closeModal(); navigate('/question/'+id); }
+  function insertBase64Demo(qid){ const el=document.getElementById('answerDraft'); if(!el) return; const demo='\n\n![示例图片](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...)'; el.value += demo; state.answerDrafts[qid]=el.value; toast('已插入 Base64 图片占位示例。'); }
+  function saveAnswerDraft(qid){ const el=document.getElementById('answerDraft'); state.answerDrafts[qid]=el?.value||''; toast('回答草稿已保存。'); }
+  function submitAnswer(qid){ const text=document.getElementById('answerDraft')?.value.trim() || state.answerDrafts[qid] || ''; if(!text){ toast('回答正文不能为空。','warn'); return; } const hit=hasSensitive(text); if(hit){ toast('内容包含不当用语，请修改：'+hit.word,'error'); return; } const q=questionById(qid); const id=nextId(data.answers); data.answers.unshift({id,questionId:Number(qid),userId:currentUser().id,content:text,vote:0,status:'pending',isAccepted:false,created:formatNow(),liked:false}); q.answerCount += 1; currentUser().exp += 3; if(!currentUser().badges.includes('first_answer')) currentUser().badges.push('first_answer'); pushNotification(q.userId,'new_answer',q.id,`${currentUser().nickname} 提交了一个待审核回答。`); state.answerDrafts[qid]=''; toast('回答已提交审核，通过后公开展示。'); render(); }
+  function submitComment(aid){ const el=document.getElementById('commentDraft_'+aid); const text=el?.value.trim()||''; if(!text){ toast('评论不能为空。','warn'); return; } if(text.length>500){ toast('评论最多 500 字。','warn'); return; } const hit=hasSensitive(text); if(hit){ toast('内容包含不当用语，请修改：'+hit.word,'error'); return; } data.comments.push({id:nextId(data.comments),answerId:Number(aid),userId:currentUser().id,parentId:null,content:text,created:formatNow(),status:'published'}); state.commentDrafts[aid]=''; toast('评论已发布。'); render(); }
+  function submitReply(cid){ const c=commentById(cid); const el=document.getElementById('replyInput_'+cid); const text=el?.value.trim()||''; if(!text){ toast('回复不能为空。','warn'); return; } const hit=hasSensitive(text); if(hit){ toast('内容包含不当用语，请修改：'+hit.word,'error'); return; } data.comments.push({id:nextId(data.comments),answerId:c.answerId,userId:currentUser().id,parentId:Number(cid),content:text,created:formatNow(),status:'published'}); state.replyTarget=null; toast('回复已发布。'); render(); }
+  function deleteComment(id){ const c=commentById(id); if(c) c.status='deleted'; toast('评论已删除。'); render(); }
+  function acceptAnswer(id){ const a=answerById(id); const q=questionById(a.questionId); if(q.acceptedAnswerId){ toast('该问题已采纳过回答。','warn'); return; } a.isAccepted=true; q.acceptedAnswerId=a.id; userById(a.userId).exp += 10; if(!userById(a.userId).badges.includes('first_accepted')) userById(a.userId).badges.push('first_accepted'); pushNotification(a.userId,'accepted',a.id,`你的回答被 ${currentUser().nickname} 采纳，经验值 +10。`); toast('已采纳回答，回答将置顶展示。'); render(); }
+  function editQuestion(id){ const q=questionById(id); openModal('编辑问题', `<div class="field"><label>标题</label><input id="editQuestionTitle" value="${esc(q.title)}" /></div><div class="field"><label>正文</label><textarea id="editQuestionContent">${esc(q.content)}</textarea></div>`, `<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="save-edit-question" data-id="${q.id}">保存</button>`); }
+  function saveEditQuestion(id){ const q=questionById(id); const title=document.getElementById('editQuestionTitle').value.trim(); const content=document.getElementById('editQuestionContent').value.trim(); if(!title){ toast('标题不能为空。','warn'); return; } const hit=hasSensitive(title+' '+content); if(hit){ toast('内容包含不当用语，请修改：'+hit.word,'error'); return; } q.title=title; q.content=content; if(q.status==='rejected') q.status='pending'; q.updated=formatNow(); toast(q.status==='pending'?'已保存并重新进入审核。':'问题已保存。'); closeModal(); render(); }
+  function deleteQuestion(id){ const q=questionById(id); if(q) q.status='deleted'; closeModal(); toast('问题已软删除。'); navigate('/'); }
+  function editAnswer(id){ const a=answerById(id); openModal('编辑回答', `<div class="field"><label>回答正文</label><textarea id="editAnswerContent" style="min-height:180px">${esc(a.content)}</textarea></div>`, `<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="save-edit-answer" data-id="${a.id}">保存</button>`); }
+  function saveEditAnswer(id){ const a=answerById(id); const content=document.getElementById('editAnswerContent').value.trim(); if(!content){ toast('回答正文不能为空。','warn'); return; } const hit=hasSensitive(content); if(hit){ toast('内容包含不当用语，请修改：'+hit.word,'error'); return; } a.content=content; if(a.status==='rejected') a.status='pending'; toast(a.status==='pending'?'回答已重新进入审核。':'回答已保存。'); closeModal(); render(); }
+  function deleteAnswer(id){ const a=answerById(id); if(a) a.status='deleted'; closeModal(); toast('回答已删除。'); render(); }
+  function submitSearch(){ state.search.keyword=document.getElementById('searchKeyword')?.value||''; state.search.category=document.getElementById('searchCategory')?.value||'all'; state.search.tag=document.getElementById('searchTag')?.value||'all'; state.search.sort=document.getElementById('searchSort')?.value||'relevance'; render(); }
+  function editProfile(id){ const u=userById(id); openModal('编辑资料', `<div class="field"><label>头像字符</label><input id="profileAvatar" value="${esc(u.avatar)}" maxlength="2" /></div><div class="field"><label>昵称</label><input id="profileNickname" value="${esc(u.nickname)}" /></div><div class="field"><label>简介</label><textarea id="profileBio">${esc(u.bio)}</textarea><small>正式开发中头像为 Base64，最大 500KB。</small></div>`, `<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="save-profile" data-id="${u.id}">保存资料</button>`); }
+  function saveProfile(id){ const u=userById(id); u.avatar=document.getElementById('profileAvatar').value.trim().slice(0,2)||u.avatar; u.nickname=document.getElementById('profileNickname').value.trim()||u.nickname; u.bio=document.getElementById('profileBio').value.trim(); toast('个人资料已保存。'); closeModal(); render(); }
+  function changePassword(){ openModal('修改密码', '<div class="field"><label>原密码</label><input type="password" placeholder="请输入原密码" /></div><div class="field"><label>新密码</label><input type="password" placeholder="至少 6 位" /></div><div class="field"><label>确认新密码</label><input type="password" placeholder="再次输入" /></div>', '<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="save-password">保存密码</button>'); }
+  function toggleNotification(id){ const n=data.notifications.find(x=>x.id===Number(id)); if(n){ n.isRead=!n.isRead; toast(n.isRead?'已标记为已读。':'已标记为未读。'); render(); } }
+  function deleteNotification(id){ const i=data.notifications.findIndex(x=>x.id===Number(id)); if(i>=0) data.notifications.splice(i,1); toast('通知已删除。'); render(); }
+  function goNotification(id){ const n=data.notifications.find(x=>x.id===Number(id)); if(!n) return; n.isRead=true; if(n.type==='new_answer'||n.type==='audit_reject'||n.type==='invite') navigate('/question/'+n.sourceId); else if(n.type==='accepted'){ const a=answerById(n.sourceId); navigate('/question/'+(a?.questionId||101)); } else navigate('/notifications'); }
+  function openLog(id){ const l=data.auditLogs.find(x=>x.id===Number(id)); openModal('操作日志详情', `<p><b>操作：</b>${esc(l.action)}</p><p><b>管理员：</b>${esc(l.operator)}</p><p><b>目标：</b>${esc(l.target)}</p><p><b>时间：</b>${esc(l.time)}</p>`, '<button class="primary-btn" data-action="close-modal">关闭</button>'); }
+  function previewReview(type,id){ const item = type==='question'?questionById(id):answerById(id); openModal('审核预览', `<p><b>类型：</b>${type==='question'?'问题':'回答'}</p><p><b>标题/内容：</b>${esc(type==='question'?item.title:item.content)}</p><p><b>状态：</b>${statusText(item.status)}</p>`, `<button class="success-btn" data-action="admin-approve" data-type="${type}" data-id="${id}">通过</button><button class="warning-btn" data-action="admin-reject" data-type="${type}" data-id="${id}">驳回</button>`); }
+  function adminApprove(type,id){ const item=type==='question'?questionById(id):answerById(id); item.status='published'; item.updated=formatNow(); const uid=item.userId; pushNotification(uid,'audit_pass',Number(id),`${type==='question'?'问题':'回答'} #${id} 审核通过。`); data.auditLogs.unshift({id:nextId(data.auditLogs),action:'audit_pass',operator:currentUser().nickname,target:`${type} #${id}`,time:formatNow()}); toast('审核已通过，内容公开可见。'); closeModal(); render(); }
+  function adminReject(type,id){ openModal('填写驳回原因', `<div class="field"><label>驳回原因 <span class="muted">必填</span></label><textarea id="rejectReason" placeholder="请说明需要修改的原因"></textarea></div>`, `<button class="ghost-btn" data-action="close-modal">取消</button><button class="warning-btn" data-action="confirm-admin-reject" data-type="${type}" data-id="${id}">确认驳回</button>`); }
+  function confirmAdminReject(type,id){ const reason=document.getElementById('rejectReason').value.trim(); if(!reason){ toast('驳回原因必填。','warn'); return; } const item=type==='question'?questionById(id):answerById(id); item.status='rejected'; item.auditReason=reason; pushNotification(item.userId,'audit_reject',type==='question'?Number(id):item.questionId,`${type==='question'?'问题':'回答'} #${id} 被驳回：${reason}`); data.auditLogs.unshift({id:nextId(data.auditLogs),action:'audit_reject',operator:currentUser().nickname,target:`${type} #${id}`,time:formatNow()}); toast('已驳回并通知作者。'); closeModal(); render(); }
+  function viewReport(id){ const r=data.reports.find(x=>x.id===Number(id)); const owner=targetOwner(r); openModal('举报详情', `<p><b>举报者：</b>${esc(userById(r.reporterId).nickname)}</p><p><b>目标：</b>${esc(r.targetType)} #${r.targetId}</p><p><b>目标作者：</b>${owner?esc(userById(owner).nickname):'未知'}</p><p><b>原因：</b>${esc(reasonText(r.reason))}</p><p><b>说明：</b>${esc(r.detail)}</p><p><b>状态：</b>${statusText(r.status)}</p>`, `<button class="ghost-btn" data-action="close-modal">关闭</button>${r.status==='pending'?`<button class="success-btn" data-action="admin-ignore-report" data-id="${r.id}">忽略</button><button class="danger-btn" data-action="admin-delete-report-content" data-id="${r.id}">删除内容</button><button class="warning-btn" data-action="admin-ban-report-user" data-id="${r.id}">封禁作者</button>`:''}`); }
+  function handleReport(id,status){ const r=data.reports.find(x=>x.id===Number(id)); r.status=status; r.resultNote=status==='ignored'?'未发现违规':status==='deleted_content'?'内容已软删除':'作者已封禁'; if(status==='deleted_content'){ if(r.targetType==='question') questionById(r.targetId).status='deleted'; if(r.targetType==='answer') answerById(r.targetId).status='deleted'; if(r.targetType==='comment') commentById(r.targetId).status='deleted'; }
+    if(status==='banned_user'){ const uid=targetOwner(r); if(uid) userById(uid).status='banned'; }
+    pushNotification(r.reporterId,'report_result',r.id,'你的举报已处理：'+r.resultNote); toast('举报已处理：'+r.resultNote); closeModal(); render(); }
+  function reopenReport(id){ const r=data.reports.find(x=>x.id===Number(id)); r.status='pending'; r.resultNote=''; toast('举报已重新打开。'); render(); }
+  function openCreateUser(){ openModal('新增用户', '<div class="field"><label>用户名</label><input id="newUsername" /></div><div class="field"><label>昵称</label><input id="newNickname" /></div><div class="field"><label>角色</label><select id="newRole"><option value="user">普通用户</option><option value="admin">管理员</option></select></div>', '<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="save-create-user">保存用户</button>'); }
+  function saveCreateUser(){ const username=document.getElementById('newUsername').value.trim(); const nickname=document.getElementById('newNickname').value.trim()||username; if(!username){toast('用户名不能为空。','warn');return;} if(data.users.some(u=>u.username===username)){toast('用户名已存在。','error');return;} const id=nextId(data.users); data.users.push({id,username,password:'123456',nickname,role:document.getElementById('newRole').value,status:'active',avatar:nickname.slice(0,1),bio:'管理员创建的测试用户。',exp:0,level:1,followers:0,following:[],badges:['registered']}); toast('用户已创建，默认密码 123456。'); closeModal(); render(); }
+  function viewUser(id){ const u=userById(id); openModal('用户详情', `<p><b>${esc(u.nickname)}</b> @${esc(u.username)}</p><p>角色：${u.role}；状态：${statusText(u.status)}</p><p>经验：${u.exp}；等级：Lv.${u.level}</p><p>简介：${esc(u.bio)}</p>`, `<button class="secondary-btn" data-action="route" data-route="/user/${u.id}">打开主页</button><button class="primary-btn" data-action="close-modal">关闭</button>`); }
+  function banUser(id){ userById(id).status='banned'; data.auditLogs.unshift({id:nextId(data.auditLogs),action:'ban_user',operator:currentUser().nickname,target:'用户 '+userById(id).nickname,time:formatNow()}); closeModal(); toast('用户已封禁。'); render(); }
+  function unbanUser(id){ userById(id).status='active'; toast('用户已解封。'); render(); }
+  function togglePin(id){ const q=questionById(id); q.pinned=!q.pinned; toast(q.pinned?'已置顶。':'已取消置顶。'); render(); }
+  function toggleFeatured(id){ const q=questionById(id); if(q.status!=='published'){ toast('仅已发布问题可加精。','warn'); return; } q.featured=!q.featured; toast(q.featured?'已标记为精华。':'已取消精华。'); render(); }
+  function openCategoryModal(id,parent){ let c=null; if(id){ c=allCategories().find(x=>x.id===Number(id)); } openModal(c?'编辑分类':'新增分类', `<div class="field"><label>分类名称</label><input id="categoryName" value="${esc(c?.name||'')}" /></div><div class="notice">${parent?'父分类：'+esc(categoryById(parent).name):c?.parentId?'父分类：'+esc(categoryById(c.parentId).name):'一级分类'}</div>`, `<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="save-category" data-id="${id||''}" data-parent="${parent||c?.parentId||''}">保存分类</button>`); }
+  function saveCategory(id,parent){ const name=document.getElementById('categoryName').value.trim(); if(!name){ toast('分类名称不能为空。','warn'); return; } if(id){ const c=allCategories().find(x=>x.id===Number(id)); c.name=name; toast('分类已更新。'); } else if(parent){ const p=data.categories.find(x=>x.id===Number(parent)); p.children.push({id:nextId(allCategories()),name,parentId:Number(parent),count:0}); toast('子分类已新增。'); } else { data.categories.push({id:nextId(data.categories),name,parentId:null,count:0,children:[]}); toast('一级分类已新增。'); } closeModal(); render(); }
+  function deleteCategory(id){ const cid=Number(id); const hasPublished=data.questions.some(q=>q.categoryId===cid && q.status==='published'); if(hasPublished){ toast('该分类下有已发布问题，无法删除。','error'); return; } for(const c of data.categories){ const i=c.children.findIndex(ch=>ch.id===cid); if(i>=0){ c.children.splice(i,1); toast('子分类已删除。'); render(); return; } } const i=data.categories.findIndex(c=>c.id===cid); if(i>=0){ if(data.categories[i].children.some(ch=>data.questions.some(q=>q.categoryId===ch.id && q.status==='published'))){ toast('子分类下有已发布问题，无法删除。','error'); return; } data.categories.splice(i,1); toast('分类及子分类已级联删除。'); render(); } }
+  function openTagModal(id){ const t=data.tags.find(x=>x.id===Number(id)); openModal(t?'编辑标签':'新增标签', `<div class="field"><label>标签名称</label><input id="tagName" value="${esc(t?.name||'')}" /></div>`, `<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="save-tag" data-id="${id||''}">保存标签</button>`); }
+  function saveTag(id){ const name=document.getElementById('tagName').value.trim(); if(!name){toast('标签名称不能为空。','warn'); return;} if(data.tags.some(t=>t.name===name && t.id!==Number(id))){toast('标签名称已存在。','error'); return;} if(id){ data.tags.find(t=>t.id===Number(id)).name=name; toast('标签已更新。'); } else { data.tags.push({id:nextId(data.tags),name,usage:0}); toast('标签已新增。'); } closeModal(); render(); }
+  function deleteTag(id){ id=Number(id); if(data.questions.some(q=>q.tags.includes(id))){ toast('已有问题使用该标签，原型中禁止删除。','error'); return; } const i=data.tags.findIndex(t=>t.id===id); if(i>=0) data.tags.splice(i,1); toast('标签已删除。'); render(); }
+  function openSensitiveModal(){ openModal('新增敏感词', '<div class="field"><label>敏感词</label><input id="sensitiveWord" placeholder="输入词条，精确匹配" /></div>', '<button class="ghost-btn" data-action="close-modal">取消</button><button class="primary-btn" data-action="save-sensitive">保存敏感词</button>'); }
+  function saveSensitive(){ const word=document.getElementById('sensitiveWord').value.trim(); if(!word){toast('敏感词不能为空。','warn');return;} if(data.sensitiveWords.some(w=>w.word.toLowerCase()===word.toLowerCase())){toast('敏感词已存在。','error');return;} data.sensitiveWords.push({id:nextId(data.sensitiveWords),word,status:'active'}); toast('敏感词已添加并立即生效。'); closeModal(); render(); }
+  function toggleSensitive(id){ const w=data.sensitiveWords.find(x=>x.id===Number(id)); w.status=w.status==='active'?'disabled':'active'; toast(w.status==='active'?'敏感词已启用。':'敏感词已禁用。'); render(); }
+  function deleteSensitive(id){ const i=data.sensitiveWords.findIndex(w=>w.id===Number(id)); if(i>=0) data.sensitiveWords.splice(i,1); toast('敏感词已删除。'); render(); }
+  function exportData(type){
+    let rows=[];
+    if(type==='users') rows=[['id','username','nickname','role','status','exp'],...data.users.map(u=>[u.id,u.username,u.nickname,u.role,u.status,u.exp])];
+    if(type==='questions') rows=[['id','title','status','category','vote','favorite'],...data.questions.map(q=>[q.id,q.title,q.status,categoryById(q.categoryId).name,q.vote,q.favorite])];
+    if(type==='answers') rows=[['id','question_id','user','status','vote'],...data.answers.map(a=>[a.id,a.questionId,userById(a.userId).nickname,a.status,a.vote])];
+    if(type==='logs') rows=[['id','action','operator','target','time'],...data.auditLogs.map(l=>[l.id,l.action,l.operator,l.target,l.time])];
+    const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+    const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`${type}_export_demo.csv`; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); toast('已生成导出演示文件：'+type+'_export_demo.csv');
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

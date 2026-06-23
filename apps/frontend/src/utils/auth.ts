@@ -1,9 +1,16 @@
 export interface AuthUser {
   id: number;
   username: string;
-  email: string;
+  nickname: string;
+  avatar: string;
+  bio: string;
   role: string;
-  status: number;
+  status: string;
+  exp: number;
+  level: number;
+  loginDays: number;
+  consecutiveDays: number;
+  createdAt: string;
 }
 
 interface AuthState {
@@ -12,7 +19,7 @@ interface AuthState {
   expiresAt: number;
 }
 
-const AUTH_STATE_KEY = 'springboot_vue_starter_auth';
+const AUTH_STATE_KEY = 'zhiqu_community_auth';
 
 export function setAuthState(token: string, user: AuthUser, expiresAt: number) {
   const state: AuthState = { token, user, expiresAt };
@@ -54,18 +61,12 @@ export function defaultPathForRole(role: string) {
   if (role === 'ADMIN') {
     return '/admin/dashboard';
   }
-  if (role === 'PARTNER') {
-    return '/partner/dashboard';
-  }
-  return '/portal/home';
+  return '/';
 }
 
 export function hasRoutePermission(path: string, role: string) {
   if (path.startsWith('/admin')) {
     return role === 'ADMIN';
-  }
-  if (path.startsWith('/partner')) {
-    return role === 'ADMIN' || role === 'PARTNER';
   }
   return true;
 }
