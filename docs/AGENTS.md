@@ -83,6 +83,15 @@
 - 底部固定操作栏必须适配安全区：`padding-bottom: calc(基础间距 + env(safe-area-inset-bottom))`。
 - 页面内容区必须为底部固定操作栏预留空间，避免最后一块内容被遮挡。
 
+## uni-app 规范
+
+- 使用 Vue 3 组合式 API（`<script setup>`）编写页面。
+- UI 组件使用 uni-ui，通过 easycom 自动引入，无需手动 import。
+- 跨平台兼容：优先使用 `uni.*` 统一接口，避免使用平台特有 API。
+- 页面样式使用 `rpx` 单位，自动适配不同屏幕尺寸。
+- 与原生小程序（`apps/wechat-miniprogram/`）并存，后期逐步替代。
+- 编译产物（`dist/`）不提交到 Git。
+
 ## 测试调试规范
 
 - 调试过程中不要自动启动程序或服务，端口调试由开发者手动控制。

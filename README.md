@@ -22,7 +22,8 @@ fullstack-app-starter/
 ├── apps/
 │   ├── backend/              # Spring Boot 后端 API（必须）
 │   ├── frontend/             # Vue + Vite 网页前端（必须）
-│   ├── wechat-miniprogram/   # 微信小程序（可选）
+│   ├── wechat-miniprogram/   # 微信小程序原生开发（可选）
+│   ├── uniapp/               # uni-app 跨平台端（可选）
 │   └── ai-service/           # FastAPI AI 服务（可选）
 ├── db/
 │   └── db.sql                # 数据库初始化脚本
@@ -41,18 +42,26 @@ fullstack-app-starter/
 | 后端 API | [`apps/backend/README.md`](apps/backend/README.md) |
 | 网页前端 | [`apps/frontend/README.md`](apps/frontend/README.md) |
 | 微信小程序 | [`apps/wechat-miniprogram/README.md`](apps/wechat-miniprogram/README.md) |
+| uni-app 跨平台端 | [`apps/uniapp/README.md`](apps/uniapp/README.md) |
 | AI 服务 | [`apps/ai-service/README.md`](apps/ai-service/README.md) |
 
 ## 按需裁剪
 
 `apps/backend/` 和 `apps/frontend/` 是项目核心，必须保留。
 
-`apps/wechat-miniprogram/` 和 `apps/ai-service/` 是可选模块，不需要时可以按以下步骤移除：
+`apps/wechat-miniprogram/`、`apps/uniapp/` 和 `apps/ai-service/` 是可选模块，不需要时可以按以下步骤移除。
 
-### 移除微信小程序
+> `apps/wechat-miniprogram/`（原生小程序）和 `apps/uniapp/`（跨平台）功能重叠，保留一个即可。推荐使用 uni-app，后期可编译到多个平台。
+
+### 移除原生微信小程序
 
 1. 删除 `apps/wechat-miniprogram/` 目录。
 2. `docker-compose.yml` 中小程序没有独立服务，无需修改。
+
+### 移除 uni-app
+
+1. 删除 `apps/uniapp/` 目录。
+2. `docker-compose.yml` 中 uni-app 没有独立服务，无需修改。
 
 ### 移除 AI 服务
 
