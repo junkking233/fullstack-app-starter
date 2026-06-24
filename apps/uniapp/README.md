@@ -53,6 +53,10 @@ npm run dev:mp-weixin      # 微信小程序开发模式，用微信开发者工
 - H5 开发模式：`manifest.json` 中的 `h5.devServer.proxy` 配置了 `/api` 代理到后端。
 - 微信小程序：需要在 `manifest.json` 的 `mp-weixin` 中配置合法域名，或在微信开发者工具中关闭域名校验。
 
+## 图标使用
+
+项目图标库在 `apps/assests/icons/` 下（84 个 SVG 线性图标）。使用时按需复制需要的 SVG 到 `src/static/icons/`，通过 `<image>` 标签引用。图标预览可打开 `apps/assests/icon-set.html`。
+
 ## 注意事项
 
 - 使用 Vue 3 组合式 API（`<script setup>`）编写页面。
