@@ -84,7 +84,7 @@ onMounted(load)
         </template>
       </el-table-column>
     </el-table>
-    <div v-if="total > pageSize" class="pagination"><el-pagination v-model:current-page="page" :page-size="pageSize" :total="total" layout="prev, pager, next" @current-change="p => { page = p; load() }" /></div>
+    <div v-if="total > pageSize" class="pagination"><el-pagination v-model:current-page="page" :page-size="pageSize" :total="total" layout="prev, pager, next" @current-change="(p: number) => { page = p; load() }" /></div>
   </div>
 </template>
 

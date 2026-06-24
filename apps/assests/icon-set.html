@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>通用线性图标库 · 84 Icons</title>
+<style>
+  :root{
+    --ink:#0F172A;
+    --text:#334155;
+    --muted:#64748B;
+    --line:#E2E8F0;
+    --line-strong:#CBD5E1;
+    --bg:#FFFFFF;
+    --soft:#F8FAFC;
+    --softer:#F1F5F9;
+    --accent:#2563EB;
+    --accent-soft:#EFF6FF;
+    --accent-border:#BFDBFE;
+    --icon:#1E293B;
+    --ok:#16A34A;
+    --radius:12px;
+    --shadow:0 1px 2px rgba(15,23,42,.04), 0 4px 12px rgba(15,23,42,.06);
+    --mono:"SFMono-Regular",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+    --sans:"Inter","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    color:var(--text);
+    background:var(--soft);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1160px;margin:0 auto;padding:32px 28px 80px}
+
+  /* ---------- Header ---------- */
+  header.top{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+    flex-wrap:wrap;margin-bottom:28px;
+  }
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{
+    width:44px;height:44px;border-radius:11px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#1E293B,#334155);
+    box-shadow:var(--shadow);
+  }
+  .logo svg{width:24px;height:24px;color:#fff}
+  h1{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+  .sub{font-size:13.5px;color:var(--muted);margin-top:2px}
+  .specs{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{
+    font-size:12px;font-weight:500;color:var(--text);
+    background:var(--bg);border:1px solid var(--line);
+    padding:7px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:7px;
+  }
+  .chip b{color:var(--ink);font-weight:600}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+  /* ---------- Toolbar ---------- */
+  .toolbar{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    flex-wrap:wrap;margin-bottom:24px;
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
+    padding:12px 14px;box-shadow:var(--shadow);position:sticky;top:14px;z-index:20;
+  }
+  .cats{display:flex;gap:6px;flex-wrap:wrap}
+  .cat{
+    font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;
+    padding:7px 13px;border-radius:8px;border:1px solid transparent;transition:.15s;
+    background:none;font-family:inherit;
+  }
+  .cat:hover{color:var(--text);background:var(--soft)}
+  .cat.active{color:var(--accent);background:var(--accent-soft);border-color:var(--accent-border)}
+  .tools{display:flex;align-items:center;gap:10px}
+  .toggle{display:flex;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:3px}
+  .toggle button{
+    font-size:12.5px;font-weight:500;color:var(--muted);cursor:pointer;
+    padding:6px 12px;border-radius:6px;border:none;background:none;font-family:inherit;transition:.15s;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .toggle button.active{background:var(--bg);color:var(--ink);box-shadow:0 1px 2px rgba(15,23,42,.08)}
+  .swatch{width:12px;height:12px;border-radius:3px;border:1px solid rgba(0,0,0,.08)}
+
+  /* ---------- Layout ---------- */
+  .layout{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+  @media(max-width:920px){.layout{grid-template-columns:1fr}}
+
+  /* ---------- Sections ---------- */
+  .section{margin-bottom:34px;scroll-margin-top:80px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;padding:0 2px}
+  .sec-head h2{font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.005em}
+  .sec-head .cnt{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .sec-head .rule{flex:1;height:1px;background:var(--line)}
+
+  .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+  @media(max-width:760px){.grid{grid-template-columns:repeat(4,1fr)}}
+  @media(max-width:520px){.grid{grid-template-columns:repeat(3,1fr)}}
+
+  /* ---------- Card ---------- */
+  .card{
+    position:relative;background:var(--bg);border:1px solid var(--line);
+    border-radius:11px;padding:14px 10px 12px;cursor:pointer;text-align:center;
+    transition:transform .14s, border-color .14s, box-shadow .14s;
+    display:flex;flex-direction:column;align-items:center;gap:9px;outline:none;
+  }
+  .card:hover{transform:translateY(-2px);border-color:var(--line-strong);box-shadow:var(--shadow)}
+  .card:focus-visible{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft), var(--shadow)}
+  .card .ic{
+    width:30px;height:30px;display:grid;place-items:center;color:var(--icon);transition:color .15s;
+  }
+  .card .ic svg{width:26px;height:26px}
+  body.blue .card .ic{color:var(--accent)}
+  .card .name{font-size:12px;font-weight:500;color:var(--text);letter-spacing:.01em}
+  .card .en{font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:-3px}
+  .card .copy{
+    position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:5px;
+    display:grid;place-items:center;opacity:0;transition:.15s;color:var(--muted);
+  }
+  .card:hover .copy{opacity:1}
+  .card.copied .copy{opacity:1;color:var(--ok)}
+  .card.copied{border-color:var(--ok)}
+
+  /* ---------- Detail panel ---------- */
+  .panel{
+    position:sticky;top:90px;background:var(--bg);border:1px solid var(--line);
+    border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
+  }
+  .panel-head{padding:18px 18px 16px;border-bottom:1px solid var(--line);text-align:center}
+  .preview{
+    width:84px;height:84px;margin:0 auto 12px;border-radius:14px;display:grid;place-items:center;
+    background:var(--soft);border:1px solid var(--line);color:var(--icon);transition:color .15s;
+  }
+  body.blue .preview{color:var(--accent)}
+  .preview svg{width:42px;height:42px}
+  .panel-head .pname{font-size:15px;font-weight:600;color:var(--ink)}
+  .panel-head .pmeta{font-size:12px;color:var(--muted);margin-top:2px}
+  .sizes{display:flex;align-items:flex-end;justify-content:center;gap:18px;padding:14px 0 4px}
+  .sizes .s{display:flex;flex-direction:column;align-items:center;gap:7px;color:var(--icon);transition:color .15s}
+  body.blue .sizes .s{color:var(--accent)}
+  .sizes .s span{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .panel-body{padding:16px 18px 18px}
+  .code-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .code-head .lab{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .copybtn{
+    font-size:12px;font-weight:500;color:var(--accent);cursor:pointer;
+    padding:5px 11px;border-radius:6px;border:1px solid var(--accent-border);
+    background:var(--accent-soft);font-family:inherit;transition:.15s;display:inline-flex;align-items:center;gap:5px;
+  }
+  .copybtn:hover{background:var(--accent);color:#fff}
+  pre{
+    font-family:var(--mono);font-size:11px;line-height:1.65;color:var(--text);
+    background:var(--softer);border:1px solid var(--line);border-radius:9px;
+    padding:13px 14px;overflow:auto;white-space:pre;max-height:240px;
+  }
+  pre .tag{color:var(--accent)}pre .at{color:#0E7490}pre .val{color:#9333EA}pre .cmt{color:var(--muted)}
+
+  /* ---------- Spec strip ---------- */
+  .spec-strip{
+    margin-top:30px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px 22px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;box-shadow:var(--shadow);
+  }
+  @media(max-width:760px){.spec-strip{grid-template-columns:repeat(2,1fr)}}
+  .spec-strip .it{border-left:2px solid var(--accent);padding-left:12px}
+  .spec-strip .it .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .spec-strip .it .v{font-size:14px;font-weight:600;color:var(--ink)}
+  .spec-strip .it .v small{font-weight:400;color:var(--muted);font-size:12px}
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;font-size:13px;font-weight:500;
+    padding:11px 18px;border-radius:9px;box-shadow:0 8px 24px rgba(15,23,42,.25);
+    opacity:0;pointer-events:none;transition:.22s;z-index:50;display:flex;align-items:center;gap:8px;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  footer{margin-top:40px;text-align:center;font-size:12px;color:var(--muted)}
+  footer code{font-family:var(--mono);background:var(--softer);padding:2px 6px;border-radius:4px;color:var(--text)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <header class="top">
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      </div>
+      <div>
+        <h1>后台管理系统图标集</h1>
+        <div class="sub">Linear Style Icon Library · 通用线性图标 · 适配 Vue3 / TS 后台中台</div>
+      </div>
+    </div>
+    <div class="specs">
+      <span class="chip"><span class="dot"></span><b>84</b> 图标</span>
+      <span class="chip"><b>24</b>px 栅格</span>
+      <span class="chip"><b>2</b>px 描边</span>
+      <span class="chip">圆角端点</span>
+      <span class="chip">currentColor 主题化</span>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="cats" id="cats">
+      <button class="cat active" data-cat="all">全部</button>
+      <button class="cat" data-cat="nav">导航概览</button>
+      <button class="cat" data-cat="user">用户权限</button>
+      <button class="cat" data-cat="data">内容数据</button>
+      <button class="cat" data-cat="ops">交易操作</button>
+      <button class="cat" data-cat="ui">界面操作</button>
+      <button class="cat" data-cat="aux">辅助组件</button>
+      <button class="cat" data-cat="comm">通讯社交</button>
+      <button class="cat" data-cat="status">状态反馈</button>
+      <button class="cat" data-cat="prod">效率工具</button>
+      <button class="cat" data-cat="media">媒体布局</button>
+      <button class="cat" data-cat="devops">开发运维</button>
+      <button class="cat" data-cat="biz">商务金融</button>
+      <button class="cat" data-cat="doc">文档知识</button>
+      <button class="cat" data-cat="sys">系统控制</button>
+    </div>
+    <div class="tools">
+      <div class="toggle" id="themeToggle">
+        <button class="active" data-color="slate"><span class="swatch" style="background:#1E293B"></span>深灰</button>
+        <button data-color="blue"><span class="swatch" style="background:#2563EB"></span>蓝色</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="layout">
+    <div id="catalog"></div>
+
+    <!-- Detail panel -->
+    <aside class="panel" id="panel">
+      <div class="panel-head">
+        <div class="preview" id="dPreview"></div>
+        <div class="pname" id="dName">首页</div>
+        <div class="pmeta" id="dMeta">导航概览 · home</div>
+        <div class="sizes" id="dSizes"></div>
+      </div>
+      <div class="panel-body">
+        <div class="code-head">
+          <span class="lab">SVG 源码</span>
+          <button class="copybtn" id="copyCode">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            复制代码
+          </button>
+        </div>
+        <pre id="dCode"></pre>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Spec strip -->
+  <div class="spec-strip">
+    <div class="it"><div class="k">栅格 Grid</div><div class="v">24 × 24 <small>px viewBox</small></div></div>
+    <div class="it"><div class="k">描边 Stroke</div><div class="v">2 <small>px · round cap/join</small></div></div>
+    <div class="it"><div class="k">主色 Color</div><div class="v">#1E293B <small>/ #2563EB</small></div></div>
+    <div class="it"><div class="k">填充 Fill</div><div class="v">none <small>纯线性</small></div></div>
+  </div>
+
+  <footer>
+    点击任意图标可复制 SVG · 所有图标使用 <code>stroke="currentColor"</code>，颜色随父级 <code>color</code> 自适应主题
+  </footer>
+</div>
+
+<div class="toast" id="toast">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+  <span id="toastTxt">已复制 SVG 代码</span>
+</div>
+
+<script>
+/* ============ Icon definitions ============ */
+const S = 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+const ICONS = [
+  /* 导航概览 */
+  { id:'home', name:'首页', en:'home', cat:'nav', catName:'导航概览',
+    paths:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-7H10v7H4a1 1 0 0 1-1-1z"/>' },
+  { id:'dashboard', name:'仪表盘', en:'dashboard', cat:'nav', catName:'导航概览',
+    paths:'<path d="M12 13l4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>' },
+  { id:'search', name:'搜索', en:'search', cat:'nav', catName:'导航概览',
+    paths:'<circle cx="11" cy="11" r="7"/><path d="M16.2 16.2 21 21"/>' },
+  { id:'bell', name:'通知', en:'notification', cat:'nav', catName:'导航概览',
+    paths:'<path d="M18 9a6 6 0 0 0-12 0c0 6-2.5 8-2.5 8h17S18 15 18 9z"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/>' },
+  { id:'mail', name:'消息', en:'message', cat:'nav', catName:'导航概览',
+    paths:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7 12 13l8.5-6"/>' },
+  { id:'calendar', name:'日历', en:'calendar', cat:'nav', catName:'导航概览',
+    paths:'<rect x="3" y="4.5" width="18" height="17" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>' },
+
+  /* 用户权限 */
+  { id:'user', name:'用户', en:'user', cat:'user', catName:'用户权限',
+    paths:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>' },
+  { id:'users', name:'用户组', en:'users', cat:'user', catName:'用户权限',
+    paths:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 5.5a3.5 3.5 0 0 1 0 6.5"/><path d="M17.5 14.5c2.2.9 4 2.7 4 5.5"/>' },
+  { id:'lock', name:'锁', en:'lock', cat:'user', catName:'用户权限',
+    paths:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>' },
+  { id:'logout', name:'退出', en:'logout', cat:'user', catName:'用户权限',
+    paths:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/>' },
+  { id:'settings', name:'设置', en:'settings', cat:'user', catName:'用户权限',
+    paths:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M22 12h-3M5 12H2M19.07 4.93l-2.12 2.12M7.05 16.95l-2.12 2.12M19.07 19.07l-2.12-2.12M7.05 7.05 4.93 4.93"/>' },
+  { id:'plus', name:'添加', en:'add', cat:'user', catName:'用户权限',
+    paths:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>' },
+
+  /* 内容数据 */
+  { id:'file', name:'文件', en:'file', cat:'data', catName:'内容数据',
+    paths:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>' },
+  { id:'folder', name:'文件夹', en:'folder', cat:'data', catName:'内容数据',
+    paths:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>' },
+  { id:'image', name:'图片', en:'image', cat:'data', catName:'内容数据',
+    paths:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="m21 16-5-5L5 21"/>' },
+  { id:'bar-chart', name:'数据', en:'data', cat:'data', catName:'内容数据',
+    paths:'<path d="M4 20v-6M9 20V7M14 20v-9M19 20v-4"/><path d="M3 20h18"/>' },
+  { id:'trend', name:'图表', en:'chart', cat:'data', catName:'内容数据',
+    paths:'<path d="M3 17l5-5 4 3 6-7"/><path d="M3 21h18M3 21V4"/>' },
+  { id:'edit', name:'编辑', en:'edit', cat:'data', catName:'内容数据',
+    paths:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>' },
+
+  /* 交易操作 */
+  { id:'box', name:'商品', en:'product', cat:'ops', catName:'交易操作',
+    paths:'<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v9"/>' },
+  { id:'order', name:'订单', en:'order', cat:'ops', catName:'交易操作',
+    paths:'<rect x="6" y="4" width="12" height="18" rx="2"/><path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="M9 11h6M9 15h4"/>' },
+  { id:'cart', name:'购物车', en:'cart', cat:'ops', catName:'交易操作',
+    paths:'<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.5l2.2 12.3a1 1 0 0 0 1 .8h10.4a1 1 0 0 0 1-.8L21.5 7H6"/>' },
+  { id:'trash', name:'删除', en:'delete', cat:'ops', catName:'交易操作',
+    paths:'<path d="M3 6h18"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M6 6l1 14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-14"/><path d="M10 11v6M14 11v6"/>' },
+  { id:'download', name:'下载', en:'download', cat:'ops', catName:'交易操作',
+    paths:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>' },
+  { id:'upload', name:'上传', en:'upload', cat:'ops', catName:'交易操作',
+    paths:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 8l5-5 5 5"/><path d="M12 3v12"/>' },
+
+  /* 界面操作 */
+  { id:'menu', name:'菜单', en:'menu', cat:'ui', catName:'界面操作',
+    paths:'<path d="M3 5h18M3 12h18M3 19h18"/>' },
+  { id:'close', name:'关闭', en:'close', cat:'ui', catName:'界面操作',
+    paths:'<path d="M5 5l14 14M19 5 5 19"/>' },
+  { id:'refresh', name:'刷新', en:'refresh', cat:'ui', catName:'界面操作',
+    paths:'<path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 15A9 9 0 0 0 3 12"/><path d="M3.51 9A9 9 0 0 0 21 12"/>' },
+  { id:'arrow-left', name:'返回', en:'back', cat:'ui', catName:'界面操作',
+    paths:'<path d="M19 12H5"/><path d="M10 5l-7 7 7 7"/>' },
+  { id:'filter', name:'筛选', en:'filter', cat:'ui', catName:'界面操作',
+    paths:'<path d="M22 3H2l8 9.46V19l4 2v-8.54z"/>' },
+  { id:'grip', name:'拖拽', en:'move', cat:'ui', catName:'界面操作',
+    paths:'<circle cx="8" cy="5" r="1.2"/><circle cx="16" cy="5" r="1.2"/><circle cx="8" cy="12" r="1.2"/><circle cx="16" cy="12" r="1.2"/><circle cx="8" cy="19" r="1.2"/><circle cx="16" cy="19" r="1.2"/>' },
+
+  /* 辅助组件 */
+  { id:'star', name:'书签', en:'star', cat:'aux', catName:'辅助组件',
+    paths:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>' },
+  { id:'tag', name:'标签', en:'tag', cat:'aux', catName:'辅助组件',
+    paths:'<path d="M12 2H2v10l9.17 9.17a2.5 2.5 0 0 0 3.54 0l5.13-5.13a2.5 2.5 0 0 0 0-3.54z"/><circle cx="7" cy="7" r=".5"/>' },
+  { id:'eye', name:'眼睛', en:'eye', cat:'aux', catName:'辅助组件',
+    paths:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>' },
+  { id:'link', name:'链接', en:'link', cat:'aux', catName:'辅助组件',
+    paths:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>' },
+  { id:'printer', name:'打印', en:'printer', cat:'aux', catName:'辅助组件',
+    paths:'<path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>' },
+  { id:'help', name:'帮助', en:'help', cat:'aux', catName:'辅助组件',
+    paths:'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>' },
+
+  /* 通讯社交 */
+  { id:'phone', name:'电话', en:'phone', cat:'comm', catName:'通讯社交',
+    paths:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>' },
+  { id:'chat', name:'对话', en:'chat', cat:'comm', catName:'通讯社交',
+    paths:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
+  { id:'share', name:'分享', en:'share', cat:'comm', catName:'通讯社交',
+    paths:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/>' },
+  { id:'at-sign', name:'@提及', en:'at-sign', cat:'comm', catName:'通讯社交',
+    paths:'<circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/>' },
+  { id:'globe', name:'全局', en:'globe', cat:'comm', catName:'通讯社交',
+    paths:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>' },
+  { id:'send', name:'发送', en:'send', cat:'comm', catName:'通讯社交',
+    paths:'<path d="M22 2l-7 20-4-9-9-4z"/><path d="M22 2L11 13"/>' },
+
+  /* 状态反馈 */
+  { id:'check-circle', name:'成功', en:'check-circle', cat:'status', catName:'状态反馈',
+    paths:'<circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/>' },
+  { id:'info', name:'信息', en:'info', cat:'status', catName:'状态反馈',
+    paths:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>' },
+  { id:'warning', name:'警告', en:'warning', cat:'status', catName:'状态反馈',
+    paths:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/>' },
+  { id:'error', name:'错误', en:'error', cat:'status', catName:'状态反馈',
+    paths:'<circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/>' },
+  { id:'clock', name:'时钟', en:'clock', cat:'status', catName:'状态反馈',
+    paths:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>' },
+  { id:'shield', name:'安全', en:'shield', cat:'status', catName:'状态反馈',
+    paths:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' },
+
+  /* 效率工具 */
+  { id:'copy', name:'复制', en:'copy', cat:'prod', catName:'效率工具',
+    paths:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>' },
+  { id:'paste', name:'粘贴', en:'paste', cat:'prod', catName:'效率工具',
+    paths:'<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/>' },
+  { id:'archive', name:'归档', en:'archive', cat:'prod', catName:'效率工具',
+    paths:'<rect x="2" y="4" width="20" height="5" rx="1"/><path d="M4 9v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9"/><path d="M10 13h4"/>' },
+  { id:'history', name:'历史', en:'history', cat:'prod', catName:'效率工具',
+    paths:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/><path d="M12 7v5l3 3"/>' },
+  { id:'clipboard', name:'剪切板', en:'clipboard', cat:'prod', catName:'效率工具',
+    paths:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6M9 16h4"/>' },
+  { id:'save', name:'保存', en:'save', cat:'prod', catName:'效率工具',
+    paths:'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>' },
+
+  /* 媒体布局 */
+  { id:'video', name:'视频', en:'video', cat:'media', catName:'媒体布局',
+    paths:'<rect x="2" y="4" width="16" height="16" rx="2"/><path d="M22 7l-4 3.5v3L22 17z"/>' },
+  { id:'camera', name:'相机', en:'camera', cat:'media', catName:'媒体布局',
+    paths:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3"/>' },
+  { id:'grid', name:'网格视图', en:'grid', cat:'media', catName:'媒体布局',
+    paths:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>' },
+  { id:'list', name:'列表', en:'list', cat:'media', catName:'媒体布局',
+    paths:'<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/>' },
+  { id:'layout', name:'面板', en:'layout', cat:'media', catName:'媒体布局',
+    paths:'<rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="8" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>' },
+  { id:'columns', name:'列布局', en:'columns', cat:'media', catName:'媒体布局',
+    paths:'<rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/>' },
+
+  /* 开发运维 */
+  { id:'code', name:'代码', en:'code', cat:'devops', catName:'开发运维',
+    paths:'<path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>' },
+  { id:'terminal', name:'终端', en:'terminal', cat:'devops', catName:'开发运维',
+    paths:'<path d="M4 17l6-6-6-6"/><path d="M12 19h8"/>' },
+  { id:'git-branch', name:'分支', en:'git-branch', cat:'devops', catName:'开发运维',
+    paths:'<path d="M6 3v12"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 0-9-9"/><circle cx="6" cy="6" r="3"/>' },
+  { id:'database', name:'数据库', en:'database', cat:'devops', catName:'开发运维',
+    paths:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>' },
+  { id:'server', name:'服务器', en:'server', cat:'devops', catName:'开发运维',
+    paths:'<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/>' },
+  { id:'monitor', name:'监控', en:'monitor', cat:'devops', catName:'开发运维',
+    paths:'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>' },
+
+  /* 商务金融 */
+  { id:'wallet', name:'钱包', en:'wallet', cat:'biz', catName:'商务金融',
+    paths:'<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>' },
+  { id:'credit-card', name:'银行卡', en:'credit-card', cat:'biz', catName:'商务金融',
+    paths:'<rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/>' },
+  { id:'bank', name:'银行', en:'bank', cat:'biz', catName:'商务金融',
+    paths:'<path d="M12 2l10 6v2H2V8zM4 11v8M8 11v8M12 11v8M16 11v8M20 11v8M2 22h20"/>' },
+  { id:'receipt', name:'收据', en:'receipt', cat:'biz', catName:'商务金融',
+    paths:'<path d="M4 2v20l2.5-1.5 2.5 1.5 2.5-1.5 2.5 1.5 2.5-1.5 2.5 1.5V2zM7 8h10M7 12h8M7 16h6"/>' },
+  { id:'percent', name:'百分比', en:'percent', cat:'biz', catName:'商务金融',
+    paths:'<circle cx="6" cy="6" r="3"/><path d="M9.5 14.8 15 9"/><polyline points="19 21 16 21 19 17"/><circle cx="17" cy="18" r="3"/>' },
+  { id:'dollar-sign', name:'资金', en:'dollar-sign', cat:'biz', catName:'商务金融',
+    paths:'<path d="M12 2v20M17 5H9.5A3.5 3.5 0 0 0 9.93 12H15a3 3 0 0 1 0 6H7"/>' },
+
+  /* 文档知识 */
+  { id:'book', name:'图书', en:'book', cat:'doc', catName:'文档知识',
+    paths:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' },
+  { id:'note', name:'笔记', en:'note', cat:'doc', catName:'文档知识',
+    paths:'<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5z"/><path d="M14 2v6h6M9 13h6M9 17h3"/>' },
+  { id:'file-text', name:'文档', en:'file-text', cat:'doc', catName:'文档知识',
+    paths:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>' },
+  { id:'paperclip', name:'附件', en:'paperclip', cat:'doc', catName:'文档知识',
+    paths:'<path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>' },
+  { id:'bookmark', name:'书签', en:'bookmark', cat:'doc', catName:'文档知识',
+    paths:'<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>' },
+  { id:'flag', name:'旗帜', en:'flag', cat:'doc', catName:'文档知识',
+    paths:'<path d="M4 15s1-1 5-1 5 2 10 2 4-1 4-1V3s-1 1-4 1-5-2-10-2-5 1-5 1zM4 22v-7"/>' },
+
+  /* 系统控制 */
+  { id:'power', name:'电源', en:'power', cat:'sys', catName:'系统控制',
+    paths:'<path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><path d="M12 2v10"/>' },
+  { id:'sun', name:'明亮', en:'sun', cat:'sys', catName:'系统控制',
+    paths:'<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>' },
+  { id:'moon', name:'暗黑', en:'moon', cat:'sys', catName:'系统控制',
+    paths:'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>' },
+  { id:'volume', name:'音量', en:'volume', cat:'sys', catName:'系统控制',
+    paths:'<path d="M11 5L6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/>' },
+  { id:'maximize', name:'最大化', en:'maximize', cat:'sys', catName:'系统控制',
+    paths:'<rect x="3" y="7" width="14" height="14" rx="2"/><path d="M7 3h10a4 4 0 0 1 4 4v10"/>' },
+  { id:'minimize', name:'最小化', en:'minimize', cat:'sys', catName:'系统控制',
+    paths:'<path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>' },
+];
+
+const CAT_ORDER = ['nav','user','data','ops','ui','aux','comm','status','prod','media','devops','biz','doc','sys'];
+const CAT_LABEL = {nav:'导航概览',user:'用户权限',data:'内容数据',ops:'交易操作',ui:'界面操作',aux:'辅助组件',comm:'通讯社交',status:'状态反馈',prod:'效率工具',media:'媒体布局',devops:'开发运维',biz:'商务金融',doc:'文档知识',sys:'系统控制'};
+
+/* ============ Render ============ */
+const catalog = document.getElementById('catalog');
+let selected = ICONS[0].id;
+
+function svgStr(ic){ return `<svg viewBox="0 0 24 24" ${S}>${ic.paths}</svg>`; }
+function fullSvg(ic){ return `<svg width="24" height="24" viewBox="0 0 24 24" ${S}>${ic.paths}</svg>`; }
+
+function renderCatalog(filter='all'){
+  catalog.innerHTML = '';
+  const groups = filter==='all' ? CAT_ORDER : [filter];
+  groups.forEach(cat=>{
+    const items = ICONS.filter(i=>i.cat===cat);
+    if(!items.length) return;
+    const sec = document.createElement('section');
+    sec.className='section'; sec.id='cat-'+cat;
+    sec.innerHTML = `<div class="sec-head"><h2>${CAT_LABEL[cat]}</h2><span class="cnt">${items.length} 个</span><span class="rule"></span></div>
+      <div class="grid"></div>`;
+    const grid = sec.querySelector('.grid');
+    items.forEach(ic=>{
+      const card = document.createElement('div');
+      card.className='card'+(ic.id===selected?' sel':'');
+      card.dataset.id=ic.id; card.tabIndex=0;
+      card.innerHTML = `
+        <div class="ic">${svgStr(ic)}</div>
+        <div class="name">${ic.name}</div>
+        <div class="en">${ic.en}</div>
+        <div class="copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></div>`;
+      card.addEventListener('click',()=>selectIcon(ic.id,true));
+      card.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectIcon(ic.id,true)} });
+      grid.appendChild(card);
+    });
+    catalog.appendChild(sec);
+  });
+}
+
+function selectIcon(id, copy=false){
+  selected = id;
+  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('sel', c.dataset.id===id));
+  const ic = ICONS.find(i=>i.id===id);
+  document.getElementById('dPreview').innerHTML = svgStr(ic);
+  document.getElementById('dName').textContent = ic.name;
+  document.getElementById('dMeta').textContent = `${ic.catName} · ${ic.en}`;
+  // sizes
+  const sizes = document.getElementById('dSizes');
+  sizes.innerHTML = '';
+  [16,20,24,32].forEach(s=>{
+    const w = document.createElement('div'); w.className='s';
+    w.innerHTML = `<span style="width:${s}px;height:${s}px;display:grid;place-items:center">${svgStr(ic).replace('<svg ','<svg style="width:'+s+'px;height:'+s+'px" ')}</span><span>${s}</span>`;
+    sizes.appendChild(w);
+  });
+  // code
+  document.getElementById('dCode').innerHTML = highlight(fullSvg(ic));
+  if(copy){ copyText(fullSvg(ic)); flashCard(id); toast('已复制「'+ic.name+'」SVG 代码'); }
+}
+
+function highlight(code){
+  return code
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/(&lt;\/?)(svg|path|circle|rect)/g,'$1<span class="tag">$2</span>')
+    .replace(/(stroke|fill|viewBox|width|height|stroke-width|stroke-linecap|stroke-linejoin)=/g,'<span class="at">$1</span>=')
+    .replace(/("([^"]*)")/g,'<span class="val">$1</span>');
+}
+
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).catch(()=>{}); }
+  else { const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta); }
+}
+function flashCard(id){ const c=document.querySelector('.card[data-id="'+id+'"]'); if(!c)return; c.classList.add('copied'); setTimeout(()=>c.classList.remove('copied'),1100); }
+let toastTimer;
+function toast(msg){ const t=document.getElementById('toast'); document.getElementById('toastTxt').textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1800); }
+
+/* ============ Interactions ============ */
+// category filter
+document.getElementById('cats').addEventListener('click',e=>{
+  const b=e.target.closest('.cat'); if(!b)return;
+  document.querySelectorAll('.cat').forEach(x=>x.classList.toggle('active',x===b));
+  renderCatalog(b.dataset.cat);
+  // re-apply selection visual
+  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('sel', c.dataset.id===selected));
+  if(b.dataset.cat!=='all' && b.dataset.cat!==ICONS.find(i=>i.id===selected).cat){
+    // keep panel, no change
+  }
+});
+// theme toggle
+document.getElementById('themeToggle').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  document.querySelectorAll('#themeToggle button').forEach(x=>x.classList.toggle('active',x===b));
+  document.body.classList.toggle('blue', b.dataset.color==='blue');
+});
+// copy code button
+document.getElementById('copyCode').addEventListener('click',()=>{
+  const ic = ICONS.find(i=>i.id===selected);
+  copyText(fullSvg(ic)); flashCard(selected); toast('已复制「'+ic.name+'」SVG 代码');
+});
+
+/* ============ Init ============ */
+renderCatalog('all');
+selectIcon('home');
+</script>
+</body>
+</html>

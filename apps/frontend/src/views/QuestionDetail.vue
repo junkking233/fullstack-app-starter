@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   Bell, UserFilled, View, Star, Check, Delete, Edit,
@@ -555,7 +555,7 @@ onMounted(async () => {
 
                 <!-- Comments -->
                 <div v-if="commentVisibleMap[answer.id]" class="answer-comments">
-                  <div v-loading="commentLoadingMap.value[answer.id]">
+                  <div v-loading="commentLoadingMap[answer.id]">
                     <div v-if="getNestedComments(answer.id).length === 0" class="no-comments">
                       暂无评论
                     </div>
@@ -614,12 +614,12 @@ onMounted(async () => {
 
                     <!-- Add Comment -->
                     <div v-if="isLoggedIn" class="add-comment">
-                      <span v-if="replyTargetMap.value[answer.id]" class="reply-hint">
-                        回复 @{{ replyTargetMap.value[answer.id]?.nickname }}
+                      <span v-if="replyTargetMap[answer.id]" class="reply-hint">
+                        回复 @{{ replyTargetMap[answer.id]?.nickname }}
                         <el-button link type="primary" size="small" @click="cancelReply(answer.id)">取消</el-button>
                       </span>
                       <el-input
-                        v-model="commentInputMap.value[answer.id]"
+                        v-model="commentInputMap[answer.id]"
                         type="textarea"
                         :rows="2"
                         placeholder="写下你的评论..."
@@ -627,7 +627,7 @@ onMounted(async () => {
                       <el-button
                         type="primary"
                         size="small"
-                        :loading="commentSubmittingMap.value[answer.id]"
+                        :loading="commentSubmittingMap[answer.id]"
                         class="comment-btn"
                         @click="handleAddComment(answer.id)"
                       >

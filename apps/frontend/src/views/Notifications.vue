@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+
 import { Bell, UserFilled, Checked, ChatLineSquare, Star } from '@element-plus/icons-vue'
 import { notificationApi } from '@/api/notificationApi'
-import { getCurrentUser } from '@/utils/auth'
 
-const router = useRouter()
-const currentUser = getCurrentUser()
+
+
+
 const notifications = ref<any[]>([])
 const loading = ref(false)
 const page = ref(1)
@@ -83,7 +83,7 @@ onMounted(load)
           <el-tag v-if="!n.isRead" type="danger" size="small">未读</el-tag>
         </div>
       </div>
-      <div v-if="total > pageSize" class="pagination"><el-pagination v-model:current-page="page" :page-size="pageSize" :total="total" layout="prev, pager, next" @current-change="p => { page = p; load() }" /></div>
+      <div v-if="total > pageSize" class="pagination"><el-pagination v-model:current-page="page" :page-size="pageSize" :total="total" layout="prev, pager, next" @current-change="(p: number) => { page = p; load() }" /></div>
     </main>
   </div>
 </template>

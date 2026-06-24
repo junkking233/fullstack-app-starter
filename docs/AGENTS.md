@@ -27,6 +27,13 @@
 - 普通用户密码：`123456`。
 - 密码使用 MD5 加密，不使用 salt。
 
+### 图标库
+
+- 项目在 `apps/assests/icons/` 下维护了一套通用线性图标库（84 个 SVG），使用 `stroke="currentColor"`，可通过 CSS color 控制颜色。
+- 开发时按需将用到的 SVG 复制到子应用目录中（如前端放 `src/assets/icons/`），不要一次性全部复制。
+- 图标列表和预览可打开 `apps/assests/icon-set.html` 查看。
+- 常用图标：`home`、`user`、`search`、`settings`、`bell`、`cart`、`mail`、`edit`、`trash`、`plus`、`close`、`check-circle`、`warning`、`error`、`info`。
+
 ## 后端规范
 
 - Java 项目禁止使用 Lombok。
