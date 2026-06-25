@@ -1,6 +1,6 @@
 # Fullstack App Starter
 
-这是一个全栈项目模板，包含后端 API、网页前端、微信小程序和 AI 服务四个子应用。登录、角色、用户管理、门户页面、管理后台、小程序页面、AI 流式聊天接口和数据库初始化都已经搭好。
+这是一个全栈项目模板，包含后端 API、网页前端、uni-app 小程序端和 AI 服务四个子应用。登录、角色、用户管理、门户页面、管理后台、小程序页面、AI 流式聊天接口和数据库初始化都已经搭好。
 
 如果你是第一次打开这个项目，先看这一页就够了。
 
@@ -11,7 +11,7 @@
 | 网页门户 | 普通用户访问服务大厅、我的业务、个人中心。 |
 | 管理后台 | 管理员查看运营概览、用户管理、数据图表、AI 助手。 |
 | 服务方门户 | 服务方查看工单、资源和报表。 |
-| 微信小程序 | 首页、分类、购物车、订单、地址、优惠券、登录注册。 |
+| uni-app 小程序端 | 首页、分类、购物车、订单、地址、优惠券、登录注册，可编译到微信小程序。 |
 | 后端 API | 登录鉴权、用户管理、图表数据、健康检查。 |
 | AI 服务 | FastAPI 调用 DeepSeek，给前端提供 SSE 流式聊天接口。 |
 
@@ -22,8 +22,7 @@ fullstack-app-starter/
 ├── apps/
 │   ├── backend/              # Spring Boot 后端 API（必须）
 │   ├── frontend/             # Vue + Vite 网页前端（必须）
-│   ├── wechat-miniprogram/   # 微信小程序原生开发（可选）
-│   ├── uniapp/               # uni-app 跨平台端（可选）
+│   ├── uniapp/               # uni-app 小程序端（可选）
 │   └── ai-service/           # FastAPI AI 服务（可选）
 ├── db/
 │   └── db.sql                # 数据库初始化脚本
@@ -42,22 +41,14 @@ fullstack-app-starter/
 | --- | --- |
 | 后端 API | [`apps/backend/README.md`](apps/backend/README.md) |
 | 网页前端 | [`apps/frontend/README.md`](apps/frontend/README.md) |
-| 微信小程序 | [`apps/wechat-miniprogram/README.md`](apps/wechat-miniprogram/README.md) |
-| uni-app 跨平台端 | [`apps/uniapp/README.md`](apps/uniapp/README.md) |
+| uni-app 小程序端 | [`apps/uniapp/README.md`](apps/uniapp/README.md) |
 | AI 服务 | [`apps/ai-service/README.md`](apps/ai-service/README.md) |
 
 ## 按需裁剪
 
 `apps/backend/` 和 `apps/frontend/` 是项目核心，必须保留。
 
-`apps/wechat-miniprogram/`、`apps/uniapp/` 和 `apps/ai-service/` 是可选模块，不需要时可以按以下步骤移除。
-
-> `apps/wechat-miniprogram/`（原生小程序）和 `apps/uniapp/`（跨平台）功能重叠，保留一个即可。推荐使用 uni-app，后期可编译到多个平台。
-
-### 移除原生微信小程序
-
-1. 删除 `apps/wechat-miniprogram/` 目录。
-2. `docker-compose.yml` 中小程序没有独立服务，无需修改。
+`apps/uniapp/` 和 `apps/ai-service/` 是可选模块，不需要时可以按以下步骤移除。
 
 ### 移除 uni-app
 
@@ -77,9 +68,9 @@ fullstack-app-starter/
 | --- | --- |
 | Java | JDK 21 |
 | Maven | 后端构建工具 |
-| Node.js + npm | 网页前端和小程序依赖管理 |
+| Node.js + npm | 网页前端和 uni-app 小程序端依赖管理 |
 | Docker + Docker Compose | 启动后端、前端、AI 服务和连接 MySQL |
-| 微信开发者工具 | 开发微信小程序时需要 |
+| 微信开发者工具 | 调试 uni-app 编译后的微信小程序时需要 |
 | MySQL | 使用共享容器 `mysql-docker`，账号密码 `root/admin123` |
 
 ## 启动项目

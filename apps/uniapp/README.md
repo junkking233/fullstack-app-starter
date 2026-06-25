@@ -2,7 +2,7 @@
 
 基于 uni-app 的跨平台子应用，使用 Vue 3 + TypeScript + uni-ui，可编译到微信小程序、H5、Android 和 iOS。
 
-> **可选模块**：与 `apps/wechat-miniprogram/` 并存，后期可逐步替代原生小程序开发。
+> **小程序统一入口**：后续小程序开发统一在本目录进行，不再维护原生微信小程序目录。
 
 ## 技术栈
 

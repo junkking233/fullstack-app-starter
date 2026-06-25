@@ -1,9 +1,0 @@
-{
-  "desc": "Sitemap config for Fullstack App Starter Mini Program",
-  "rules": [
-    {
-      "action": "allow",
-      "page": "*"
-    }
-  ]
-}

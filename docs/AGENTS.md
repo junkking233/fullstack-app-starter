@@ -73,30 +73,14 @@
 
 如项目为了 TypeScript 校验或局域网访问扩展命令，可以保留 `vue-tsc` 或 `--host 0.0.0.0`，但端口仍必须是 `9999`。
 
-## 小程序规范
-
-- 小程序端使用 Vant Weapp UI 框架：https://vant-ui.github.io/vant-weapp/#/home
-- 原生 `button` 仅用于需要微信原生能力的场景，例如 `open-type`、授权、分享、获取手机号、表单提交等。
-- 普通页面操作按钮、底部固定操作栏按钮、卡片内按钮，优先使用 `view`/`text` 模拟按钮，并绑定 `bindtap`。
-- 如必须使用原生 `button` 做自定义样式，必须完整重置：
-  - `margin: 0`
-  - `padding: 0`
-  - `border: 0`
-  - `line-height`
-  - `text-align`
-  - `background`
-  - `border-radius`
-  - `button::after { border: 0; }`
-- 底部固定操作栏必须适配安全区：`padding-bottom: calc(基础间距 + env(safe-area-inset-bottom))`。
-- 页面内容区必须为底部固定操作栏预留空间，避免最后一块内容被遮挡。
-
 ## uni-app 规范
 
+- 小程序端统一使用 `apps/uniapp/` 开发，禁止新增原生微信小程序目录或页面。
 - 使用 Vue 3 组合式 API（`<script setup>`）编写页面。
 - UI 组件使用 uni-ui，通过 easycom 自动引入，无需手动 import。
 - 跨平台兼容：优先使用 `uni.*` 统一接口，避免使用平台特有 API。
 - 页面样式使用 `rpx` 单位，自动适配不同屏幕尺寸。
-- 与原生小程序（`apps/wechat-miniprogram/`）并存，后期逐步替代。
+- 底部固定操作栏必须适配安全区，并为页面内容区预留空间，避免最后一块内容被遮挡。
 - 编译产物（`dist/`）不提交到 Git。
 
 ## 测试调试规范
