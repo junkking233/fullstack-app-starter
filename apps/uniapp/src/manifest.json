@@ -1,12 +1,12 @@
 {
   "name": "Fullstack App",
-  "appid": "",
+  "appid": "wxd84d204ed36b05b5",
   "description": "全栈项目 uni-app 端",
   "versionName": "0.1.0",
   "versionCode": "100",
   "transformPx": false,
   "mp-weixin": {
-    "appid": "",
+    "appid": "wxd84d204ed36b05b5",
     "setting": {
       "urlCheck": false
     },

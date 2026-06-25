@@ -76,6 +76,7 @@
 ## uni-app 规范
 
 - 小程序端统一使用 `apps/uniapp/` 开发，禁止新增原生微信小程序目录或页面。
+- 为避免微信开发者工具出现 `Error: tourist appid`，`manifest.json` 中 AppID 固定配置为 `wxd84d204ed36b05b5`。
 - 使用 Vue 3 组合式 API（`<script setup>`）编写页面。
 - UI 组件使用 uni-ui，通过 easycom 自动引入，无需手动 import。
 - 跨平台兼容：优先使用 `uni.*` 统一接口，避免使用平台特有 API。
