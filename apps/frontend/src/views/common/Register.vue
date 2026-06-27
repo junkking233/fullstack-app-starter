@@ -47,7 +47,7 @@ async function handleRegister() {
   <div class="register-page">
     <div class="register-card">
       <div class="register-brand">
-        <h1>知问社区</h1>
+        <h1>智享门户</h1>
         <p>创建您的账号</p>
       </div>
 

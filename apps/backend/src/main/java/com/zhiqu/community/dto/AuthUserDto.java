@@ -20,14 +20,6 @@ public class AuthUserDto {
 
     private String status;
 
-    private Integer exp;
-
-    private Integer level;
-
-    private Integer loginDays;
-
-    private Integer consecutiveDays;
-
     private LocalDateTime createdAt;
 
     public static AuthUserDto from(User user) {
@@ -39,10 +31,6 @@ public class AuthUserDto {
         dto.setBio(user.getBio());
         dto.setRole(user.getRole());
         dto.setStatus(user.getStatus());
-        dto.setExp(user.getExp());
-        dto.setLevel(user.getLevel());
-        dto.setLoginDays(user.getLoginDays());
-        dto.setConsecutiveDays(user.getConsecutiveDays());
         dto.setCreatedAt(user.getCreatedAt());
         return dto;
     }
@@ -101,38 +89,6 @@ public class AuthUserDto {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Integer getExp() {
-        return exp;
-    }
-
-    public void setExp(Integer exp) {
-        this.exp = exp;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public Integer getLoginDays() {
-        return loginDays;
-    }
-
-    public void setLoginDays(Integer loginDays) {
-        this.loginDays = loginDays;
-    }
-
-    public Integer getConsecutiveDays() {
-        return consecutiveDays;
-    }
-
-    public void setConsecutiveDays(Integer consecutiveDays) {
-        this.consecutiveDays = consecutiveDays;
     }
 
     public LocalDateTime getCreatedAt() {

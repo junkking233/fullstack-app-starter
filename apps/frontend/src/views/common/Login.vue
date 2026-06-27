@@ -34,9 +34,12 @@ async function handleLogin() {
     if (result.user.role === 'ADMIN') {
       ElMessage.success('登录成功，欢迎管理员');
       await router.push('/admin/dashboard');
+    } else if (result.user.role === 'PARTNER') {
+      ElMessage.success('登录成功，欢迎服务方');
+      await router.push('/partner/dashboard');
     } else {
       ElMessage.success('登录成功');
-      const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/';
+      const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/portal/home';
       await router.push(redirect);
     }
   } catch (error) {
@@ -51,8 +54,8 @@ async function handleLogin() {
   <div class="login-page">
     <div class="login-card">
       <div class="login-brand">
-        <h1>知问社区</h1>
-        <p>社区问答平台</p>
+        <h1>智享门户</h1>
+        <p>一站式服务平台</p>
       </div>
 
       <el-form ref="formRef" :model="form" :rules="rules" class="login-form" @submit.prevent="handleLogin">
@@ -96,6 +99,8 @@ async function handleLogin() {
       <div class="demo-hint">
         <el-tag size="small" effect="light" round>演示账号</el-tag>
         <span>管理员 <strong>admin</strong> / <strong>admin123</strong></span>
+        <span class="hint-divider">·</span>
+        <span>服务方 <strong>partner</strong> / <strong>123456</strong></span>
         <span class="hint-divider">·</span>
         <span>用户 <strong>user</strong> / <strong>123456</strong></span>
       </div>

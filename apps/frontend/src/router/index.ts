@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import PortalLayout from '@/layouts/PortalLayout.vue';
+import PartnerLayout from '@/layouts/PartnerLayout.vue';
 import AdminLayout from '@/layouts/AdminLayout.vue';
+import BlankLayout from '@/layouts/BlankLayout.vue';
 import { getCurrentUser } from '@/utils/auth';
 
 const router = createRouter({
@@ -7,70 +10,98 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: () => import('@/views/Home.vue'),
-      meta: { title: '知问社区' },
+      redirect: '/portal/home',
     },
+    // ===== Auth Routes =====
     {
       path: '/login',
-      name: 'Login',
-      component: () => import('@/views/common/Login.vue'),
-      meta: { title: '登录' },
+      component: BlankLayout,
+      children: [
+        {
+          path: '',
+          name: 'Login',
+          component: () => import('@/views/common/Login.vue'),
+          meta: { title: '登录' },
+        },
+      ],
     },
     {
       path: '/register',
-      name: 'Register',
-      component: () => import('@/views/common/Register.vue'),
-      meta: { title: '注册' },
+      component: BlankLayout,
+      children: [
+        {
+          path: '',
+          name: 'Register',
+          component: () => import('@/views/common/Register.vue'),
+          meta: { title: '注册' },
+        },
+      ],
     },
+    // ===== Portal Routes =====
     {
-      path: '/profile',
-      name: 'Profile',
-      component: () => import('@/views/Profile.vue'),
-      meta: { title: '个人中心', requiresAuth: true },
+      path: '/portal',
+      component: PortalLayout,
+      redirect: '/portal/home',
+      children: [
+        {
+          path: 'home',
+          name: 'PortalHome',
+          component: () => import('@/views/portal/Home.vue'),
+          meta: { title: '首页' },
+        },
+        {
+          path: 'services',
+          name: 'PortalServices',
+          component: () => import('@/views/portal/Services.vue'),
+          meta: { title: '服务大厅' },
+        },
+        {
+          path: 'my-business',
+          name: 'PortalMyBusiness',
+          component: () => import('@/views/portal/MyBusiness.vue'),
+          meta: { title: '我的业务', requiresAuth: true },
+        },
+        {
+          path: 'profile',
+          name: 'PortalProfile',
+          component: () => import('@/views/portal/Profile.vue'),
+          meta: { title: '个人中心', requiresAuth: true },
+        },
+      ],
     },
+    // ===== Partner Routes =====
     {
-      path: '/question/create',
-      name: 'QuestionCreate',
-      component: () => import('@/views/QuestionCreate.vue'),
-      meta: { title: '发布问题', requiresAuth: true },
+      path: '/partner',
+      component: PartnerLayout,
+      redirect: '/partner/dashboard',
+      children: [
+        {
+          path: 'dashboard',
+          name: 'PartnerDashboard',
+          component: () => import('@/views/partner/Dashboard.vue'),
+          meta: { title: '总览', requiresAuth: true },
+        },
+        {
+          path: 'tasks',
+          name: 'PartnerTasks',
+          component: () => import('@/views/partner/Tasks.vue'),
+          meta: { title: '工单', requiresAuth: true },
+        },
+        {
+          path: 'resources',
+          name: 'PartnerResources',
+          component: () => import('@/views/partner/Resources.vue'),
+          meta: { title: '资源', requiresAuth: true },
+        },
+        {
+          path: 'reports',
+          name: 'PartnerReports',
+          component: () => import('@/views/partner/Reports.vue'),
+          meta: { title: '报表', requiresAuth: true },
+        },
+      ],
     },
-    {
-      path: '/question/:id',
-      name: 'QuestionDetail',
-      component: () => import('@/views/QuestionDetail.vue'),
-      meta: { title: '问题详情' },
-    },
-    {
-      path: '/search',
-      name: 'Search',
-      component: () => import('@/views/Search.vue'),
-      meta: { title: '搜索' },
-    },
-    {
-      path: '/notifications',
-      name: 'Notifications',
-      component: () => import('@/views/Notifications.vue'),
-      meta: { title: '消息通知', requiresAuth: true },
-    },
-    {
-      path: '/featured',
-      name: 'Featured',
-      component: () => import('@/views/Featured.vue'),
-      meta: { title: '精华区' },
-    },
-    {
-      path: '/hot',
-      name: 'Hot',
-      component: () => import('@/views/Hot.vue'),
-      meta: { title: '热榜' },
-    },
-    {
-      path: '/leaderboard',
-      name: 'Leaderboard',
-      component: () => import('@/views/Leaderboard.vue'),
-      meta: { title: '排行榜' },
-    },
+    // ===== Admin Routes =====
     {
       path: '/admin',
       component: AdminLayout,
@@ -80,86 +111,77 @@ const router = createRouter({
         {
           path: 'dashboard',
           name: 'AdminDashboard',
-          component: () => import('@/views/admin/Dashboard.vue'),
-          meta: { title: '仪表盘', icon: 'DataAnalysis' },
+          component: () => import('@/views/admin/DashboardView.vue'),
+          meta: { title: '运营总览' },
         },
         {
-          path: 'categories',
-          name: 'AdminCategories',
-          component: () => import('@/views/admin/Categories.vue'),
-          meta: { title: '分类管理', icon: 'Collection' },
+          path: 'analytics',
+          name: 'AdminAnalytics',
+          component: () => import('@/views/admin/AnalyticsView.vue'),
+          meta: { title: '数据分析' },
         },
         {
-          path: 'tags',
-          name: 'AdminTags',
-          component: () => import('@/views/admin/Tags.vue'),
-          meta: { title: '标签管理', icon: 'PriceTag' },
+          path: 'datascreen',
+          name: 'AdminDataScreen',
+          component: () => import('@/views/admin/DataScreenView.vue'),
+          meta: { title: '数据大屏' },
         },
         {
-          path: 'sensitive-words',
-          name: 'AdminSensitiveWords',
-          component: () => import('@/views/admin/SensitiveWords.vue'),
-          meta: { title: '敏感词管理', icon: 'Warning' },
+          path: 'management',
+          name: 'AdminManagement',
+          component: () => import('@/views/admin/ManagementView.vue'),
+          meta: { title: '客户管理' },
         },
         {
-          path: 'review',
-          name: 'AdminReview',
-          component: () => import('@/views/admin/Review.vue'),
-          meta: { title: '内容审核', icon: 'Checked' },
+          path: 'visuallist',
+          name: 'AdminVisualList',
+          component: () => import('@/views/admin/VisualListView.vue'),
+          meta: { title: '可视化列表' },
         },
         {
-          path: 'users',
-          name: 'AdminUsers',
-          component: () => import('@/views/admin/Users.vue'),
-          meta: { title: '用户管理', icon: 'UserFilled' },
-        },
-        {
-          path: 'questions',
-          name: 'AdminQuestions',
-          component: () => import('@/views/admin/Questions.vue'),
-          meta: { title: '问题管理', icon: 'QuestionFilled' },
-        },
-        {
-          path: 'reports',
-          name: 'AdminReports',
-          component: () => import('@/views/admin/Reports.vue'),
-          meta: { title: '举报处理', icon: 'Warning' },
-        },
-        {
-          path: 'export',
-          name: 'AdminExport',
-          component: () => import('@/views/admin/Export.vue'),
-          meta: { title: '数据导出', icon: 'Download' },
+          path: 'settings',
+          name: 'AdminSettings',
+          component: () => import('@/views/admin/SettingsView.vue'),
+          meta: { title: '系统设置' },
         },
       ],
     },
+    // ===== Catch-all =====
     {
       path: '/:pathMatch(.*)*',
-      redirect: '/',
+      redirect: '/portal/home',
     },
   ],
 });
 
 router.beforeEach((to, _from, next) => {
-  document.title = to.meta.title ? `${to.meta.title} - 知问社区` : '知问社区';
+  document.title = to.meta.title
+    ? (typeof to.meta.title === 'string' ? `${to.meta.title} - 智享门户` : '智享门户')
+    : '智享门户';
 
   const currentUser = getCurrentUser();
 
-  // If logged in and going to login/register, redirect to home
+  // If logged in and going to login/register, redirect to role-appropriate page
   if (currentUser && (to.path === '/login' || to.path === '/register')) {
-    next('/');
-    return;
-  }
-
-  // If admin route and not admin, redirect to home
-  if (to.path.startsWith('/admin') && currentUser?.role !== 'ADMIN') {
-    next('/');
+    if (currentUser.role === 'ADMIN') {
+      next('/admin/dashboard');
+    } else if (currentUser.role === 'PARTNER') {
+      next('/partner/dashboard');
+    } else {
+      next('/portal/home');
+    }
     return;
   }
 
   // If route requires auth and not logged in, redirect to login
   if (to.meta.requiresAuth && !currentUser) {
-    next('/login');
+    next(`/login?redirect=${encodeURIComponent(to.fullPath)}`);
+    return;
+  }
+
+  // If admin route and user is not ADMIN, redirect to home
+  if (to.path.startsWith('/admin') && currentUser?.role !== 'ADMIN') {
+    next('/portal/home');
     return;
   }
 

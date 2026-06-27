@@ -28,8 +28,9 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        // 公开内容接口：GET 请求无需登录
         String path = request.getRequestURI();
+
+        // Public GET paths: allow anonymous access with optional token
         if ("GET".equalsIgnoreCase(request.getMethod()) && isPublicReadPath(path)) {
             String authorization = request.getHeader("Authorization");
             if (authorization != null && authorization.startsWith("Bearer ")) {
@@ -41,7 +42,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                             new TokenSubject(user.getId(), user.getUsername(), user.getRole(), ts.getExpiresAt()));
                     }
                 } catch (Exception ignored) {
-                    // Token 无效时以匿名身份访问公开内容
+                    // Token invalid, proceed as anonymous
                 }
             }
             return true;
@@ -64,22 +65,16 @@ public class AuthInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    // GET 请求允许匿名访问的公开内容路径
+    // GET requests allowed for anonymous access
     private boolean isPublicReadPath(String path) {
-        return path.startsWith("/api/questions")
-            || path.startsWith("/api/answers")
-            || path.startsWith("/api/comments")
+        return path.startsWith("/api/charts")
             || path.startsWith("/api/categories")
-            || path.startsWith("/api/tags")
-            || path.startsWith("/api/hotlist")
-            || path.startsWith("/api/achievements/leaderboard");
+            || path.startsWith("/api/tags");
     }
 
     private void checkPermission(String path, TokenSubject subject) {
-        if (path.startsWith("/api/users") && !"ADMIN".equals(subject.getRole())) {
-            throw new BusinessException(403, "无权访问用户管理接口");
-        }
-        if (path.startsWith("/api/admin") && !"ADMIN".equals(subject.getRole())) {
+        if (path.startsWith("/api/users") && !"ADMIN".equals(subject.getRole())
+                || path.startsWith("/api/admin") && !"ADMIN".equals(subject.getRole())) {
             throw new BusinessException(403, "无权访问管理接口");
         }
     }

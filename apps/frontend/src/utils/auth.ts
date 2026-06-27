@@ -6,10 +6,6 @@ export interface AuthUser {
   bio: string;
   role: string;
   status: string;
-  exp: number;
-  level: number;
-  loginDays: number;
-  consecutiveDays: number;
   createdAt: string;
 }
 
@@ -19,7 +15,7 @@ interface AuthState {
   expiresAt: number;
 }
 
-const AUTH_STATE_KEY = 'zhiqu_community_auth';
+const AUTH_STATE_KEY = 'fullstack_app_auth';
 
 export function setAuthState(token: string, user: AuthUser, expiresAt: number) {
   const state: AuthState = { token, user, expiresAt };
@@ -61,7 +57,10 @@ export function defaultPathForRole(role: string) {
   if (role === 'ADMIN') {
     return '/admin/dashboard';
   }
-  return '/';
+  if (role === 'PARTNER') {
+    return '/partner/dashboard';
+  }
+  return '/portal/home';
 }
 
 export function hasRoutePermission(path: string, role: string) {

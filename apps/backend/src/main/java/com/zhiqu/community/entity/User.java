@@ -29,16 +29,6 @@ public class User {
 
     private String status;
 
-    private Integer exp;
-
-    private Integer level;
-
-    @TableField("login_days")
-    private Integer loginDays;
-
-    @TableField("consecutive_days")
-    private Integer consecutiveDays;
-
     @TableField("created_at")
     private LocalDateTime createdAt;
 
@@ -107,38 +97,6 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Integer getExp() {
-        return exp;
-    }
-
-    public void setExp(Integer exp) {
-        this.exp = exp;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public Integer getLoginDays() {
-        return loginDays;
-    }
-
-    public void setLoginDays(Integer loginDays) {
-        this.loginDays = loginDays;
-    }
-
-    public Integer getConsecutiveDays() {
-        return consecutiveDays;
-    }
-
-    public void setConsecutiveDays(Integer consecutiveDays) {
-        this.consecutiveDays = consecutiveDays;
     }
 
     public LocalDateTime getCreatedAt() {

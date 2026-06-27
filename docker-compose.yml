@@ -3,15 +3,15 @@ services:
     build:
       context: ./apps/backend
       dockerfile: Dockerfile
-    container_name: zhiqu-community-backend
+    container_name: fullstack-backend
     ports:
       - "8888:8888"
     environment:
       SERVER_PORT: 8888
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-docker:3306/zhiqu_community?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-docker:3306/template_db?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: admin123
-      AUTH_TOKEN_SECRET: ${AUTH_TOKEN_SECRET:-zhiqu-community-jwt-secret-key-2024}
+      AUTH_TOKEN_SECRET: ${AUTH_TOKEN_SECRET:-fullstack-app-starter-jwt-secret-key-2025}
       AUTH_TOKEN_TTL_SECONDS: 604800
     networks:
       - app-network
@@ -21,7 +21,7 @@ services:
     build:
       context: ./apps/frontend
       dockerfile: Dockerfile
-    container_name: zhiqu-community-frontend
+    container_name: fullstack-frontend
     ports:
       - "9999:9999"
     environment:

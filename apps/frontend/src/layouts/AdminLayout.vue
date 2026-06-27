@@ -3,14 +3,13 @@ import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
   DataAnalysis,
-  Checked,
+  TrendCharts,
+  Monitor,
+  Management,
+  Setting,
+  List,
   UserFilled,
-  QuestionFilled,
-  Collection,
-  PriceTag,
-  Warning,
   SwitchButton,
-  Download,
 } from '@element-plus/icons-vue';
 import { clearAuthState, getCurrentUser } from '@/utils/auth';
 
@@ -19,20 +18,17 @@ const router = useRouter();
 const currentUser = getCurrentUser();
 
 const menuItems = [
-  { index: '/admin/dashboard', title: '仪表盘', icon: DataAnalysis },
-  { index: '/admin/review', title: '内容审核', icon: Checked },
-  { index: '/admin/users', title: '用户管理', icon: UserFilled },
-  { index: '/admin/questions', title: '问题管理', icon: QuestionFilled },
-  { index: '/admin/categories', title: '分类管理', icon: Collection },
-  { index: '/admin/tags', title: '标签管理', icon: PriceTag },
-  { index: '/admin/sensitive-words', title: '敏感词管理', icon: Warning },
-  { index: '/admin/reports', title: '举报处理', icon: Warning },
-  { index: '/admin/export', title: '数据导出', icon: Download },
+  { index: '/admin/dashboard', title: '运营总览', icon: DataAnalysis },
+  { index: '/admin/analytics', title: '数据分析', icon: TrendCharts },
+  { index: '/admin/datascreen', title: '数据大屏', icon: Monitor },
+  { index: '/admin/management', title: '客户管理', icon: Management },
+  { index: '/admin/visuallist', title: '可视化列表', icon: List },
+  { index: '/admin/settings', title: '系统设置', icon: Setting },
 ];
 
 const pageTitle = computed(() => {
   const item = menuItems.find((m) => m.index === route.path);
-  return item?.title ?? '管理后台';
+  return item?.title ?? '管理控制台';
 });
 
 function logout() {
@@ -45,8 +41,8 @@ function logout() {
   <div class="admin-layout">
     <aside class="admin-sidebar">
       <div class="sidebar-brand" @click="router.push('/admin/dashboard')">
-        <h2 class="brand-title">知问社区</h2>
-        <span class="brand-sub">管理后台</span>
+        <h2 class="brand-title">管理控制台</h2>
+        <span class="brand-sub">Admin Console</span>
       </div>
 
       <div class="sidebar-user">

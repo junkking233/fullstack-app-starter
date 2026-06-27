@@ -10,14 +10,14 @@ export default defineConfig({
     },
   },
   server: {
-    port: 9998,
+    port: 9999,
     proxy: {
       '/api/ai': {
         target: process.env.VITE_PROXY_AI || 'http://localhost:8000',
         changeOrigin: true,
       },
       '/api': {
-        target: process.env.VITE_PROXY_BACKEND || 'http://localhost:8887',
+        target: process.env.VITE_PROXY_BACKEND || 'http://localhost:8888',
         changeOrigin: true,
       },
     },
