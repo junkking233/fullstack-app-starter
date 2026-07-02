@@ -6,311 +6,609 @@
     <title>Fullstack App Starter 工作流看板</title>
     <style>
       :root {
-        --bg: #f6f8fb;
-        --panel: #ffffff;
-        --text: #162033;
-        --muted: #667085;
-        --line: #d9e1ec;
-        --brand: #167455;
-        --brand-soft: #e8f5ef;
-        --warn: #ad6a00;
-        --todo: #8a94a6;
+        --bg: #f4f7fb;
+        --surface: #ffffff;
+        --surface-soft: #f8fafc;
+        --ink: #172033;
+        --body: #40506a;
+        --muted: #728096;
+        --line: #d8e1ec;
+        --line-soft: #e8eef5;
+        --brand: #0f766e;
+        --brand-strong: #0b5f59;
+        --brand-soft: #e7f5f2;
+        --blue: #2563eb;
+        --blue-soft: #eaf1ff;
+        --amber: #b45309;
+        --amber-soft: #fff5e6;
+        --idle: #8793a8;
+        --radius: 8px;
+        --shadow: 0 18px 45px rgba(28, 43, 64, 0.08);
       }
 
       * {
         box-sizing: border-box;
       }
 
+      html,
+      body {
+        min-height: 100%;
+      }
+
       body {
         margin: 0;
-        min-height: 100vh;
         background: var(--bg);
-        color: var(--text);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+      }
+
+      body::before {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        content: "";
+        background:
+          linear-gradient(rgba(216, 225, 236, 0.42) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(216, 225, 236, 0.42) 1px, transparent 1px);
+        background-size: 32px 32px;
+        mask-image: linear-gradient(to bottom, #000, transparent 72%);
       }
 
       main {
-        max-width: 1180px;
+        width: min(1180px, calc(100% - 32px));
         margin: 0 auto;
-        padding: 32px 20px 48px;
+        padding: 28px 0 44px;
       }
 
-      header {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        align-items: flex-start;
-        margin-bottom: 24px;
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
       }
 
       h1 {
-        margin: 0 0 8px;
-        font-size: 30px;
+        max-width: 740px;
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.12;
         letter-spacing: 0;
       }
 
       h2 {
-        margin: 0 0 16px;
         font-size: 18px;
+        line-height: 1.3;
+      }
+
+      h3 {
+        font-size: 14px;
+        color: var(--body);
       }
 
       p {
-        margin: 0;
         color: var(--muted);
         line-height: 1.7;
       }
 
       code {
         padding: 2px 6px;
-        border-radius: 5px;
-        background: #eef2f7;
-        color: #22304a;
+        border: 1px solid var(--line-soft);
+        border-radius: 6px;
+        background: #f3f6fa;
+        color: #26364f;
+        font-size: 12px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 310px;
+        gap: 18px;
+        align-items: stretch;
+        margin-bottom: 18px;
+      }
+
+      .hero-main,
+      .hero-side,
+      .section {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-main {
+        padding: 28px;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding: 7px 10px;
+        border: 1px solid #badbd5;
+        border-radius: var(--radius);
+        background: var(--brand-soft);
+        color: var(--brand-strong);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .kicker-mark {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--brand);
+      }
+
+      .hero-copy {
+        max-width: 760px;
+        margin-top: 14px;
+        font-size: 16px;
+      }
+
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .meta-pill {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        min-height: 34px;
+        padding: 7px 10px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface-soft);
+        color: var(--body);
         font-size: 13px;
       }
 
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 7px 10px;
-        border-radius: 8px;
-        background: var(--brand-soft);
-        color: var(--brand);
+      .meta-pill strong {
+        color: var(--ink);
+      }
+
+      .hero-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px;
+        background: #0f1f2f;
+        color: #f7fbff;
+      }
+
+      .stage-number {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+
+      .stage-number strong {
+        font-size: 70px;
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .stage-number span {
+        color: #b8c7d8;
+        font-size: 13px;
         font-weight: 700;
-        white-space: nowrap;
       }
 
-      .grid {
+      .hero-side p {
+        color: #cfdae7;
+      }
+
+      .status-chip {
+        width: fit-content;
+        margin-top: 16px;
+        padding: 7px 10px;
+        border-radius: var(--radius);
+        background: rgba(15, 118, 110, 0.2);
+        color: #9ff0df;
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      .layout {
         display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .section {
+        padding: 20px;
+      }
+
+      .section + .section,
+      .stack > .section + .section {
+        margin-top: 18px;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
         gap: 16px;
+        align-items: flex-start;
+        margin-bottom: 16px;
       }
 
-      .panel {
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 18px;
-        box-shadow: 0 10px 30px rgba(31, 44, 64, 0.05);
+      .section-note {
+        max-width: 520px;
+        font-size: 13px;
       }
 
-      .meta {
+      .status-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
       }
 
-      .meta div {
-        border: 1px solid var(--line);
-        border-radius: 8px;
+      .status-item {
+        min-height: 88px;
+        padding: 14px;
+        border: 1px solid var(--line-soft);
+        border-radius: var(--radius);
+        background: var(--surface-soft);
+      }
+
+      .status-item span {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .status-item strong {
+        color: var(--ink);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .progress-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .stage-row {
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr) 92px;
+        gap: 12px;
+        align-items: center;
         padding: 12px;
+        border: 1px solid var(--line-soft);
+        border-radius: var(--radius);
+        background: #ffffff;
+      }
+
+      .stage-row.current {
+        border-color: #92cbc2;
+        background: var(--brand-soft);
+      }
+
+      .stage-row.pending {
         background: #fbfcfe;
       }
 
-      .meta span {
+      .stage-index {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: var(--radius);
+        background: #edf2f7;
+        color: var(--body);
+        font-weight: 800;
+      }
+
+      .current .stage-index {
+        background: var(--brand);
+        color: #ffffff;
+      }
+
+      .stage-title {
         display: block;
+        margin-bottom: 3px;
+        color: var(--ink);
+        font-weight: 800;
+      }
+
+      .stage-evidence {
         color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .state {
+        justify-self: end;
+        min-width: 70px;
+        padding: 6px 8px;
+        border-radius: var(--radius);
+        text-align: center;
         font-size: 12px;
-        margin-bottom: 5px;
+        font-weight: 800;
       }
 
-      .meta strong {
-        font-size: 15px;
+      .state.done {
+        background: var(--brand-soft);
+        color: var(--brand-strong);
       }
 
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        overflow: hidden;
-        border-radius: 8px;
+      .state.todo {
+        background: #eef2f7;
+        color: var(--idle);
       }
 
-      th,
-      td {
-        padding: 12px 10px;
-        border-bottom: 1px solid var(--line);
-        text-align: left;
-        vertical-align: top;
-        font-size: 14px;
-      }
-
-      th {
-        color: #3b475c;
-        background: #f0f4f8;
-        font-weight: 700;
-      }
-
-      tr:last-child td {
-        border-bottom: 0;
-      }
-
-      .done {
-        color: var(--brand);
-        font-weight: 700;
-      }
-
-      .todo {
-        color: var(--todo);
-        font-weight: 700;
-      }
-
-      .warn {
-        color: var(--warn);
-        font-weight: 700;
-      }
-
-      .checklist {
+      .sync-list {
         display: grid;
         gap: 10px;
       }
 
-      .check {
-        display: flex;
+      .sync-item {
+        display: grid;
+        grid-template-columns: 26px minmax(0, 1fr);
         gap: 10px;
-        align-items: flex-start;
-        padding: 10px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #fbfcfe;
+        padding: 12px;
+        border: 1px solid var(--line-soft);
+        border-radius: var(--radius);
+        background: var(--surface-soft);
       }
 
-      .dot {
-        width: 10px;
-        height: 10px;
-        margin-top: 6px;
+      .sync-index {
+        display: grid;
+        place-items: center;
+        width: 26px;
+        height: 26px;
         border-radius: 50%;
-        background: var(--brand);
-        flex: 0 0 auto;
+        background: var(--blue-soft);
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 900;
       }
 
-      .footer {
-        margin-top: 16px;
-        color: var(--muted);
+      .sync-item strong {
+        display: block;
+        margin-bottom: 3px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .sync-item p {
         font-size: 13px;
       }
 
-      @media (max-width: 860px) {
-        header,
-        .grid {
+      .evidence {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        padding: 7px 9px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #ffffff;
+        color: var(--body);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .callout {
+        border-color: #f0d4a6;
+        background: var(--amber-soft);
+      }
+
+      .callout h2 {
+        color: #7a3f05;
+      }
+
+      .callout p {
+        color: #73512a;
+      }
+
+      .footer-note {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .layout {
           grid-template-columns: 1fr;
-          display: grid;
         }
 
-        .meta {
+        .hero-side {
+          min-height: 220px;
+        }
+      }
+
+      @media (max-width: 680px) {
+        main {
+          width: min(100% - 20px, 1180px);
+          padding-top: 18px;
+        }
+
+        .hero-main,
+        .hero-side,
+        .section {
+          padding: 16px;
+        }
+
+        .status-grid {
           grid-template-columns: 1fr;
+        }
+
+        .stage-row {
+          grid-template-columns: 36px minmax(0, 1fr);
+        }
+
+        .state {
+          grid-column: 2;
+          justify-self: start;
         }
       }
     </style>
   </head>
   <body data-current-stage="0" data-last-updated="2026-07-02">
     <main>
-      <header>
-        <div>
-          <h1>Fullstack App Starter 工作流看板</h1>
-          <p>这个文件可直接用浏览器打开，用于和 <code>WorkflowState</code>、<code>GoalPlan</code> 对齐当前开发阶段。</p>
-        </div>
-        <div class="badge">当前阶段 0 · 脚手架准备完成</div>
-      </header>
-
-      <section class="grid">
-        <div class="panel">
-          <h2>当前状态</h2>
-          <div class="meta">
-            <div><span>当前阶段</span><strong>0. 脚手架已准备</strong></div>
-            <div><span>当前任务</span><strong>尚未开始业务开发</strong></div>
-            <div><span>最近完成</span><strong>根目录 index.html 阶段看板已纳入工作流对齐机制</strong></div>
-            <div><span>下一步</span><strong>根据用户资料生成 PRD；PRD 完成后生成 Lovart Prompt</strong></div>
-            <div><span>阻塞项</span><strong>暂无</strong></div>
-            <div><span>最后更新</span><strong>2026-07-02</strong></div>
+      <section class="hero">
+        <div class="hero-main">
+          <div class="kicker"><span class="kicker-mark"></span>工作流状态看板</div>
+          <h1>Fullstack App Starter 阶段对齐中心</h1>
+          <p class="hero-copy">用于让无上下文 Agent 快速判断当前阶段、下一步和证据路径。每次阶段推进时，本页必须和 <code>WorkflowState</code>、<code>GoalPlan</code> 保持一致。</p>
+          <div class="hero-meta">
+            <span class="meta-pill">当前阶段 <strong>0. 脚手架已准备</strong></span>
+            <span class="meta-pill">最后更新 <strong>2026-07-02</strong></span>
+            <span class="meta-pill">阻塞项 <strong>暂无</strong></span>
           </div>
         </div>
 
-        <div class="panel">
-          <h2>阶段推进时必须同步</h2>
-          <div class="checklist">
-            <div class="check"><span class="dot"></span><p>更新 <code>docs/工作流状态-WorkflowState.md</code> 的当前阶段、最近完成、下一步、阻塞项和证据路径。</p></div>
-            <div class="check"><span class="dot"></span><p>更新本文件的 <code>data-current-stage</code>、顶部徽章、当前状态卡片和阶段表。</p></div>
-            <div class="check"><span class="dot"></span><p>如果存在 <code>docs/Goal长程计划-GoalPlan.md</code>，同步更新执行记录、风险和验收矩阵。</p></div>
+        <aside class="hero-side">
+          <div>
+            <div class="stage-number"><strong>0</strong><span>/ 9 阶段</span></div>
+            <h2>脚手架准备完成</h2>
+            <p>原生微信小程序、Web、后端、AI 助手服务、共享资源和工作流文档已就位。</p>
           </div>
-        </div>
+          <div class="status-chip">下一步：生成 PRD</div>
+        </aside>
       </section>
 
-      <section class="panel" style="margin-top: 16px;">
-        <h2>阶段对齐表</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>阶段</th>
-              <th>名称</th>
-              <th>状态</th>
-              <th>证据/产物</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>0</td>
-              <td>脚手架准备</td>
-              <td class="done">已完成</td>
-              <td><code>README.md</code>、<code>index.html</code>、<code>docs/开发规范-AGENTS.md</code>、<code>apps/miniprogram/</code>、<code>apps/aiassistant/</code>、<code>apps/docker-compose.yml</code>、<code>assets/README.md</code>、<code>design/lovart/</code></td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>PRD 需求分析</td>
-              <td class="todo">待开始</td>
-              <td><code>docs/产品需求文档-PRD.md</code></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Lovart Prompt</td>
-              <td class="todo">待开始</td>
-              <td><code>docs/原型生图提示词-LovartPrompt.md</code></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>UI Design 设计稿拆解</td>
-              <td class="todo">待开始</td>
-              <td><code>docs/页面设计文档-UIDesign.md</code>、<code>design/lovart/</code></td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>API 设计</td>
-              <td class="todo">待开始</td>
-              <td><code>docs/API接口文档-API.md</code></td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>数据库设计</td>
-              <td class="todo">待开始</td>
-              <td><code>db/db.sql</code></td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>Goal 长程计划</td>
-              <td class="todo">待开始</td>
-              <td><code>docs/Goal长程计划-GoalPlan.md</code></td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>功能实现</td>
-              <td class="todo">待开始</td>
-              <td><code>apps/</code>、<code>db/</code></td>
-            </tr>
-            <tr>
-              <td>8</td>
-              <td>对抗式代码审查</td>
-              <td class="todo">待开始</td>
-              <td>问题清单、证据、责任归属</td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td>回归验收与修复</td>
-              <td class="todo">待开始</td>
-              <td>验收结论、修复提交</td>
-            </tr>
-          </tbody>
-        </table>
-        <p class="footer">对齐规则：本文件、WorkflowState、GoalPlan 中的当前阶段、状态、下一步和证据路径必须一致。</p>
+      <section class="layout">
+        <div class="stack">
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>当前状态</h2>
+                <p class="section-note">这块内容是恢复上下文时的第一眼判断，不记录长总结。</p>
+              </div>
+            </div>
+            <div class="status-grid">
+              <div class="status-item"><span>当前任务</span><strong>尚未开始业务开发</strong></div>
+              <div class="status-item"><span>最近完成</span><strong>根目录 index.html 阶段看板视觉与对齐机制已完善</strong></div>
+              <div class="status-item"><span>下一步</span><strong>根据用户资料生成 PRD；PRD 完成后生成 Lovart Prompt</strong></div>
+              <div class="status-item"><span>对齐规则</span><strong>WorkflowState、index.html、GoalPlan 三处同步</strong></div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>阶段流</h2>
+                <p class="section-note">状态、证据路径和下一步必须与 <code>docs/工作流状态-WorkflowState.md</code> 对齐。</p>
+              </div>
+            </div>
+            <div class="progress-list">
+              <div class="stage-row current">
+                <div class="stage-index">0</div>
+                <div><span class="stage-title">脚手架准备</span><span class="stage-evidence">README、规范、状态、看板、小程序、AI 助手、Compose、资源目录</span></div>
+                <span class="state done">已完成</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">1</div>
+                <div><span class="stage-title">PRD 需求分析</span><span class="stage-evidence">docs/产品需求文档-PRD.md</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">2</div>
+                <div><span class="stage-title">Lovart Prompt</span><span class="stage-evidence">docs/原型生图提示词-LovartPrompt.md</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">3</div>
+                <div><span class="stage-title">UI Design 设计稿拆解</span><span class="stage-evidence">docs/页面设计文档-UIDesign.md、design/lovart/</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">4</div>
+                <div><span class="stage-title">API 设计</span><span class="stage-evidence">docs/API接口文档-API.md</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">5</div>
+                <div><span class="stage-title">数据库设计</span><span class="stage-evidence">db/db.sql</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">6</div>
+                <div><span class="stage-title">Goal 长程计划</span><span class="stage-evidence">docs/Goal长程计划-GoalPlan.md</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">7</div>
+                <div><span class="stage-title">功能实现</span><span class="stage-evidence">apps/、db/</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">8</div>
+                <div><span class="stage-title">对抗式代码审查</span><span class="stage-evidence">问题清单、证据、责任归属</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+              <div class="stage-row pending">
+                <div class="stage-index">9</div>
+                <div><span class="stage-title">回归验收与修复</span><span class="stage-evidence">验收结论、修复提交</span></div>
+                <span class="state todo">待开始</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="stack">
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>阶段推进检查</h2>
+                <p class="section-note">离开任何阶段前，先过这三项。</p>
+              </div>
+            </div>
+            <div class="sync-list">
+              <div class="sync-item">
+                <div class="sync-index">1</div>
+                <div><strong>更新 WorkflowState</strong><p>同步当前阶段、最近完成、下一步、阻塞项和证据路径。</p></div>
+              </div>
+              <div class="sync-item">
+                <div class="sync-index">2</div>
+                <div><strong>更新 index.html</strong><p>同步 <code>data-current-stage</code>、顶部状态、当前状态和阶段流。</p></div>
+              </div>
+              <div class="sync-item">
+                <div class="sync-index">3</div>
+                <div><strong>更新 GoalPlan</strong><p>如果存在长程计划，同步执行记录、风险和验收矩阵。</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>阶段 0 证据</h2>
+                <p class="section-note">脚手架已准备的最小证据集。</p>
+              </div>
+            </div>
+            <div class="evidence">
+              <span class="tag">README.md</span>
+              <span class="tag">index.html</span>
+              <span class="tag">docs/开发规范-AGENTS.md</span>
+              <span class="tag">apps/miniprogram/</span>
+              <span class="tag">apps/aiassistant/</span>
+              <span class="tag">apps/docker-compose.yml</span>
+              <span class="tag">assets/README.md</span>
+              <span class="tag">design/lovart/</span>
+            </div>
+          </section>
+
+          <section class="section callout">
+            <h2>恢复上下文口径</h2>
+            <p>如果对话中断，先读 README、AGENTS、Workflow、WorkflowState、本页和 GoalPlan（如存在），再判断下一步，不从记忆里猜。</p>
+          </section>
+        </aside>
       </section>
+
+      <p class="footer-note">对齐规则：本文件、WorkflowState、GoalPlan 中的当前阶段、状态、下一步和证据路径必须一致。</p>
     </main>
   </body>
 </html>
