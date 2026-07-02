@@ -1,7 +1,9 @@
+name: fullstack-app-starter
+
 services:
   backend:
     build:
-      context: ./apps/backend
+      context: ./backend
       dockerfile: Dockerfile
     container_name: fullstack-backend
     ports:
@@ -19,7 +21,7 @@ services:
 
   frontend:
     build:
-      context: ./apps/frontend
+      context: ./frontend
       dockerfile: Dockerfile
     container_name: fullstack-frontend
     ports:

@@ -2,7 +2,7 @@
 
 FastAPI AI 服务，调用 DeepSeek 大模型，给前端提供 SSE 流式聊天接口。
 
-> **可选模块**：如果项目不需要 AI 助手，可以删除整个 `apps/ai-service/` 目录，并从 `docker-compose.yml` 中移除 `ai-service` 服务。
+> **可选模块**：如果项目不需要 AI 助手，可以删除整个 `apps/ai-service/` 目录；如果 `apps/docker-compose.yml` 中启用了 `ai-service` 服务，也同步移除。
 
 ## 技术栈
 

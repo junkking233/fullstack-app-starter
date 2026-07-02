@@ -21,6 +21,7 @@
 fullstack-app-starter/
 ├── apps/
 │   ├── backend/              # Spring Boot 后端 API（必须）
+│   ├── docker-compose.yml    # Docker Compose 编排
 │   ├── frontend/             # Vue + Vite 网页前端（默认包含）
 │   ├── wechat-miniprogram/   # 原生微信小程序端（可选）
 │   └── ai-service/           # FastAPI AI 服务（可选）
@@ -34,7 +35,6 @@ fullstack-app-starter/
 │   ├── API文档.md             # 接口文档
 │   ├── GOAL_PLAN_TEMPLATE.md # 长程任务 Goal 计划模板
 │   └── 需求文档.md            # 需求文档
-├── docker-compose.yml        # Docker Compose 编排
 └── README.md                 # 项目说明入口
 ```
 
@@ -54,19 +54,19 @@ fullstack-app-starter/
 ### 只做小程序项目
 
 1. 保留 `apps/backend/`、`apps/wechat-miniprogram/`、`db/` 和必要文档。
-2. 可删除 `apps/frontend/`，并从 `docker-compose.yml` 中删除 `frontend` 服务。
-3. 如果不需要 AI 能力，也删除 `apps/ai-service/` 和相关 Compose 配置。
+2. 可删除 `apps/frontend/`，并从 `apps/docker-compose.yml` 中删除 `frontend` 服务。
+3. 如果不需要 AI 能力，也删除 `apps/ai-service/`；如果后续在 Compose 中启用了 AI 服务，也同步移除相关配置。
 
 ### 移除微信小程序端
 
 1. 删除 `apps/wechat-miniprogram/` 目录。
-2. `docker-compose.yml` 中微信小程序没有独立服务，无需修改。
+2. `apps/docker-compose.yml` 中微信小程序没有独立服务，无需修改。
 
 ### 移除 AI 服务
 
 1. 删除 `apps/ai-service/` 目录。
-2. 从 `docker-compose.yml` 中删除 `ai-service` 服务定义。
-3. 从 `docker-compose.yml` 的 `frontend` 服务中移除 `depends_on` 里的 `ai-service`。
+2. 如果 `apps/docker-compose.yml` 中启用了 `ai-service` 服务定义，也同步删除该服务。
+3. 如果 `frontend` 服务中配置了对 `ai-service` 的 `depends_on`，也同步移除。
 4. 如果前端代码中有 AI 助手相关页面和路由，也需要同步清理。
 
 ## 环境要求
@@ -76,7 +76,7 @@ fullstack-app-starter/
 | Java | JDK 21 |
 | Maven | 后端构建工具 |
 | Node.js + npm | 网页前端和微信小程序端依赖管理 |
-| Docker + Docker Compose | 启动后端、前端、AI 服务和连接 MySQL |
+| Docker + Docker Compose | 按需编排项目服务并连接共享 MySQL |
 | 微信开发者工具 | 调试原生微信小程序时需要 |
 | MySQL | 使用共享容器 `mysql-docker`，账号密码 `root/admin123` |
 
@@ -97,13 +97,13 @@ cp apps/ai-service/.env.example apps/ai-service/.env
 2. 启动项目：
 
 ```bash
-docker compose up --build -d
+docker compose -f apps/docker-compose.yml up --build -d
 ```
 
 3. 停止项目：
 
 ```bash
-docker compose down
+docker compose -f apps/docker-compose.yml down
 ```
 
 ## 访问地址

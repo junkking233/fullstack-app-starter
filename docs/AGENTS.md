@@ -12,7 +12,7 @@
 
 ### Docker 与数据库
 
-- 默认使用根目录 `docker-compose.yml` 管理项目服务。
+- 默认使用 `apps/docker-compose.yml` 管理项目服务。
 - 不要在本项目 Compose 中创建 MySQL 容器；统一连接已有 `mysql-docker`。
 - 创建数据库前必须检查库名是否已存在，不得重置已有数据库。
 - 不要使用 Nginx 容器处理网页请求。
