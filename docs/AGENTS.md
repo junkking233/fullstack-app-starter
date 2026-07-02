@@ -30,8 +30,13 @@
 ### 图标库
 
 - 项目在 `assets/icons/` 下维护了一套通用线性图标库（84 个 SVG），使用 `stroke="currentColor"`，可通过 CSS color 控制颜色。
-- 开发时按需将用到的 SVG 复制到子应用目录中（如前端放 `src/assets/icons/`），不要一次性全部复制。
+- 开发 Web 前端或微信小程序页面时，必须先检查 `assets/icons/` 是否已有所需图标。
+- 已有图标时，按需将用到的 SVG 复制到子应用目录中，不要一次性全部复制。
+- 缺少图标时，必须先把新增 SVG 放入 `assets/icons/`，再复制到对应子应用中使用。
+- Web 前端图标副本放在 `apps/frontend/src/assets/icons/`。
+- 微信小程序图标副本放在 `apps/wechat-miniprogram/miniprogram/assets/icons/`，页面中可使用 `/assets/icons/<name>.svg` 引用。
 - 图标列表和预览可打开 `assets/icon-set.html` 查看。
+- 图标新增和复制规则详见 `assets/README.md`。
 - 常用图标：`home`、`user`、`search`、`settings`、`bell`、`cart`、`mail`、`edit`、`trash`、`plus`、`close`、`check-circle`、`warning`、`error`、`info`。
 
 ## 长程任务与 Goal 规范

@@ -28,6 +28,7 @@ fullstack-app-starter/
 ├── db/
 │   └── db.sql                # 数据库初始化脚本
 ├── assets/
+│   ├── README.md             # 共享图标资源使用规范
 │   ├── icon-set.html         # 通用图标库预览
 │   └── icons/                # 通用线性图标 SVG
 ├── docs/

@@ -27,6 +27,7 @@ npm install
 | `miniprogram/app.wxss` | 全局样式。 |
 | `miniprogram/pages/` | 页面目录，每个页面包含 `.wxml`、`.wxss`、`.js`、`.json`。 |
 | `miniprogram/api/` | 接口请求封装。 |
+| `miniprogram/assets/icons/` | 小程序本地 SVG 图标副本。 |
 | `miniprogram/utils/` | 登录态等工具函数。 |
 
 ## 接口配置
@@ -38,6 +39,24 @@ const BASE_URL = 'http://localhost:8888/api';
 ```
 
 微信开发者工具调试本地接口时，可在详情里关闭“不校验合法域名”。真机或正式环境需要替换为合法 HTTPS 域名。
+
+## 图标使用
+
+项目共享图标库在根目录 `assets/icons/`。开发小程序页面前必须先检查共享图标库，已有图标时按需复制到 `miniprogram/assets/icons/`；缺少图标时先把新增 SVG 放入根目录 `assets/icons/`，再复制到小程序端使用。
+
+图标复制示例：
+
+```bash
+cp ../../assets/icons/search.svg miniprogram/assets/icons/search.svg
+```
+
+页面中引用复制后的图标：
+
+```xml
+<image class="icon" src="/assets/icons/search.svg" mode="aspectFit" />
+```
+
+详细规则见根目录 `assets/README.md`。
 
 ## 开发约束
 
