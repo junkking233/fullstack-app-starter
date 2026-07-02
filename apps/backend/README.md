@@ -18,15 +18,16 @@ mvn spring-boot:run
 
 | 目录 | 说明 |
 | --- | --- |
-| `src/main/java/com/example/controller/` | HTTP 接口入口。 |
-| `src/main/java/com/example/service/` | 业务逻辑。 |
-| `src/main/java/com/example/mapper/` | MyBatis Mapper 接口。 |
-| `src/main/java/com/example/entity/` | 数据库实体。 |
-| `src/main/java/com/example/dto/` | 请求和响应对象。 |
-| `src/main/java/com/example/common/` | 通用响应结构等。 |
-| `src/main/java/com/example/config/` | 拦截器、跨域、MyBatis 配置。 |
-| `src/main/java/com/example/util/` | 工具类（密码、Token）。 |
-| `src/main/java/com/example/exception/` | 全局异常处理。 |
+| `src/main/java/com/zhiqu/community/controller/` | HTTP 接口入口。 |
+| `src/main/java/com/zhiqu/community/service/` | 业务接口。 |
+| `src/main/java/com/zhiqu/community/service/impl/` | 业务逻辑实现。 |
+| `src/main/java/com/zhiqu/community/mapper/` | MyBatis Mapper 接口。 |
+| `src/main/java/com/zhiqu/community/entity/` | 数据库实体。 |
+| `src/main/java/com/zhiqu/community/dto/` | 请求和响应对象。 |
+| `src/main/java/com/zhiqu/community/common/` | 通用响应结构等。 |
+| `src/main/java/com/zhiqu/community/config/` | 拦截器、跨域、MyBatis 配置。 |
+| `src/main/java/com/zhiqu/community/util/` | 工具类（密码、Token）。 |
+| `src/main/java/com/zhiqu/community/exception/` | 全局异常处理。 |
 | `src/main/resources/mapper/` | MyBatis XML。 |
 | `src/main/resources/application.yml` | 后端配置。 |
 | `src/main/resources/db/init.sql` | 后端初始化 SQL。 |

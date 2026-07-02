@@ -8,7 +8,7 @@
 | --- | --- |
 | 当前阶段 | 0. 脚手架已准备 |
 | 当前任务 | 尚未开始业务开发 |
-| 最近完成 | 脚手架目录与规范清理完成：小程序统一为 `apps/miniprogram/`，AI 助手服务统一为 `apps/aiassistant/`，Docker Compose 位于 `apps/docker-compose.yml`，共享图标源库位于 `assets/icons/` |
+| 最近完成 | 对抗式复盘问题已修正：Compose 纳入 `apps/aiassistant/`，Goal 模板覆盖 AI 助手服务，子应用 README 规范与真实路径已对齐 |
 | 下一步 | 根据用户资料进行产品需求分析，并生成或更新 `docs/GOAL_PLAN.md` |
 | 阻塞项 | 暂无 |
 | 最后更新 | 2026-07-02 |
@@ -31,7 +31,7 @@
 
 | 阶段 | 状态 | 证据/产物 | 备注 |
 | --- | --- | --- | --- |
-| 0. 脚手架已准备 | 已完成 | `README.md`、`docs/AGENTS.md`、`apps/miniprogram/`、`apps/aiassistant/`、`apps/docker-compose.yml`、`assets/README.md` | 小程序使用一层目录 `apps/miniprogram/`；AI 助手服务目录不使用破折号 |
+| 0. 脚手架已准备 | 已完成 | `README.md`、`docs/AGENTS.md`、`docs/GOAL_PLAN_TEMPLATE.md`、`apps/miniprogram/`、`apps/aiassistant/`、`apps/docker-compose.yml`、`assets/README.md` | 小程序使用一层目录 `apps/miniprogram/`；AI 助手服务目录不使用破折号 |
 | 1. 产品需求分析 | 待开始 |  |  |
 | 2. 原型与页面设计 | 待开始 |  |  |
 | 3. API 设计 | 待开始 |  |  |

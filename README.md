@@ -89,13 +89,23 @@ fullstack-app-starter/
 
 确保共享 MySQL 容器 `mysql-docker` 已在运行。
 
-1. 如果要使用 AI 助手，先配置环境变量：
+1. 如果要使用 AI 助手，先配置 DeepSeek 环境变量。
+
+本地手动运行 AI 助手服务时：
 
 ```bash
 cp apps/aiassistant/.env.example apps/aiassistant/.env
 ```
 
 然后编辑 `apps/aiassistant/.env`，填入 DeepSeek Key。
+
+Docker Compose 启动时，可在执行命令前导出环境变量：
+
+```bash
+export DEEPSEEK_API_KEY=你的DeepSeekKey
+```
+
+未配置 Key 时，AI 助手服务仍可启动并通过健康检查，但聊天接口会返回缺少 Key 的错误。
 
 2. 启动项目：
 

@@ -24,7 +24,7 @@ npm run build
 | 登录态工具 | `src/utils/auth.ts` |
 | 普通用户页面 | `src/views/portal/` |
 | 服务方页面 | `src/views/partner/` |
-| 管理后台页面 | `src/views/admin/`、`src/admin-platform/views/` |
+| 管理后台页面 | `src/views/admin/` |
 | 公共组件 | `src/components/` |
 | 全局样式 | `src/styles.css` |
 
