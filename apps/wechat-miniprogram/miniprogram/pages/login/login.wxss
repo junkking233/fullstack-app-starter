@@ -1,0 +1,27 @@
+.login-page {
+  padding-top: 64rpx;
+}
+
+.login-header {
+  margin-bottom: 32rpx;
+}
+
+.title {
+  color: #111827;
+  font-size: 44rpx;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 28rpx;
+  line-height: 1.6;
+  margin-top: 12rpx;
+}
+
+.account-tips {
+  margin: 28rpx 32rpx 0;
+  color: #6b7280;
+  font-size: 24rpx;
+  line-height: 1.8;
+}

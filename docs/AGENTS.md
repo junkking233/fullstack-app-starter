@@ -34,6 +34,17 @@
 - 图标列表和预览可打开 `apps/assests/icon-set.html` 查看。
 - 常用图标：`home`、`user`、`search`、`settings`、`bell`、`cart`、`mail`、`edit`、`trash`、`plus`、`close`、`check-circle`、`warning`、`error`、`info`。
 
+## 长程任务与 Goal 规范
+
+- 当用户要求“一次开发整个系统”、“使用 goal 开发”、“长程任务”或类似目标时，必须先基于 `docs/GOAL_PLAN_TEMPLATE.md` 生成或更新 `docs/GOAL_PLAN.md`。
+- `docs/GOAL_PLAN.md` 必须把目标拆成阶段、模块、页面、接口、数据库、验收标准、风险和阻塞条件，不得只写简略待办。
+- 开发顺序固定为：产品需求分析（第一性原理） -> 原型与页面设计检查 -> API 设计 -> 数据库设计 -> Goal 计划定稿 -> 实现 -> 对抗式代码审查 -> 回归验收。
+- 需求分析阶段要明确用户角色、业务对象、核心流程、系统边界和待确认问题；不确定内容必须标注为“待确认”。
+- 原型与页面设计阶段要准备必要的页面设计说明，必要时可使用 `npx @google/design.md` 生成页面设计文档。
+- 实现阶段必须按 `docs/GOAL_PLAN.md` 推进，每完成一个阶段更新计划状态和发现的问题。
+- 对抗式代码审查阶段要主动检查需求遗漏、接口契约不一致、数据库支撑不足、权限问题、页面交互缺口和测试盲区。
+- 长程任务过程中仍必须遵守本文件的端口、数据库、Docker、前端、小程序、测试和 Git 规范。
+
 ## 后端规范
 
 - Java 项目禁止使用 Lombok。
@@ -73,16 +84,19 @@
 
 如项目为了 TypeScript 校验或局域网访问扩展命令，可以保留 `vue-tsc` 或 `--host 0.0.0.0`，但端口仍必须是 `9999`。
 
-## uni-app 规范
+## 微信小程序规范
 
-- 小程序端统一使用 `apps/uniapp/` 开发，禁止新增原生微信小程序目录或页面。
-- 为避免微信开发者工具出现 `Error: tourist appid`，`manifest.json` 中 AppID 固定配置为 `wxd84d204ed36b05b5`。
-- 使用 Vue 3 组合式 API（`<script setup>`）编写页面。
-- UI 组件使用 uni-ui，通过 easycom 自动引入，无需手动 import。
-- 跨平台兼容：优先使用 `uni.*` 统一接口，避免使用平台特有 API。
+- 小程序端统一使用 `apps/wechat-miniprogram/` 开发。
+- 小程序使用原生微信语法：WXML、WXSS、JavaScript、JSON，不使用 uni-app。
+- UI 组件使用 Vant Weapp，包名固定为 `@vant/weapp`。
+- 为避免微信开发者工具出现 `Error: tourist appid`，`project.config.json` 中 AppID 固定配置为 `wxd84d204ed36b05b5`。
 - 页面样式使用 `rpx` 单位，自动适配不同屏幕尺寸。
-- 底部固定操作栏必须适配安全区，并为页面内容区预留空间，避免最后一块内容被遮挡。
-- 编译产物（`dist/`）不提交到 Git。
+- 普通页面操作按钮、底部固定操作栏按钮、卡片内按钮，优先使用 `view` / `text` 模拟按钮并绑定 `bindtap`。
+- 原生 `button` 仅用于需要微信原生能力的场景，例如 `open-type`、授权、分享、获取手机号、表单提交等。
+- 如必须使用原生 `button` 做自定义样式，必须完整重置 `margin`、`padding`、`border`、`line-height`、`text-align`、`background`、`border-radius`，并设置 `button::after { border: 0; }`。
+- 底部固定操作栏必须适配安全区：`padding-bottom: calc(基础间距 + env(safe-area-inset-bottom))`。
+- 页面内容区必须为底部固定操作栏预留空间，避免最后一块内容被遮挡。
+- 构建产物 `apps/wechat-miniprogram/miniprogram_npm/` 和个人配置 `project.private.config.json` 不提交到 Git。
 
 ## 测试调试规范
 

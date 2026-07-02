@@ -1,0 +1,15 @@
+{
+  "appid": "wxd84d204ed36b05b5",
+  "compileType": "miniprogram",
+  "libVersion": "latest",
+  "miniprogramRoot": "miniprogram/",
+  "projectname": "fullstack-app-starter-wechat",
+  "setting": {
+    "enhance": true,
+    "es6": true,
+    "minified": true,
+    "postcss": true,
+    "urlCheck": false
+  },
+  "condition": {}
+}

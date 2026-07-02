@@ -1,0 +1,14 @@
+{
+  "name": "fullstack-app-wechat-miniprogram",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Native WeChat Mini Program client for fullstack-app-starter.",
+  "scripts": {
+    "install:dev": "npm install",
+    "dev": "npm run install:dev",
+    "build": "echo \"Open WeChat DevTools and run: Tools -> Build npm\""
+  },
+  "dependencies": {
+    "@vant/weapp": "1.11.7"
+  }
+}

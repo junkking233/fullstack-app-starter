@@ -1,0 +1,26 @@
+<view class="page home-page">
+  <van-toast id="van-toast" />
+
+  <view class="hero">
+    <view class="eyebrow">Fullstack App Starter</view>
+    <view class="title">原生微信小程序端</view>
+    <view class="subtitle">使用 Vant Weapp 搭建页面组件，接口统一对接后端 API。</view>
+  </view>
+
+  <van-cell-group inset>
+    <van-cell title="后端 API" label="默认 http://localhost:8888/api" icon="link-o" />
+    <van-cell title="登录状态" label="{{ loginLabel }}" icon="user-o">
+      <van-tag slot="right-icon" type="{{ loggedIn ? 'success' : 'warning' }}">
+        {{ loggedIn ? '已登录' : '未登录' }}
+      </van-tag>
+    </van-cell>
+  </van-cell-group>
+
+  <view class="quick-card" bindtap="handleLoginEntry">
+    <view class="quick-main">
+      <view class="quick-title">账号登录</view>
+      <view class="quick-desc">管理员 admin/admin123，普通用户 user/123456。</view>
+    </view>
+    <van-icon name="arrow" size="36rpx" color="#9ca3af" />
+  </view>
+</view>

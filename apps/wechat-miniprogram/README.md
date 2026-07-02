@@ -1,0 +1,48 @@
+# 原生微信小程序端
+
+基于原生微信小程序语法开发，使用 Vant Weapp 组件库。微信开发者工具可以直接导入本目录。
+
+## 技术栈
+
+- 原生微信小程序：WXML、WXSS、JavaScript、JSON
+- Vant Weapp：`@vant/weapp`
+- npm 包管理：使用国内镜像安装依赖
+
+## 常用命令
+
+```bash
+cd apps/wechat-miniprogram
+npm install
+```
+
+安装后在微信开发者工具中执行“工具 -> 构建 npm”，再预览或调试。
+
+## 目录结构
+
+| 目录/文件 | 说明 |
+| --- | --- |
+| `project.config.json` | 微信开发者工具项目配置，AppID 固定为 `wxd84d204ed36b05b5`。 |
+| `miniprogram/app.json` | 页面、窗口、组件和 sitemap 配置入口。 |
+| `miniprogram/app.js` | 小程序全局入口。 |
+| `miniprogram/app.wxss` | 全局样式。 |
+| `miniprogram/pages/` | 页面目录，每个页面包含 `.wxml`、`.wxss`、`.js`、`.json`。 |
+| `miniprogram/api/` | 接口请求封装。 |
+| `miniprogram/utils/` | 登录态等工具函数。 |
+
+## 接口配置
+
+默认接口地址在 `miniprogram/api/request.js`：
+
+```js
+const BASE_URL = 'http://localhost:8888/api';
+```
+
+微信开发者工具调试本地接口时，可在详情里关闭“不校验合法域名”。真机或正式环境需要替换为合法 HTTPS 域名。
+
+## 开发约束
+
+- 普通页面操作按钮优先使用 `view` / `text` 模拟按钮并绑定 `bindtap`。
+- 原生 `button` 只用于授权、分享、获取手机号、表单提交等微信原生能力。
+- 使用底部固定操作栏时必须适配安全区，并为页面内容预留底部空间。
+- 页面样式使用 `rpx`，主色不要使用紫色。
+- 构建产物 `miniprogram_npm/` 和个人配置 `project.private.config.json` 不提交到 Git。

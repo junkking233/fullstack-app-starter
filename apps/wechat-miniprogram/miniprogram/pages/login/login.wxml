@@ -1,0 +1,38 @@
+<view class="page has-bottom-action login-page">
+  <van-toast id="van-toast" />
+
+  <view class="login-header">
+    <view class="title">账号登录</view>
+    <view class="subtitle">使用后端 API 的统一账号体系。</view>
+  </view>
+
+  <van-cell-group inset>
+    <van-field
+      value="{{ form.username }}"
+      label="用户名"
+      placeholder="请输入用户名"
+      clearable
+      bind:change="onUsernameChange"
+    />
+    <van-field
+      value="{{ form.password }}"
+      label="密码"
+      placeholder="请输入密码"
+      password
+      clearable
+      bind:change="onPasswordChange"
+    />
+  </van-cell-group>
+
+  <view class="account-tips">
+    <view>管理员：admin / admin123</view>
+    <view>普通用户：user / 123456</view>
+  </view>
+
+  <view class="bottom-action">
+    <view class="action-button {{ loading ? 'is-disabled' : '' }}" bindtap="handleLogin">
+      <van-loading wx:if="{{ loading }}" color="#ffffff" size="32rpx" />
+      <text wx:else>登录</text>
+    </view>
+  </view>
+</view>

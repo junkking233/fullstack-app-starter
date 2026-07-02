@@ -1,0 +1,58 @@
+.home-page {
+  padding-top: 56rpx;
+}
+
+.hero {
+  margin-bottom: 32rpx;
+}
+
+.eyebrow {
+  color: #13b45d;
+  font-size: 24rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.title {
+  color: #111827;
+  font-size: 48rpx;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 28rpx;
+  line-height: 1.6;
+  margin-top: 16rpx;
+}
+
+.quick-card {
+  margin-top: 32rpx;
+  padding: 32rpx;
+  border-radius: 8rpx;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8rpx 24rpx rgba(15, 23, 42, 0.06);
+}
+
+.quick-main {
+  flex: 1;
+  min-width: 0;
+  padding-right: 24rpx;
+}
+
+.quick-title {
+  color: #111827;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.quick-desc {
+  color: #6b7280;
+  font-size: 24rpx;
+  line-height: 1.5;
+  margin-top: 8rpx;
+}
