@@ -44,7 +44,10 @@
 ### 0. 脚手架准备
 
 - 克隆 `https://github.com/junkking233/fullstack-app-starter.git`。
-- 业务项目可删除脚手架 `.git` 后重新 `git init`。
+- `fullstack-app-starter` 只代表脚手架仓库名，不是业务项目名；业务项目必须改成真实项目名称。
+- 克隆后必须删除脚手架 `.git`，避免业务代码继续关联脚手架仓库。
+- 需要版本控制时，在业务项目目录重新 `git init`，并绑定新的业务仓库 remote。
+- 不要向脚手架仓库提交或推送业务项目代码。
 - 按需求裁剪 Web、小程序、AI 助手服务和 Compose 配置。
 - 不自动启动服务，不重置数据库。
 

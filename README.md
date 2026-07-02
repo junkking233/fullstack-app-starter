@@ -2,6 +2,8 @@
 
 全栈项目模板，包含 Spring Boot 后端、Vue Web 前端、原生微信小程序和 FastAPI AI 助手服务。适合按需裁剪为 Web 系统、小程序系统或带 AI 能力的业务系统。
 
+`fullstack-app-starter` 只是脚手架仓库名，不是业务项目名。每次克隆后应按真实业务项目改名，并切断与脚手架仓库的 Git 关联。
+
 第一次打开项目，先读本文件，再读：
 
 1. `docs/开发规范-AGENTS.md`
@@ -18,6 +20,17 @@
 | 微信小程序 | 原生 WXML/WXSS/JS/JSON + Vant Weapp |
 | AI 助手服务 | FastAPI + DeepSeek，提供 SSE 流式聊天接口 |
 | 数据库 | MySQL 初始化脚本和基础账号数据 |
+
+## 作为业务项目使用
+
+新需求使用本脚手架时，必须先完成这几步：
+
+1. 克隆 `https://github.com/junkking233/fullstack-app-starter.git` 到新的业务项目目录。
+2. 将目录名、文档中的项目名和必要配置改成真实业务项目名，不要继续叫 `fullstack-app-starter`。
+3. 删除脚手架自带的 `.git`，避免把业务代码提交回脚手架仓库。
+4. 需要版本控制时，在业务项目目录重新 `git init`，再绑定新的业务仓库 remote。
+
+AI 接手业务项目时，不得把业务项目称为 `fullstack-app-starter`，也不得保留指向脚手架仓库的 Git remote。
 
 ## 目录结构
 

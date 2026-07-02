@@ -18,6 +18,9 @@
 
 ## 项目约束
 
+- `fullstack-app-starter` 只代表脚手架仓库名，不是业务项目名。
+- 克隆脚手架开始业务开发后，必须先删除脚手架 `.git`，再按真实业务项目重新 `git init` 并绑定新的业务 remote。
+- 不得把业务项目提交或推送到脚手架仓库；文档中的项目名称必须使用真实业务项目名。
 - 后端端口：`8888`；前端端口：`9999`；AI 助手服务端口：`8000`。
 - Docker Compose 固定在 `apps/docker-compose.yml`。
 - 不创建 MySQL 容器，统一连接已有 `mysql-docker`。
