@@ -26,12 +26,14 @@ fullstack-app-starter/
 │   └── ai-service/           # FastAPI AI 服务（可选）
 ├── db/
 │   └── db.sql                # 数据库初始化脚本
+├── assets/
+│   ├── icon-set.html         # 通用图标库预览
+│   └── icons/                # 通用线性图标 SVG
 ├── docs/
 │   ├── AGENTS.md             # 项目开发规范
 │   ├── API文档.md             # 接口文档
 │   ├── GOAL_PLAN_TEMPLATE.md # 长程任务 Goal 计划模板
 │   └── 需求文档.md            # 需求文档
-├── apps/assests/             # 通用线性图标库（84 个 SVG），开发时按需复制到子应用
 ├── docker-compose.yml        # Docker Compose 编排
 └── README.md                 # 项目说明入口
 ```

@@ -49,7 +49,7 @@ Docker 部署时，代理地址通过环境变量 `VITE_PROXY_BACKEND` 和 `VITE
 
 ## 图标使用
 
-项目图标库在 `apps/assests/icons/` 下（84 个 SVG 线性图标）。使用时按需复制需要的 SVG 到 `src/assets/icons/`，通过 `vite-svg-loader` 导入为 Vue 组件，或直接用 `<img>` 引用。图标预览可打开 `apps/assests/icon-set.html`。
+项目图标库在 `assets/icons/` 下（84 个 SVG 线性图标）。使用时按需复制需要的 SVG 到 `src/assets/icons/`，通过 `vite-svg-loader` 导入为 Vue 组件，或直接用 `<img>` 引用。图标预览可打开 `assets/icon-set.html`。
 
 ## 注意事项
 
