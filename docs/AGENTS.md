@@ -34,7 +34,7 @@
 - 已有图标时，按需将用到的 SVG 复制到子应用目录中，不要一次性全部复制。
 - 缺少图标时，必须先把新增 SVG 放入 `assets/icons/`，再复制到对应子应用中使用。
 - Web 前端图标副本放在 `apps/frontend/src/assets/icons/`。
-- 微信小程序图标副本放在 `apps/wechat-miniprogram/miniprogram/assets/icons/`，页面中可使用 `/assets/icons/<name>.svg` 引用。
+- 微信小程序图标副本放在 `apps/miniprogram/assets/icons/`，页面中可使用 `/assets/icons/<name>.svg` 引用。
 - 图标列表和预览可打开 `assets/icon-set.html` 查看。
 - 图标新增和复制规则详见 `assets/README.md`。
 - 常用图标：`home`、`user`、`search`、`settings`、`bell`、`cart`、`mail`、`edit`、`trash`、`plus`、`close`、`check-circle`、`warning`、`error`、`info`。
@@ -94,7 +94,7 @@
 
 ## 微信小程序规范
 
-- 小程序端统一使用 `apps/wechat-miniprogram/` 开发。
+- 小程序端统一使用 `apps/miniprogram/` 开发，微信开发者工具直接导入该目录，不再额外包一层 `miniprogram/` 源码目录。
 - 小程序使用原生微信语法：WXML、WXSS、JavaScript、JSON，不使用 uni-app。
 - UI 组件使用 Vant Weapp，包名固定为 `@vant/weapp`。
 - 为避免微信开发者工具出现 `Error: tourist appid`，`project.config.json` 中 AppID 固定配置为 `wxd84d204ed36b05b5`。
@@ -104,7 +104,7 @@
 - 如必须使用原生 `button` 做自定义样式，必须完整重置 `margin`、`padding`、`border`、`line-height`、`text-align`、`background`、`border-radius`，并设置 `button::after { border: 0; }`。
 - 底部固定操作栏必须适配安全区：`padding-bottom: calc(基础间距 + env(safe-area-inset-bottom))`。
 - 页面内容区必须为底部固定操作栏预留空间，避免最后一块内容被遮挡。
-- 构建产物 `apps/wechat-miniprogram/miniprogram_npm/` 和个人配置 `project.private.config.json` 不提交到 Git。
+- 构建产物 `apps/miniprogram/miniprogram_npm/` 和个人配置 `project.private.config.json` 不提交到 Git。
 
 ## 测试调试规范
 

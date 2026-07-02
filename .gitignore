@@ -21,8 +21,8 @@ dist/
 .vite/
 *.tsbuildinfo
 npm-debug.log*
-apps/wechat-miniprogram/miniprogram_npm/
-apps/wechat-miniprogram/project.private.config.json
+apps/miniprogram/miniprogram_npm/
+apps/miniprogram/project.private.config.json
 
 # Python
 __pycache__/

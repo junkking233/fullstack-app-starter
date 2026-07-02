@@ -23,7 +23,7 @@ fullstack-app-starter/
 │   ├── backend/              # Spring Boot 后端 API（必须）
 │   ├── docker-compose.yml    # Docker Compose 编排
 │   ├── frontend/             # Vue + Vite 网页前端（默认包含）
-│   ├── wechat-miniprogram/   # 原生微信小程序端（可选）
+│   ├── miniprogram/          # 原生微信小程序端（可选）
 │   └── ai-service/           # FastAPI AI 服务（可选）
 ├── db/
 │   └── db.sql                # 数据库初始化脚本
@@ -47,22 +47,22 @@ fullstack-app-starter/
 | --- | --- |
 | 后端 API | [`apps/backend/README.md`](apps/backend/README.md) |
 | 网页前端 | [`apps/frontend/README.md`](apps/frontend/README.md) |
-| 原生微信小程序端 | [`apps/wechat-miniprogram/README.md`](apps/wechat-miniprogram/README.md) |
+| 原生微信小程序端 | [`apps/miniprogram/README.md`](apps/miniprogram/README.md) |
 | AI 服务 | [`apps/ai-service/README.md`](apps/ai-service/README.md) |
 
 ## 按需裁剪
 
-默认项目包含 `apps/backend/`、`apps/frontend/`、`apps/wechat-miniprogram/` 和 `apps/ai-service/`。实际开发时应按需求裁剪，不需要的端不要强行保留。
+默认项目包含 `apps/backend/`、`apps/frontend/`、`apps/miniprogram/` 和 `apps/ai-service/`。实际开发时应按需求裁剪，不需要的端不要强行保留。
 
 ### 只做小程序项目
 
-1. 保留 `apps/backend/`、`apps/wechat-miniprogram/`、`db/` 和必要文档。
+1. 保留 `apps/backend/`、`apps/miniprogram/`、`db/` 和必要文档。
 2. 可删除 `apps/frontend/`，并从 `apps/docker-compose.yml` 中删除 `frontend` 服务。
 3. 如果不需要 AI 能力，也删除 `apps/ai-service/`；如果后续在 Compose 中启用了 AI 服务，也同步移除相关配置。
 
 ### 移除微信小程序端
 
-1. 删除 `apps/wechat-miniprogram/` 目录。
+1. 删除 `apps/miniprogram/` 目录。
 2. `apps/docker-compose.yml` 中微信小程序没有独立服务，无需修改。
 
 ### 移除 AI 服务
@@ -122,14 +122,14 @@ docker compose -f apps/docker-compose.yml down
 
 ## 微信小程序开发
 
-微信小程序端在 `apps/wechat-miniprogram/`，使用原生微信语法和 Vant Weapp。
+微信小程序端在 `apps/miniprogram/`，使用原生微信语法和 Vant Weapp。
 
 ```bash
-cd apps/wechat-miniprogram
+cd apps/miniprogram
 npm install
 ```
 
-然后用微信开发者工具导入 `apps/wechat-miniprogram/`，执行“工具 -> 构建 npm”。本地接口调试默认访问 `http://localhost:8888/api`，正式环境需要替换为合法 HTTPS 域名。
+然后用微信开发者工具导入 `apps/miniprogram/`，执行“工具 -> 构建 npm”。本地接口调试默认访问 `http://localhost:8888/api`，正式环境需要替换为合法 HTTPS 域名。
 
 ## 登录账号
 

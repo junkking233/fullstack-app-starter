@@ -1,5 +1,5 @@
 {
-  "name": "fullstack-app-wechat-miniprogram",
+  "name": "fullstack-app-miniprogram",
   "version": "0.1.0",
   "private": true,
   "description": "Native WeChat Mini Program client for fullstack-app-starter.",

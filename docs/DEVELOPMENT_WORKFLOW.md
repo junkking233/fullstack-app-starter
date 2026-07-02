@@ -97,7 +97,7 @@
 - 负责 skill：`backend-worker`、`frontend-worker`。
 - 后端实现严格按接口文档，不私自漂移路径、字段或响应结构。
 - Web 前端使用 Vue + Vite + Element Plus，端口 `9999`，不使用紫色主色。
-- 微信小程序使用原生微信语法 + Vant Weapp，不使用 uni-app。
+- 微信小程序使用原生微信语法 + Vant Weapp，不使用 uni-app；小程序项目目录固定为 `apps/miniprogram/`，该目录本身就是微信开发者工具导入目录。
 - 图标使用必须遵守 `assets/README.md`。
 - 每完成一个模块，更新 `docs/WORKFLOW_STATE.md` 和 `docs/GOAL_PLAN.md` 执行记录。
 

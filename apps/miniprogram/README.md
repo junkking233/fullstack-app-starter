@@ -11,7 +11,7 @@
 ## 常用命令
 
 ```bash
-cd apps/wechat-miniprogram
+cd apps/miniprogram
 npm install
 ```
 
@@ -22,17 +22,17 @@ npm install
 | 目录/文件 | 说明 |
 | --- | --- |
 | `project.config.json` | 微信开发者工具项目配置，AppID 固定为 `wxd84d204ed36b05b5`。 |
-| `miniprogram/app.json` | 页面、窗口、组件和 sitemap 配置入口。 |
-| `miniprogram/app.js` | 小程序全局入口。 |
-| `miniprogram/app.wxss` | 全局样式。 |
-| `miniprogram/pages/` | 页面目录，每个页面包含 `.wxml`、`.wxss`、`.js`、`.json`。 |
-| `miniprogram/api/` | 接口请求封装。 |
-| `miniprogram/assets/icons/` | 小程序本地 SVG 图标副本。 |
-| `miniprogram/utils/` | 登录态等工具函数。 |
+| `app.json` | 页面、窗口、组件和 sitemap 配置入口。 |
+| `app.js` | 小程序全局入口。 |
+| `app.wxss` | 全局样式。 |
+| `pages/` | 页面目录，每个页面包含 `.wxml`、`.wxss`、`.js`、`.json`。 |
+| `api/` | 接口请求封装。 |
+| `assets/icons/` | 小程序本地 SVG 图标副本。 |
+| `utils/` | 登录态等工具函数。 |
 
 ## 接口配置
 
-默认接口地址在 `miniprogram/api/request.js`：
+默认接口地址在 `api/request.js`：
 
 ```js
 const BASE_URL = 'http://localhost:8888/api';
@@ -42,12 +42,12 @@ const BASE_URL = 'http://localhost:8888/api';
 
 ## 图标使用
 
-项目共享图标库在根目录 `assets/icons/`。开发小程序页面前必须先检查共享图标库，已有图标时按需复制到 `miniprogram/assets/icons/`；缺少图标时先把新增 SVG 放入根目录 `assets/icons/`，再复制到小程序端使用。
+项目共享图标库在根目录 `assets/icons/`。开发小程序页面前必须先检查共享图标库，已有图标时按需复制到 `apps/miniprogram/assets/icons/`；缺少图标时先把新增 SVG 放入根目录 `assets/icons/`，再复制到小程序端使用。
 
 图标复制示例：
 
 ```bash
-cp ../../assets/icons/search.svg miniprogram/assets/icons/search.svg
+cp ../../assets/icons/search.svg assets/icons/search.svg
 ```
 
 页面中引用复制后的图标：

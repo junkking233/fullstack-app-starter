@@ -23,11 +23,11 @@
 | 使用端 | 目标目录 | 示例 |
 | --- | --- | --- |
 | Web 前端 | `apps/frontend/src/assets/icons/` | `cp assets/icons/search.svg apps/frontend/src/assets/icons/search.svg` |
-| 微信小程序 | `apps/wechat-miniprogram/miniprogram/assets/icons/` | `cp assets/icons/search.svg apps/wechat-miniprogram/miniprogram/assets/icons/search.svg` |
+| 微信小程序 | `apps/miniprogram/assets/icons/` | `cp assets/icons/search.svg apps/miniprogram/assets/icons/search.svg` |
 
 ## 使用要求
 
 - Web 前端中，可通过构建工具导入 SVG，或作为静态图片引用。
-- 微信小程序中，复制后的图标应从 `miniprogram/assets/icons/` 引用，例如 `/assets/icons/search.svg`。
+- 微信小程序中，复制后的图标应从 `apps/miniprogram/assets/icons/` 引用，例如 `/assets/icons/search.svg`。
 - 如果一个业务图标会被多个端使用，必须先沉淀到 `assets/icons/`，再分别复制到各端。
 - 不要在页面目录里临时散落图标文件，也不要只把新增图标放进某一个子应用而不更新共享源库。
