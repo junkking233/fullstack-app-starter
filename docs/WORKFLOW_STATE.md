@@ -8,8 +8,8 @@
 | --- | --- |
 | 当前阶段 | 0. 脚手架已准备 |
 | 当前任务 | 尚未开始业务开发 |
-| 最近完成 | 对抗式复盘问题已修正：Compose 纳入 `apps/aiassistant/`，Goal 模板覆盖 AI 助手服务，子应用 README 规范与真实路径已对齐 |
-| 下一步 | 根据用户资料进行产品需求分析，并生成或更新 `docs/GOAL_PLAN.md` |
+| 最近完成 | 开发流程已补充“需求文档 -> 原型生图提示词 -> Lovart 原型图/PSD/PNG -> 页面设计拆解 -> 代码实现”链路，并预留 `design/lovart/` |
+| 下一步 | 根据用户资料进行产品需求分析；需求完成后生成 `docs/原型生图提示词.md`，再等待 Lovart 设计稿 |
 | 阻塞项 | 暂无 |
 | 最后更新 | 2026-07-02 |
 
@@ -19,13 +19,14 @@
 | --- | --- | --- | --- | --- |
 | 0 | 脚手架已准备 | 确认项目结构、规范、端口、数据库、资源和基础文档 | `docs/AGENTS.md`、`docs/WORKFLOW_STATE.md` | 主 Agent |
 | 1 | 产品需求分析 | 用第一性原理梳理角色、对象、流程、边界和待确认问题 | `docs/需求文档.md` 或需求分析记录 | 主 Agent / 多模型审查 |
-| 2 | 原型与页面设计 | 检查原型、页面清单、交互状态、图标和资源需求 | 页面设计说明、原型检查结果 | 主 Agent / frontend-worker |
-| 3 | API 设计 | 定义前后端与小程序统一接口契约 | `docs/API文档.md` | api-designer |
-| 4 | 数据库设计 | 设计表结构、状态字段、索引和种子数据 | `db/db.sql` | db-builder |
-| 5 | Goal 计划定稿 | 把需求、页面、接口、数据库和实现步骤合并成完整长程计划 | `docs/GOAL_PLAN.md` | 主 Agent |
-| 6 | 功能实现 | 按计划实现后端、Web 前端、小程序和可选 AI 助手服务 | `apps/`、`db/`、相关文档 | backend-worker / frontend-worker |
-| 7 | 对抗式代码审查 | 主动找需求遗漏、契约漂移、数据缺口、权限问题和测试盲区 | 审查问题清单 | regression-tester / 主 Agent |
-| 8 | 回归验收与修复 | 静态验收、必要运行验收、问题修复和复测 | 验收记录、修复提交 | regression-tester / 对应 worker |
+| 2 | 原型生图提示词 | 基于需求文档生成 Lovart 可用的 UI 原型生图提示词 | `docs/原型生图提示词.md` | 主 Agent |
+| 3 | Lovart 设计稿拆解 | 读取原型图、PSD、PNG，拆解页面、交互状态和资源需求 | `docs/页面设计.md`、`design/lovart/` | 主 Agent / frontend-worker |
+| 4 | API 设计 | 定义前后端与小程序统一接口契约 | `docs/API文档.md` | api-designer |
+| 5 | 数据库设计 | 设计表结构、状态字段、索引和种子数据 | `db/db.sql` | db-builder |
+| 6 | Goal 计划定稿 | 把需求、原型、页面、接口、数据库和实现步骤合并成完整长程计划 | `docs/GOAL_PLAN.md` | 主 Agent |
+| 7 | 功能实现 | 按计划实现后端、Web 前端、小程序和可选 AI 助手服务 | `apps/`、`db/`、相关文档 | backend-worker / frontend-worker |
+| 8 | 对抗式代码审查 | 主动找需求遗漏、设计稿还原不足、契约漂移、数据缺口、权限问题和测试盲区 | 审查问题清单 | regression-tester / 主 Agent |
+| 9 | 回归验收与修复 | 静态验收、必要运行验收、问题修复和复测 | 验收记录、修复提交 | regression-tester / 对应 worker |
 
 ## 阶段状态表
 
@@ -33,13 +34,14 @@
 | --- | --- | --- | --- |
 | 0. 脚手架已准备 | 已完成 | `README.md`、`docs/AGENTS.md`、`docs/GOAL_PLAN_TEMPLATE.md`、`apps/miniprogram/`、`apps/aiassistant/`、`apps/docker-compose.yml`、`assets/README.md` | 小程序使用一层目录 `apps/miniprogram/`；AI 助手服务目录不使用破折号 |
 | 1. 产品需求分析 | 待开始 |  |  |
-| 2. 原型与页面设计 | 待开始 |  |  |
-| 3. API 设计 | 待开始 |  |  |
-| 4. 数据库设计 | 待开始 |  |  |
-| 5. Goal 计划定稿 | 待开始 |  |  |
-| 6. 功能实现 | 待开始 |  |  |
-| 7. 对抗式代码审查 | 待开始 |  |  |
-| 8. 回归验收与修复 | 待开始 |  |  |
+| 2. 原型生图提示词 | 待开始 |  |  |
+| 3. Lovart 设计稿拆解 | 待开始 |  |  |
+| 4. API 设计 | 待开始 |  |  |
+| 5. 数据库设计 | 待开始 |  |  |
+| 6. Goal 计划定稿 | 待开始 |  |  |
+| 7. 功能实现 | 待开始 |  |  |
+| 8. 对抗式代码审查 | 待开始 |  |  |
+| 9. 回归验收与修复 | 待开始 |  |  |
 
 ## 更新规则
 
