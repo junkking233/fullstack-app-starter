@@ -7,6 +7,7 @@
 1. `docs/开发规范-AGENTS.md`
 2. `docs/开发工作流-Workflow.md`
 3. `docs/工作流状态-WorkflowState.md`
+4. `index.html`（可直接打开的阶段看板）
 
 ## 能力概览
 
@@ -36,6 +37,7 @@ fullstack-app-starter/
 │   └── db.sql                # 数据库脚本
 ├── design/
 │   └── lovart/               # Lovart 原型图、PSD、PNG
+├── index.html                # 可直接打开的工作流状态看板
 └── docs/
     ├── 开发规范-AGENTS.md
     ├── 开发工作流-Workflow.md
@@ -133,6 +135,14 @@ docker exec mysql-docker mysqldump -uroot -padmin123 --default-character-set=utf
 ```
 
 数据库变化后必须同步 `db/db.sql`。
+
+## 阶段看板
+
+根目录 `index.html` 可直接双击或用浏览器打开。每推进一个阶段，必须同步更新：
+
+- `docs/工作流状态-WorkflowState.md`
+- `index.html`
+- `docs/Goal长程计划-GoalPlan.md`（如存在）
 
 ## 按需裁剪
 

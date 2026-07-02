@@ -22,6 +22,7 @@
 | DB | `db/db.sql` | 待确认 |
 | 规范 | `docs/开发规范-AGENTS.md` | 已有 |
 | 状态 | `docs/工作流状态-WorkflowState.md` | 必读 |
+| 看板 | `index.html` | 必读 |
 
 ## 3. PRD 摘要
 
@@ -75,7 +76,7 @@
 | 3 | UI Design | `docs/页面设计文档-UIDesign.md` | 阶段 2 + 设计稿 | 页面状态闭环 | 待开始 |
 | 4 | API 设计 | `docs/API接口文档-API.md` | 阶段 1-3 | 契约完整 | 待开始 |
 | 5 | DB 设计 | `db/db.sql` | 阶段 4 | 数据支撑功能 | 待开始 |
-| 6 | Goal 定稿 | `docs/Goal长程计划-GoalPlan.md` | 阶段 1-5 | 可恢复执行 | 待开始 |
+| 6 | Goal 定稿 | `docs/Goal长程计划-GoalPlan.md`、`index.html` | 阶段 1-5 | 可恢复执行 | 待开始 |
 | 7 | 后端实现 | `apps/backend/` | 阶段 4-6 | 接口一致 | 待开始 |
 | 7 | Web 实现 | `apps/frontend/` | 阶段 3-6 | 还原设计稿 | 待开始 |
 | 7 | 小程序实现 | `apps/miniprogram/` | 阶段 3-6 | 还原设计稿 | 待开始 |
@@ -98,6 +99,7 @@
 - 数据库是否能支撑查询、状态流转和种子数据。
 - 权限、错误态、空态、加载态是否闭环。
 - Docker Compose 是否仍在 `apps/docker-compose.yml`，且无 MySQL/Nginx 容器。
+- `index.html`、WorkflowState、GoalPlan 的阶段、下一步和证据路径是否一致。
 
 ## 10. 风险与执行记录
 

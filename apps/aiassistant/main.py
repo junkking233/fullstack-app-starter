@@ -4,9 +4,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
-from app.api.routes import router
-
+# Load .env before importing routes/services that read environment variables.
 load_dotenv()
+
+from app.api.routes import router
 
 app = FastAPI(title="AI Assistant Service", version="1.0.0")
 

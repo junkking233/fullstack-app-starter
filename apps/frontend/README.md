@@ -35,7 +35,7 @@ npm run build
 | 普通用户门户 | `/portal/*` |
 | 服务方门户 | `/partner/*` |
 | 管理后台 | `/admin/*` |
-| 数据大屏 | `/admin/screen` |
+| 数据大屏 | `/admin/datascreen` |
 | 登录页 | `/login` |
 
 ## 代理配置

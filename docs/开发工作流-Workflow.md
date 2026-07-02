@@ -8,8 +8,9 @@
 2. `docs/开发规范-AGENTS.md`
 3. `docs/开发工作流-Workflow.md`
 4. `docs/工作流状态-WorkflowState.md`
-5. `docs/Goal长程计划-GoalPlan.md`（如存在）
-6. 当前任务相关文档
+5. `index.html`
+6. `docs/Goal长程计划-GoalPlan.md`（如存在）
+7. 当前任务相关文档
 
 ## 阶段状态机
 
@@ -28,16 +29,15 @@
 
 ## 状态更新规则
 
-每完成阶段或局部任务，更新 `docs/工作流状态-WorkflowState.md`：
+每完成阶段或局部任务，必须同步更新三处：
 
-- 当前阶段
-- 当前任务
-- 最近完成
-- 下一步
-- 阻塞项
-- 证据路径
+| 文件 | 必须同步的内容 |
+| --- | --- |
+| `docs/工作流状态-WorkflowState.md` | 当前阶段、当前任务、最近完成、下一步、阻塞项、证据路径 |
+| `index.html` | `data-current-stage`、顶部徽章、当前状态卡片、阶段状态表 |
+| `docs/Goal长程计划-GoalPlan.md`（如存在） | 执行记录、风险、验收矩阵、阶段状态 |
 
-中断恢复时，先读状态文件和 Goal 计划，不要从头猜。
+中断恢复时，先读状态文件、`index.html` 和 Goal 计划，不要从头猜。
 
 ## 阶段要求
 

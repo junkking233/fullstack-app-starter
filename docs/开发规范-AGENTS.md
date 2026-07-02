@@ -10,8 +10,9 @@
 2. `docs/开发规范-AGENTS.md`
 3. `docs/开发工作流-Workflow.md`
 4. `docs/工作流状态-WorkflowState.md`
-5. `docs/Goal长程计划-GoalPlan.md`（如存在）
-6. 当前任务相关文档，例如 `docs/产品需求文档-PRD.md`、`docs/API接口文档-API.md`、`docs/页面设计文档-UIDesign.md`
+5. `index.html`
+6. `docs/Goal长程计划-GoalPlan.md`（如存在）
+7. 当前任务相关文档，例如 `docs/产品需求文档-PRD.md`、`docs/API接口文档-API.md`、`docs/页面设计文档-UIDesign.md`
 
 没有上下文时，以 `docs/工作流状态-WorkflowState.md` 判断下一步，不要猜。
 
@@ -42,7 +43,7 @@
 
 长程任务或整套系统开发时，必须先基于 `docs/Goal长程计划模板-GoalPlanTemplate.md` 生成 `docs/Goal长程计划-GoalPlan.md`，不能只写普通 TODO。
 
-每完成一个阶段或局部任务，必须更新 `docs/工作流状态-WorkflowState.md`。
+每完成一个阶段或局部任务，必须同步更新 `docs/工作流状态-WorkflowState.md` 和根目录 `index.html`；如果存在 `docs/Goal长程计划-GoalPlan.md`，也必须同步更新。
 
 ## 设计稿与资源
 
