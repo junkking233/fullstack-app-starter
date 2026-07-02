@@ -59,16 +59,21 @@
 
 ### 2. Lovart Prompt 原型生图提示词
 
-- 基于 PRD 生成 Lovart 可复制提示词。
-- 必须包含：APP UI 总览、4 个核心页面单图提示词、4 个页面交互概览提示词。
+- 基于 PRD 和 `docs/原型生图提示词模板-LovartPromptTemplate.md` 生成 Lovart 可复制提示词。
+- 先生成 `ScreenInventory` 页面清单，再生成 `DesignSystemPrompt`、`NavigationContract`、单页开发稿提示词和验收清单。
+- 页面数量由 PRD 的角色、流程、Tab 和二级功能决定，不固定为 4 个页面。
+- 开发稿必须单页生成：一个提示词只生成 1 张完整 iPhone 竖屏页面。
+- 不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿；弹窗、底部弹层、错误态、空态和成功提示只写入对应页面提示词的必要状态备注。
+- 每个页面必须标注页面类型：一级 Tab 页面、二级功能页面、详情页面或表单页面，并写清是否显示底部 Tab。
 - 当前阶段只写提示词，不写代码，不生成图片。
 
 ### 3. UI Design 设计稿拆解
 
 - 读取 `design/lovart/` 中的原型图、PSD、PNG。
 - 对照 PRD 和 Lovart Prompt，生成 UI Design 文档。
+- 先用 Lovart Prompt 中的 `ScreenInventory` 检查页面是否出齐，必要状态备注是否记录。
 - 拆解页面路径、布局、组件、状态、交互、接口需求和资源需求。
-- PSD/PNG 是视觉还原依据，不自由重设计。
+- 单页开发稿 PSD/PNG 是视觉还原依据；如误生成作品集总览、交互概览、独立状态稿或独立弹层稿，只作为辅助参考，不用于代码还原。
 
 ### 4. API 设计
 

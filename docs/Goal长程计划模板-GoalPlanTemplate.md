@@ -47,6 +47,8 @@
 设计要求：
 
 - 先生成 Lovart Prompt，再读取 Lovart 原型图、PSD、PNG。
+- Lovart Prompt 必须包含页面清单、全局设计系统、导航规则、单页开发稿提示词和验收清单。
+- 代码还原只以单页开发稿 PSD/PNG 为准；不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿。
 - 页面实现以 UI Design 和设计稿为准。
 - 图标先查 `assets/icons/`，缺少时先补共享图标库。
 - 禁止紫色主色。
@@ -72,8 +74,8 @@
 | 阶段 | 任务 | 涉及文件 | 前置依赖 | 验收标准 | 状态 |
 | --- | --- | --- | --- | --- | --- |
 | 1 | PRD 需求分析 | `docs/产品需求文档-PRD.md` | 输入资料 | 边界清楚 | 待开始 |
-| 2 | Lovart Prompt | `docs/原型生图提示词-LovartPrompt.md` | 阶段 1 | 可直接复制到 Lovart | 待开始 |
-| 3 | UI Design | `docs/页面设计文档-UIDesign.md` | 阶段 2 + 设计稿 | 页面状态闭环 | 待开始 |
+| 2 | Lovart Prompt | `docs/原型生图提示词-LovartPrompt.md` | 阶段 1 | 页面清单、设计系统、单页提示词完整 | 待开始 |
+| 3 | UI Design | `docs/页面设计文档-UIDesign.md` | 阶段 2 + 设计稿 | 单页开发稿可还原 | 待开始 |
 | 4 | API 设计 | `docs/API接口文档-API.md` | 阶段 1-3 | 契约完整 | 待开始 |
 | 5 | DB 设计 | `db/db.sql` | 阶段 4 | 数据支撑功能 | 待开始 |
 | 6 | Goal 定稿 | `docs/Goal长程计划-GoalPlan.md`、`index.html` | 阶段 1-5 | 可恢复执行 | 待开始 |

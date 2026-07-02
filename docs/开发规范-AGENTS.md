@@ -51,6 +51,8 @@
 ## 设计稿与资源
 
 - 原型生图提示词输出到 `docs/原型生图提示词-LovartPrompt.md`。
+- 原型生图提示词必须参考 `docs/原型生图提示词模板-LovartPromptTemplate.md`，先产出页面清单、全局设计系统和导航规则，再产出单页开发稿提示词。
+- Lovart 只生成单页开发稿，不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿；弹窗、底部弹层和错误态只写在页面备注中。
 - Lovart 原型图、PSD、PNG 默认放到 `design/lovart/`。
 - 页面设计拆解输出到 `docs/页面设计文档-UIDesign.md`。
 - 页面实现必须以 Lovart 原型图、PSD、PNG 和 UI Design 文档为依据，不要跳过设计稿自由发挥。

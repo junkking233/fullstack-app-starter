@@ -56,6 +56,7 @@ fullstack-app-starter/
     ├── 开发工作流-Workflow.md
     ├── 工作流状态-WorkflowState.md
     ├── Goal长程计划模板-GoalPlanTemplate.md
+    ├── 原型生图提示词模板-LovartPromptTemplate.md
     ├── 产品需求文档-PRD.md
     └── API接口文档-API.md
 ```
@@ -64,6 +65,7 @@ fullstack-app-starter/
 
 | 文件 | 用途 |
 | --- | --- |
+| `docs/原型生图提示词模板-LovartPromptTemplate.md` | 约束 Lovart Prompt 的页面清单、设计系统、单页提示词和验收结构 |
 | `docs/原型生图提示词-LovartPrompt.md` | 基于 PRD 生成 Lovart 可复制提示词 |
 | `docs/页面设计文档-UIDesign.md` | 基于 Lovart 设计稿拆解页面结构、状态和资源 |
 | `docs/Goal长程计划-GoalPlan.md` | 长程任务执行计划 |

@@ -8,7 +8,7 @@
 | --- | --- |
 | 当前阶段 | 0. 脚手架已准备 |
 | 当前任务 | 尚未开始业务开发 |
-| 最近完成 | 业务项目初始化必须脱离脚手架 Git 的规则已明确 |
+| 最近完成 | Lovart Prompt 已收缩为只生成单页开发稿 |
 | 下一步 | 根据用户资料生成 PRD；PRD 完成后生成 Lovart Prompt |
 | 阻塞项 | 暂无 |
 | 最后更新 | 2026-07-02 |
@@ -19,8 +19,8 @@
 | --- | --- | --- | --- |
 | 0. 脚手架准备 | 已完成 | `README.md`、`index.html`、`docs/开发规范-AGENTS.md`、`apps/miniprogram/`、`apps/aiassistant/`、`apps/docker-compose.yml`、`assets/README.md`、`design/lovart/` | 克隆后必须删除脚手架 `.git` 并按真实业务项目重新初始化 Git |
 | 1. PRD 需求分析 | 待开始 | `docs/产品需求文档-PRD.md` |  |
-| 2. Lovart Prompt | 待开始 | `docs/原型生图提示词-LovartPrompt.md` | 按需生成 |
-| 3. UI Design 设计稿拆解 | 待开始 | `docs/页面设计文档-UIDesign.md`、`design/lovart/` | 等用户放入 Lovart 设计稿 |
+| 2. Lovart Prompt | 待开始 | `docs/原型生图提示词-LovartPrompt.md`、`docs/原型生图提示词模板-LovartPromptTemplate.md` | 只生成页面清单、设计系统、导航规则和单页开发稿提示词 |
+| 3. UI Design 设计稿拆解 | 待开始 | `docs/页面设计文档-UIDesign.md`、`design/lovart/` | 以单页开发稿 PSD/PNG 为准，误生成的额外图只作辅助 |
 | 4. API 设计 | 待开始 | `docs/API接口文档-API.md` |  |
 | 5. 数据库设计 | 待开始 | `db/db.sql` |  |
 | 6. Goal 长程计划 | 待开始 | `docs/Goal长程计划-GoalPlan.md` | 按需生成 |
