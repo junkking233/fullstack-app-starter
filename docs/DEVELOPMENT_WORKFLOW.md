@@ -1,6 +1,6 @@
 # 代码开发工作流
 
-> 适用范围：基于 `fullstack-app-starter` 脚手架进行 Web、后端、原生微信小程序、AI 服务等项目开发。
+> 适用范围：基于 `fullstack-app-starter` 脚手架进行 Web、后端、原生微信小程序、AI 助手服务等项目开发。
 > 核心目标：每次 AI 重新进入项目、没有上下文时，都能通过项目文档判断当前处于哪一步、该使用哪个 skill、下一步做什么。
 
 ## 1. 每次进入项目必须先读
@@ -26,7 +26,7 @@
 | 3 | API 设计 | 定义前后端与小程序统一接口契约 | `docs/API文档.md` | api-designer |
 | 4 | 数据库设计 | 设计表结构、状态字段、索引、种子数据 | `db/db.sql` | db-builder |
 | 5 | Goal 计划定稿 | 把需求、页面、接口、数据库和实现拆解合并 | `docs/GOAL_PLAN.md` | 主 Agent |
-| 6 | 功能实现 | 按计划实现后端、Web、小程序、可选 AI 服务 | `apps/`、`db/` | backend-worker / frontend-worker |
+| 6 | 功能实现 | 按计划实现后端、Web、小程序、可选 AI 助手服务 | `apps/`、`db/` | backend-worker / frontend-worker |
 | 7 | 对抗式代码审查 | 主动找需求遗漏、契约漂移、权限与测试缺口 | 审查问题清单 | regression-tester / 主 Agent |
 | 8 | 回归验收与修复 | 静态验收、必要运行验收、修复和复测 | 验收结果、修复提交 | regression-tester / 对应 worker |
 
@@ -48,7 +48,7 @@
 
 1. 克隆脚手架：`git clone https://github.com/junkking233/fullstack-app-starter.git {项目目录}`。
 2. 如果这是业务项目而不是维护脚手架本身，克隆后删除脚手架 `.git`，再按实际项目重新 `git init`。
-3. 判断项目形态：是否需要后端、Web 前端、原生微信小程序、AI 服务。
+3. 判断项目形态：是否需要后端、Web 前端、原生微信小程序、AI 助手服务。
 4. 按需求裁剪不需要的目录和 `apps/docker-compose.yml` 配置。
 5. 不自动启动服务，不重置数据库，不覆盖用户已有改动。
 6. 更新 `docs/WORKFLOW_STATE.md`，将阶段 0 标记为已完成，并写明下一步。

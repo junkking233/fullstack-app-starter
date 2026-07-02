@@ -1,6 +1,6 @@
 # Fullstack App Starter
 
-这是一个全栈项目模板，包含后端 API、网页前端、原生微信小程序端和 AI 服务四个子应用。登录、角色、用户管理、门户页面、管理后台、小程序页面、AI 流式聊天接口和数据库初始化都已经搭好。
+这是一个全栈项目模板，包含后端 API、网页前端、原生微信小程序端和 AI 助手服务四个子应用。登录、角色、用户管理、门户页面、管理后台、小程序页面、AI 流式聊天接口和数据库初始化都已经搭好。
 
 如果你是第一次打开这个项目，先看这一页就够了。
 
@@ -13,7 +13,7 @@
 | 服务方门户 | 服务方查看工单、资源和报表。 |
 | 原生微信小程序端 | 使用原生微信语法和 Vant Weapp，提供首页、登录和接口请求基础封装。 |
 | 后端 API | 登录鉴权、用户管理、图表数据、健康检查。 |
-| AI 服务 | FastAPI 调用 DeepSeek，给前端提供 SSE 流式聊天接口。 |
+| AI 助手服务 | FastAPI 调用 DeepSeek，给前端提供 SSE 流式聊天接口。 |
 
 ## 目录结构
 
@@ -24,7 +24,7 @@ fullstack-app-starter/
 │   ├── docker-compose.yml    # Docker Compose 编排
 │   ├── frontend/             # Vue + Vite 网页前端（默认包含）
 │   ├── miniprogram/          # 原生微信小程序端（可选）
-│   └── ai-service/           # FastAPI AI 服务（可选）
+│   └── aiassistant/          # FastAPI AI 助手服务（可选）
 ├── db/
 │   └── db.sql                # 数据库初始化脚本
 ├── assets/
@@ -48,28 +48,28 @@ fullstack-app-starter/
 | 后端 API | [`apps/backend/README.md`](apps/backend/README.md) |
 | 网页前端 | [`apps/frontend/README.md`](apps/frontend/README.md) |
 | 原生微信小程序端 | [`apps/miniprogram/README.md`](apps/miniprogram/README.md) |
-| AI 服务 | [`apps/ai-service/README.md`](apps/ai-service/README.md) |
+| AI 助手服务 | [`apps/aiassistant/README.md`](apps/aiassistant/README.md) |
 
 ## 按需裁剪
 
-默认项目包含 `apps/backend/`、`apps/frontend/`、`apps/miniprogram/` 和 `apps/ai-service/`。实际开发时应按需求裁剪，不需要的端不要强行保留。
+默认项目包含 `apps/backend/`、`apps/frontend/`、`apps/miniprogram/` 和 `apps/aiassistant/`。实际开发时应按需求裁剪，不需要的端不要强行保留。
 
 ### 只做小程序项目
 
 1. 保留 `apps/backend/`、`apps/miniprogram/`、`db/` 和必要文档。
 2. 可删除 `apps/frontend/`，并从 `apps/docker-compose.yml` 中删除 `frontend` 服务。
-3. 如果不需要 AI 能力，也删除 `apps/ai-service/`；如果后续在 Compose 中启用了 AI 服务，也同步移除相关配置。
+3. 如果不需要 AI 能力，也删除 `apps/aiassistant/`；如果后续在 Compose 中启用了 AI 助手服务，也同步移除相关配置。
 
 ### 移除微信小程序端
 
 1. 删除 `apps/miniprogram/` 目录。
 2. `apps/docker-compose.yml` 中微信小程序没有独立服务，无需修改。
 
-### 移除 AI 服务
+### 移除 AI 助手服务
 
-1. 删除 `apps/ai-service/` 目录。
-2. 如果 `apps/docker-compose.yml` 中启用了 `ai-service` 服务定义，也同步删除该服务。
-3. 如果 `frontend` 服务中配置了对 `ai-service` 的 `depends_on`，也同步移除。
+1. 删除 `apps/aiassistant/` 目录。
+2. 如果 `apps/docker-compose.yml` 中启用了 `aiassistant` 服务定义，也同步删除该服务。
+3. 如果 `frontend` 服务中配置了对 `aiassistant` 的 `depends_on`，也同步移除。
 4. 如果前端代码中有 AI 助手相关页面和路由，也需要同步清理。
 
 ## 环境要求
@@ -92,10 +92,10 @@ fullstack-app-starter/
 1. 如果要使用 AI 助手，先配置环境变量：
 
 ```bash
-cp apps/ai-service/.env.example apps/ai-service/.env
+cp apps/aiassistant/.env.example apps/aiassistant/.env
 ```
 
-然后编辑 `apps/ai-service/.env`，填入 DeepSeek Key。
+然后编辑 `apps/aiassistant/.env`，填入 DeepSeek Key。
 
 2. 启动项目：
 
@@ -117,7 +117,7 @@ docker compose -f apps/docker-compose.yml down
 | 登录页 | `http://localhost:9999/login` |
 | 后端 API | `http://localhost:8888` |
 | 后端健康检查 | `http://localhost:8888/api/health` |
-| AI 服务 | `http://localhost:8000` |
+| AI 助手服务 | `http://localhost:8000` |
 | AI 健康检查 | `http://localhost:8000/health` |
 
 ## 微信小程序开发

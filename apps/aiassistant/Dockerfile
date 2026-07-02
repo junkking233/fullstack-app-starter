@@ -2,7 +2,7 @@
 FROM python:3.11.11-slim-bookworm
 
 LABEL maintainer="template-team"
-LABEL description="Template AI-Service (DeepSeek SSE Chat)"
+LABEL description="Template AI Assistant Service (DeepSeek SSE Chat)"
 
 # System dependencies
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \

@@ -43,7 +43,7 @@ npm run build
 前端代理在 `vite.config.ts` 中配置：
 
 - `/api/*` 转发到后端（`http://localhost:8888`）
-- `/api/ai/*` 转发到 AI 服务（`http://localhost:8000`）
+- `/api/ai/*` 转发到 AI 助手服务（`http://localhost:8000`）
 
 Docker 部署时，代理地址通过环境变量 `VITE_PROXY_BACKEND` 和 `VITE_PROXY_AI` 覆盖。
 

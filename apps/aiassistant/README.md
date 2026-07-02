@@ -1,8 +1,8 @@
-# AI 服务
+# AI 助手服务
 
-FastAPI AI 服务，调用 DeepSeek 大模型，给前端提供 SSE 流式聊天接口。
+FastAPI AI 助手服务，调用 DeepSeek 大模型，给前端提供 SSE 流式聊天接口。
 
-> **可选模块**：如果项目不需要 AI 助手，可以删除整个 `apps/ai-service/` 目录；如果 `apps/docker-compose.yml` 中启用了 `ai-service` 服务，也同步移除。
+> **可选模块**：如果项目不需要 AI 助手，可以删除整个 `apps/aiassistant/` 目录；如果 `apps/docker-compose.yml` 中启用了 `aiassistant` 服务，也同步移除。
 
 ## 技术栈
 
@@ -11,7 +11,7 @@ FastAPI、Uvicorn、Pydantic、httpx、python-dotenv。
 ## 常用命令
 
 ```bash
-cd apps/ai-service
+cd apps/aiassistant
 pip install -r requirements.txt
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```

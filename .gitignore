@@ -36,7 +36,7 @@ venv/
 !.env.example
 
 # Runtime data
-apps/ai-service/data/
+apps/aiassistant/data/
 
 # Build archives
 *.jar

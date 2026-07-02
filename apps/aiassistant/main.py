@@ -8,7 +8,7 @@ from app.api.routes import router
 
 load_dotenv()
 
-app = FastAPI(title="AI-Service", version="1.0.0")
+app = FastAPI(title="AI Assistant Service", version="1.0.0")
 
 cors_origins = [
     origin.strip()

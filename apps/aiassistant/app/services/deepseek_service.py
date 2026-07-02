@@ -21,7 +21,7 @@ async def chat_stream(
     if not DEEPSEEK_API_KEY:
         yield sse_event({
             "type": "error",
-            "message": "缺少 DEEPSEEK_API_KEY，请在 apps/ai-service/.env 中配置 DeepSeek API Key",
+            "message": "缺少 DEEPSEEK_API_KEY，请在 apps/aiassistant/.env 中配置 DeepSeek API Key",
         })
         yield sse_event({"type": "done"})
         return

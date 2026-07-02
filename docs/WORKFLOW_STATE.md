@@ -8,7 +8,7 @@
 | --- | --- |
 | 当前阶段 | 0. 脚手架已准备 |
 | 当前任务 | 尚未开始业务开发 |
-| 最近完成 | 脚手架目录与规范清理完成：小程序统一为 `apps/miniprogram/`，Docker Compose 位于 `apps/docker-compose.yml`，共享图标源库位于 `assets/icons/` |
+| 最近完成 | 脚手架目录与规范清理完成：小程序统一为 `apps/miniprogram/`，AI 助手服务统一为 `apps/aiassistant/`，Docker Compose 位于 `apps/docker-compose.yml`，共享图标源库位于 `assets/icons/` |
 | 下一步 | 根据用户资料进行产品需求分析，并生成或更新 `docs/GOAL_PLAN.md` |
 | 阻塞项 | 暂无 |
 | 最后更新 | 2026-07-02 |
@@ -23,7 +23,7 @@
 | 3 | API 设计 | 定义前后端与小程序统一接口契约 | `docs/API文档.md` | api-designer |
 | 4 | 数据库设计 | 设计表结构、状态字段、索引和种子数据 | `db/db.sql` | db-builder |
 | 5 | Goal 计划定稿 | 把需求、页面、接口、数据库和实现步骤合并成完整长程计划 | `docs/GOAL_PLAN.md` | 主 Agent |
-| 6 | 功能实现 | 按计划实现后端、Web 前端、小程序和可选 AI 服务 | `apps/`、`db/`、相关文档 | backend-worker / frontend-worker |
+| 6 | 功能实现 | 按计划实现后端、Web 前端、小程序和可选 AI 助手服务 | `apps/`、`db/`、相关文档 | backend-worker / frontend-worker |
 | 7 | 对抗式代码审查 | 主动找需求遗漏、契约漂移、数据缺口、权限问题和测试盲区 | 审查问题清单 | regression-tester / 主 Agent |
 | 8 | 回归验收与修复 | 静态验收、必要运行验收、问题修复和复测 | 验收记录、修复提交 | regression-tester / 对应 worker |
 
@@ -31,7 +31,7 @@
 
 | 阶段 | 状态 | 证据/产物 | 备注 |
 | --- | --- | --- | --- |
-| 0. 脚手架已准备 | 已完成 | `README.md`、`docs/AGENTS.md`、`apps/miniprogram/`、`apps/docker-compose.yml`、`assets/README.md` | 原生微信小程序使用一层目录 `apps/miniprogram/` |
+| 0. 脚手架已准备 | 已完成 | `README.md`、`docs/AGENTS.md`、`apps/miniprogram/`、`apps/aiassistant/`、`apps/docker-compose.yml`、`assets/README.md` | 小程序使用一层目录 `apps/miniprogram/`；AI 助手服务目录不使用破折号 |
 | 1. 产品需求分析 | 待开始 |  |  |
 | 2. 原型与页面设计 | 待开始 |  |  |
 | 3. API 设计 | 待开始 |  |  |
