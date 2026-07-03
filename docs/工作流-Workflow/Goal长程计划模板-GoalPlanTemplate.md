@@ -1,6 +1,6 @@
 # Goal 长程计划模板 GoalPlanTemplate
 
-使用方式：当用户要求 Goal、长程任务或一次开发整套系统时，基于本模板生成 `docs/Goal长程计划-GoalPlan.md`。生成后删除占位说明，保留真实计划。
+使用方式：当用户要求 Goal、长程任务或一次开发整套系统时，基于本模板生成 `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`。生成后删除占位说明，保留真实计划。
 
 ## 1. 目标
 
@@ -14,14 +14,16 @@
 
 | 资料 | 路径 | 状态 |
 | --- | --- | --- |
-| PRD | `docs/产品需求文档-PRD.md` | 待确认 |
-| Lovart Prompt | `docs/原型生图提示词-LovartPrompt.md` | 待确认 |
+| PRD | `docs/产品需求-PRD/产品需求文档-PRD.md` | 待确认 |
+| Lovart Prompt | `docs/原型设计-Design/原型生图提示词-LovartPrompt.md` | 待确认 |
 | Lovart 设计稿 | `design/lovart/` | 待确认 |
-| UI Design | `docs/页面设计文档-UIDesign.md` | 待确认 |
-| API | `docs/API接口文档-API.md` | 待确认 |
+| Figma 设计稿 | UI Design/GoalPlan 中记录的页面 Frame 链接 | 待确认 |
+| DESIGN | `docs/原型设计-Design/视觉设计系统-DESIGN.md` | 待确认 |
+| UI Design | `docs/原型设计-Design/页面设计文档-UIDesign.md` | 待确认 |
+| API | `docs/技术设计-TechDesign/API接口文档-API.md` | 待确认 |
 | DB | `db/db.sql` | 待确认 |
-| 规范 | `docs/开发规范-AGENTS.md` | 已有 |
-| 状态 | `docs/工作流状态-WorkflowState.md` | 必读 |
+| 规范 | `docs/工作流-Workflow/开发规范-AGENTS.md` | 已有 |
+| 状态 | `docs/工作流-Workflow/工作流状态-WorkflowState.md` | 必读 |
 | 看板 | `index.html` | 必读 |
 
 ## 3. PRD 摘要
@@ -40,16 +42,18 @@
 
 ## 4. 设计计划
 
-| 页面 | 端 | 设计稿 | 核心状态 | 资源需求 |
-| --- | --- | --- | --- | --- |
-|  | Web / 小程序 |  |  |  |
+| 页面 | 端 | Figma Frame | 备用 Lovart 稿 | 核心状态 | 资源需求 |
+| --- | --- | --- | --- | --- | --- |
+|  | Web / 小程序 |  |  |  |  |
 
 设计要求：
 
-- 先生成 Lovart Prompt，再读取 Lovart 原型图、PSD、PNG。
+- 先生成 Lovart Prompt，再由用户或设计工具把 Lovart 单页稿沉淀为 Figma 文件。
 - Lovart Prompt 必须包含页面清单、全局设计系统、导航规则、单页开发稿提示词和验收清单。
-- 代码还原只以单页开发稿 PSD/PNG 为准；不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿。
-- 页面实现以 UI Design 和设计稿为准。
+- UI Design 阶段必须基于 Figma Frame 生成 `docs/原型设计-Design/视觉设计系统-DESIGN.md`，用于统一颜色、字体、间距、圆角、阴影和组件 token；能运行时执行 `npx @google/design.md lint docs/原型设计-Design/视觉设计系统-DESIGN.md`。
+- 代码还原以具体 Figma 页面 Frame 为准；Lovart PSD/PNG 仅作为备份参考，不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿。
+- 页面实现以 Figma Frame、UI Design 和 DESIGN 为准；UI Design 必须写清 Figma nodeId、布局、视觉 token、组件、资源、状态和逐页还原标准。
+- 页面开发采用逐页 UI 还原循环：Figma Frame 定位、读取设计上下文、实现、截图或人工对照、修复偏差、记录证据。
 - 图标先查 `assets/icons/`，缺少时先补共享图标库。
 - 禁止紫色主色。
 
@@ -75,15 +79,15 @@
 
 | 阶段 | 任务 | 涉及文件 | 前置依赖 | 验收标准 | 状态 |
 | --- | --- | --- | --- | --- | --- |
-| 1 | PRD 需求分析 | `docs/产品需求文档-PRD.md` | 输入资料 | 边界清楚 | 待开始 |
-| 2 | Lovart Prompt | `docs/原型生图提示词-LovartPrompt.md` | 阶段 1 | 页面清单、设计系统、单页提示词完整 | 待开始 |
-| 3 | UI Design | `docs/页面设计文档-UIDesign.md` | 阶段 2 + 设计稿 | 单页开发稿可还原 | 待开始 |
-| 4 | API 设计 | `docs/API接口文档-API.md` | 阶段 1-3 | 契约完整 | 待开始 |
+| 1 | PRD 需求分析 | `docs/产品需求-PRD/产品需求文档-PRD.md` | 输入资料 | 边界清楚 | 待开始 |
+| 2 | Lovart Prompt | `docs/原型设计-Design/原型生图提示词-LovartPrompt.md` | 阶段 1 | 页面清单、设计系统、单页提示词完整 | 待开始 |
+| 3 | DESIGN / UI Design | `docs/原型设计-Design/视觉设计系统-DESIGN.md`、`docs/原型设计-Design/页面设计文档-UIDesign.md` | 阶段 2 + Figma Frame | Figma 页面可还原，设计 token 和页面规则可复用 | 待开始 |
+| 4 | API 设计 | `docs/技术设计-TechDesign/API接口文档-API.md` | 阶段 1-3 | 契约完整 | 待开始 |
 | 5 | DB 设计 | `db/db.sql` | 阶段 4 | 数据支撑功能 | 待开始 |
-| 6 | Goal 定稿 | `docs/Goal长程计划-GoalPlan.md`、`index.html` | 阶段 1-5 | 可恢复执行 | 待开始 |
+| 6 | Goal 定稿 | `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`、`index.html` | 阶段 1-5 | 可恢复执行 | 待开始 |
 | 7 | 后端实现 | `apps/backend/` | 阶段 4-6 | 接口一致 | 待开始 |
-| 7 | Web 实现 | `apps/frontend/` | 阶段 3-6 | 还原设计稿 | 待开始 |
-| 7 | 小程序实现 | `apps/miniprogram/` | 阶段 3-6 | 还原设计稿 | 待开始 |
+| 7 | Web 实现 | `apps/frontend/` | 阶段 3-6 | 逐页还原设计稿并记录证据 | 待开始 |
+| 7 | 小程序实现 | `apps/miniprogram/` | 阶段 3-6 | 逐页还原设计稿并记录证据 | 待开始 |
 | 7 | AI 助手实现 | `apps/aiassistant/` | 阶段 4-6 | 接口可用 | 待开始 |
 | 8 | 对抗式审查 | 全项目 | 阶段 7 | 问题有证据 | 待开始 |
 | 9 | 回归验收 | 全项目 | 阶段 8 | 结论明确 | 待开始 |
@@ -92,10 +96,19 @@
 
 阶段 7 完成前必须逐项检查本节。没有全部通过时，当前阶段仍是“功能实现”，不得推进到“对抗式审查”。
 
+### 8.1 逐页 UI 还原记录
+
+每个 Web 或小程序必做页面都要单独成行。没有对应设计稿、没有对照证据或存在明显偏差时，状态只能写待完成、待验收或阻塞。
+
+| 页面 | 端 | Figma Frame | 实现文件 | 对照方式 | 主要偏差/修复 | 状态 |
+| --- | --- | --- | --- | --- | --- | --- |
+|  | Web / 小程序 | Figma node 链接 |  | Figma 截图对比 / 人工对照 / 阻塞 |  | 待验收 |
+
 | 检查项 | 通过条件 | 状态 |
 | --- | --- | --- |
 | PRD 覆盖 | PRD 中必须实现的角色、流程、页面、接口、数据都已落到代码或标为不适用 | 待检查 |
-| UI 覆盖 | UI Design 中每个必做页面都有对应实现，主要状态和资源已处理 | 待检查 |
+| 设计系统覆盖 | DESIGN 中来自 Figma 的颜色、字体、间距、圆角、阴影和组件 token 已落实到前端/小程序样式 | 待检查 |
+| UI 覆盖 | UI Design 中每个必做页面都有对应 Figma Frame、实现、逐页 UI 还原记录和对照证据，主要状态和资源已处理 | 待检查 |
 | API 覆盖 | 页面操作都有接口或明确不需要接口，字段和权限不漂移 | 待检查 |
 | DB 覆盖 | 必须保存的数据都有表、字段、索引或种子数据支撑 | 待检查 |
 | 端侧实现 | 后端、Web、小程序、AI 助手中本次必做的端均完成；不做的端写明原因 | 待检查 |
@@ -117,8 +130,8 @@
 
 ## 10. 对抗式审查清单
 
-- 是否跳过 Lovart Prompt、设计稿或 UI Design 直接实现页面。
-- 页面布局、颜色、字号、图标、状态是否偏离 PSD/PNG。
+- 是否跳过 Lovart Prompt、Figma Frame、DESIGN 或 UI Design 直接实现页面。
+- 页面布局、颜色、字号、间距、圆角、阴影、图标、底部 Tab、安全区和状态是否偏离 Figma。
 - PRD 要求是否被遗漏或超范围扩展。
 - API、后端、前端、小程序字段是否漂移。
 - 数据库是否能支撑查询、状态流转和种子数据。

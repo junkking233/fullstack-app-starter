@@ -62,6 +62,8 @@ cp ../../assets/icons/search.svg src/assets/icons/search.svg
 ## 注意事项
 
 - 使用 Element Plus 组件实现交互，避免手写 CSS 控制样式。
+- Element Plus 只是组件基础，页面颜色、字号、圆角、间距、阴影、菜单、表单、图片和空状态必须按 Figma Frame、`docs/原型设计-Design/视觉设计系统-DESIGN.md` 和 `docs/原型设计-Design/页面设计文档-UIDesign.md` 还原。
+- 每完成一个页面，先用浏览器截图或人工对照 Figma 检查设计稿；无法访问 Figma 或截图时，在 GoalPlan 写明阻塞并完成静态样式对照。
 - 禁止使用紫色作为主色。
 - 门户菜单使用水平模式；后台管理可使用侧栏垂直菜单并允许内嵌子菜单。
 - 下拉框宽度要根据内容合理设置，避免选项显示不全。

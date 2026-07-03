@@ -490,7 +490,7 @@
             </div>
             <div class="status-grid">
               <div class="status-item"><span>当前任务</span><strong>尚未开始业务开发</strong></div>
-              <div class="status-item"><span>最近完成</span><strong>新增阶段推进门禁，阶段 7 必须通过 Goal 完成门禁</strong></div>
+              <div class="status-item"><span>最近完成</span><strong>确认 Figma-first UI 还原流程</strong></div>
               <div class="status-item"><span>下一步</span><strong>根据用户资料生成 PRD；PRD 完成后生成 Lovart Prompt</strong></div>
               <div class="status-item"><span>对齐规则</span><strong>先过门禁，再同步 WorkflowState、index.html、GoalPlan</strong></div>
             </div>
@@ -500,7 +500,7 @@
             <div class="section-head">
               <div>
                 <h2>阶段流</h2>
-                <p class="section-note">状态、证据路径和下一步必须与 <code>docs/工作流状态-WorkflowState.md</code> 对齐。</p>
+                <p class="section-note">状态、证据路径和下一步必须与 <code>docs/工作流-Workflow/工作流状态-WorkflowState.md</code> 对齐。</p>
               </div>
             </div>
             <div class="progress-list">
@@ -511,22 +511,22 @@
               </div>
               <div class="stage-row pending">
                 <div class="stage-index">1</div>
-                <div><span class="stage-title">PRD 需求分析</span><span class="stage-evidence">docs/产品需求文档-PRD.md</span></div>
+                <div><span class="stage-title">PRD 需求分析</span><span class="stage-evidence">docs/产品需求-PRD/产品需求文档-PRD.md</span></div>
                 <span class="state todo">待开始</span>
               </div>
               <div class="stage-row pending">
                 <div class="stage-index">2</div>
-                <div><span class="stage-title">Lovart Prompt</span><span class="stage-evidence">页面清单、设计系统、导航规则、单页开发稿提示词</span></div>
+                <div><span class="stage-title">Lovart Prompt</span><span class="stage-evidence">页面清单、设计系统、导航规则、单页开发稿提示词，出图后沉淀到 Figma</span></div>
                 <span class="state todo">待开始</span>
               </div>
               <div class="stage-row pending">
                 <div class="stage-index">3</div>
-                <div><span class="stage-title">UI Design 设计稿拆解</span><span class="stage-evidence">docs/页面设计文档-UIDesign.md、design/lovart/</span></div>
+                <div><span class="stage-title">Figma UI Design 设计稿拆解</span><span class="stage-evidence">DESIGN、UIDesign、Figma Frame 链接、design/lovart/</span></div>
                 <span class="state todo">待开始</span>
               </div>
               <div class="stage-row pending">
                 <div class="stage-index">4</div>
-                <div><span class="stage-title">API 设计</span><span class="stage-evidence">docs/API接口文档-API.md</span></div>
+                <div><span class="stage-title">API 设计</span><span class="stage-evidence">docs/技术设计-TechDesign/API接口文档-API.md</span></div>
                 <span class="state todo">待开始</span>
               </div>
               <div class="stage-row pending">
@@ -536,12 +536,12 @@
               </div>
               <div class="stage-row pending">
                 <div class="stage-index">6</div>
-                <div><span class="stage-title">Goal 长程计划</span><span class="stage-evidence">docs/Goal长程计划-GoalPlan.md</span></div>
+                <div><span class="stage-title">Goal 长程计划</span><span class="stage-evidence">docs/工作流-Workflow/Goal长程计划-GoalPlan.md</span></div>
                 <span class="state todo">待开始</span>
               </div>
               <div class="stage-row pending">
                 <div class="stage-index">7</div>
-                <div><span class="stage-title">功能实现</span><span class="stage-evidence">apps/、db/、GoalPlan 完成门禁</span></div>
+                <div><span class="stage-title">功能实现</span><span class="stage-evidence">apps/、assets/、db/、逐页 Figma UI 还原记录、GoalPlan 完成门禁</span></div>
                 <span class="state todo">待开始</span>
               </div>
               <div class="stage-row pending">
@@ -569,7 +569,7 @@
             <div class="sync-list">
               <div class="sync-item">
                 <div class="sync-index">1</div>
-                <div><strong>通过阶段门禁</strong><p>阶段产物和验收项必须完成；阶段 7 必须通过 Goal 完成门禁。</p></div>
+                <div><strong>通过阶段门禁</strong><p>阶段产物和验收项必须完成；阶段 7 必须通过逐页 Figma UI 还原和 Goal 完成门禁。</p></div>
               </div>
               <div class="sync-item">
                 <div class="sync-index">2</div>
@@ -581,7 +581,7 @@
               </div>
               <div class="sync-item">
                 <div class="sync-index">4</div>
-                <div><strong>更新 GoalPlan</strong><p>如果存在长程计划，同步执行记录、风险和验收矩阵。</p></div>
+                <div><strong>更新 GoalPlan</strong><p>如果存在长程计划，同步执行记录、逐页 Figma UI 还原记录、风险和验收矩阵。</p></div>
               </div>
             </div>
           </section>
@@ -596,7 +596,7 @@
             <div class="evidence">
               <span class="tag">README.md</span>
               <span class="tag">index.html</span>
-              <span class="tag">docs/开发规范-AGENTS.md</span>
+              <span class="tag">docs/工作流-Workflow/开发规范-AGENTS.md</span>
               <span class="tag">apps/miniprogram/</span>
               <span class="tag">apps/aiassistant/</span>
               <span class="tag">apps/docker-compose.yml</span>

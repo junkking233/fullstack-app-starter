@@ -1,20 +1,21 @@
 # 项目开发规范
 
-本文件只放 AI 开发必须遵守的硬约束。项目说明看 `README.md`，阶段流程看 `docs/开发工作流-Workflow.md`，当前状态看 `docs/工作流状态-WorkflowState.md`。
+本文件只放 AI 开发必须遵守的硬约束。项目说明看 `README.md`，阶段流程看 `docs/工作流-Workflow/开发工作流-Workflow.md`，当前状态看 `docs/工作流-Workflow/工作流状态-WorkflowState.md`。
 
 ## 进入项目先读
 
 每次开发前必须读取：
 
 1. `README.md`
-2. `docs/开发规范-AGENTS.md`
-3. `docs/开发工作流-Workflow.md`
-4. `docs/工作流状态-WorkflowState.md`
+2. `docs/工作流-Workflow/开发规范-AGENTS.md`
+3. `docs/工作流-Workflow/开发工作流-Workflow.md`
+4. `docs/工作流-Workflow/工作流状态-WorkflowState.md`
 5. `index.html`
-6. `docs/Goal长程计划-GoalPlan.md`（如存在）
-7. 当前任务相关文档，例如 `docs/产品需求文档-PRD.md`、`docs/API接口文档-API.md`、`docs/页面设计文档-UIDesign.md`
+6. `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`（如存在）
+7. `docs/原型设计-Design/视觉设计系统-DESIGN.md`（如存在）
+8. 当前任务相关文档，例如 `docs/产品需求-PRD/产品需求文档-PRD.md`、`docs/技术设计-TechDesign/API接口文档-API.md`、`docs/原型设计-Design/页面设计文档-UIDesign.md`
 
-没有上下文时，以 `docs/工作流状态-WorkflowState.md` 判断下一步，不要猜。
+没有上下文时，以 `docs/工作流-Workflow/工作流状态-WorkflowState.md` 判断下一步，不要猜。
 
 ## 项目约束
 
@@ -36,7 +37,7 @@
 
 1. 产品需求分析（PRD）
 2. 原型生图提示词（Lovart Prompt）
-3. Lovart 设计稿拆解（UI Design）
+3. Figma 设计稿拆解（UI Design）
 4. API 设计
 5. 数据库设计
 6. Goal 长程计划
@@ -44,9 +45,9 @@
 8. 对抗式代码审查
 9. 回归验收与修复
 
-长程任务或整套系统开发时，必须先基于 `docs/Goal长程计划模板-GoalPlanTemplate.md` 生成 `docs/Goal长程计划-GoalPlan.md`，不能只写普通 TODO。
+长程任务或整套系统开发时，必须先基于 `docs/工作流-Workflow/Goal长程计划模板-GoalPlanTemplate.md`（如存在）生成 `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`，不能只写普通 TODO。
 
-每完成一个阶段或局部任务，必须同步更新 `docs/工作流状态-WorkflowState.md` 和根目录 `index.html`；如果存在 `docs/Goal长程计划-GoalPlan.md`，也必须同步更新。
+每完成一个阶段或局部任务，必须同步更新 `docs/工作流-Workflow/工作流状态-WorkflowState.md` 和根目录 `index.html`；如果存在 `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`，也必须同步更新。
 
 阶段推进必须有门禁：
 
@@ -56,18 +57,30 @@
 - 不能运行服务或测试时，必须把影响写为阻塞或风险；不能把未验证的必做项标为已完成。
 - 阶段同步三件套只能反映真实进度，不能为了进入下一步而提前改阶段。
 
+## 模板清理
+
+- `*Template.md` 只用于生成正式文档，不是业务项目交付物。
+- 脚手架仓库必须保留模板；业务项目生成正式文档并通过对应阶段门禁后，必须删除已用过的模板文件。
+- 阶段证据只认正式产物：`LovartPrompt.md`、`DESIGN.md`、`UIDesign.md`、`GoalPlan.md` 等。
+- 如果模板已被删除，不得因此判定阶段缺失；需要重生成时，从脚手架、飞书工作流或 Skills 获取模板结构。
+
 ## 设计稿与资源
 
-- 原型生图提示词输出到 `docs/原型生图提示词-LovartPrompt.md`。
-- 原型生图提示词必须参考 `docs/原型生图提示词模板-LovartPromptTemplate.md`，先产出页面清单、全局设计系统和导航规则，再产出单页开发稿提示词。
+- 原型生图提示词输出到 `docs/原型设计-Design/原型生图提示词-LovartPrompt.md`。
+- 原型生图提示词优先参考 `docs/原型设计-Design/原型生图提示词模板-LovartPromptTemplate.md`（如存在），先产出页面清单、全局设计系统和导航规则，再产出单页开发稿提示词。
 - Lovart 只生成单页开发稿，不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿；弹窗、底部弹层和错误态只写在页面备注中。
-- Lovart 原型图、PSD、PNG 默认放到 `design/lovart/`。
-- 页面设计拆解输出到 `docs/页面设计文档-UIDesign.md`。
-- 页面实现必须以 Lovart 原型图、PSD、PNG 和 UI Design 文档为依据，不要跳过设计稿自由发挥。
+- Lovart 原型图、PSD、PNG 默认放到 `design/lovart/`，并由用户或设计工具沉淀为 Figma 文件。
+- Figma 文件与页面 Frame 链接记录到 `docs/原型设计-Design/页面设计文档-UIDesign.md`；长程任务同步记录到 `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`。代码还原优先使用具体页面 Frame 链接，不优先读取整个 Figma 文件。
+- UI Design 阶段必须基于 Figma Frame 和 `docs/原型设计-Design/视觉设计系统模板-DESIGNTemplate.md`（如存在）生成 `docs/原型设计-Design/视觉设计系统-DESIGN.md`，用于记录全局颜色、字体、间距、圆角、阴影和组件 token。
+- 如环境允许，可运行 `npx @google/design.md lint docs/原型设计-Design/视觉设计系统-DESIGN.md` 检查设计系统格式；不能运行时写入阻塞或风险。
+- 页面设计拆解优先参考 `docs/原型设计-Design/页面设计文档模板-UIDesignTemplate.md`（如存在），输出到 `docs/原型设计-Design/页面设计文档-UIDesign.md`。
+- 页面实现必须以 Figma Frame、DESIGN 和 UI Design 为依据，不要跳过设计稿自由发挥；Lovart PSD/PNG 只作为备份参考。
+- 前端和小程序实现阶段必须逐页做 UI 还原循环：定位 Figma Frame、读取设计上下文、实现页面、截图或人工对照、修复偏差、记录证据。
+- 没有完成 UI 还原记录的页面不能在 GoalPlan 或验收矩阵中标为已完成。
 - 通用图标先检查 `assets/icons/`。
 - Web 图标副本放到 `apps/frontend/src/assets/icons/`。
 - 小程序图标副本放到 `apps/miniprogram/assets/icons/`。
-- 缺少图标时先补 `assets/icons/`，再复制到子应用。
+- 缺少图标时先补共享资源库，再复制到子应用。
 
 ## 后端规范
 
@@ -106,6 +119,7 @@
 - 小程序目录固定为 `apps/miniprogram/`，微信开发者工具直接导入该目录。
 - 使用原生 WXML、WXSS、JavaScript、JSON，不使用 uni-app。
 - UI 组件使用 Vant Weapp，包名 `@vant/weapp`。
+- Vant Weapp 只是组件基础，不能用默认样式或默认图标替代 Figma；字段、按钮、弹层、Tab、卡片、图片和空状态必须按 Figma、DESIGN 和 UI Design 覆盖间距、字号、圆角、颜色、阴影和资源。
 - AppID 固定为 `wxd84d204ed36b05b5`。
 - 样式使用 `rpx`。
 - 普通操作按钮优先用 `view` / `text` + `bindtap`。
