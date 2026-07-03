@@ -3,7 +3,7 @@
 -- Database: template_db
 -- Charset: utf8mb4 / utf8mb4_unicode_ci
 -- Engine: InnoDB
--- Execute: docker exec -i mysql-docker mysql -uroot -padmin123 --default-character-set=utf8mb4 < db.sql
+-- Execute: docker exec -i mysql-docker mysql -uroot -padmin123 --default-character-set=utf8mb4 < db/db.sql
 -- ============================================================================
 
 CREATE DATABASE IF NOT EXISTS template_db

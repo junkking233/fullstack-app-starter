@@ -11,11 +11,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.zhiqu.community</groupId>
-    <artifactId>zhiqu-community-backend</artifactId>
+    <groupId>com.fullstack.starter</groupId>
+    <artifactId>fullstack-starter-backend</artifactId>
     <version>1.0.0</version>
-    <name>zhiqu-community-backend</name>
-    <description>知问社区 - 后端服务</description>
+    <name>fullstack-starter-backend</name>
+    <description>Fullstack App Starter - 后端服务</description>
 
     <properties>
         <java.version>21</java.version>

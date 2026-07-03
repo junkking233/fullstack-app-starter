@@ -1,7 +1,7 @@
 <script setup>
-import MetricCard from "../components/MetricCard.vue";
-import CardBox from "../components/CardBox.vue";
-import ProgressList from "../components/ProgressList.vue";
+import MetricCard from "./components/MetricCard.vue";
+import CardBox from "./components/CardBox.vue";
+import ProgressList from "./components/ProgressList.vue";
 
 const metrics = [
   { label: "本月销售额", value: "¥ 8,642,900", trend: "+16.8%", tone: "" },

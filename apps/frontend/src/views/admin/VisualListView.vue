@@ -1,6 +1,6 @@
 <script setup>
-import CardBox from "../components/CardBox.vue";
-import MiniLine from "../components/MiniLine.vue";
+import CardBox from "./components/CardBox.vue";
+import MiniLine from "./components/MiniLine.vue";
 
 const products = [
   ["01", "智能温控套装 Pro", "智能硬件", "¥893,420", "9.8%", 86, "低"],

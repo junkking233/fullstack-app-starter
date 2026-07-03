@@ -1,5 +1,5 @@
 <script setup>
-import CardBox from "../components/CardBox.vue";
+import CardBox from "./components/CardBox.vue";
 
 const customers = [
   ["C-10291", "杭州科启信息有限公司", "企业", "王明", "今天 10:24", "正常"],

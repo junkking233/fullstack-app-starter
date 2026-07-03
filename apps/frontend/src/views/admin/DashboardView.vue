@@ -1,6 +1,6 @@
 <script setup>
-import MetricCard from "../components/MetricCard.vue";
-import CardBox from "../components/CardBox.vue";
+import MetricCard from "./components/MetricCard.vue";
+import CardBox from "./components/CardBox.vue";
 
 const metrics = [
   { label: "今日访问量", value: "128,492", trend: "较昨日 +12.8%", tone: "" },

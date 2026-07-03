@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import ScreenPanel from "../components/ScreenPanel.vue";
-import ProgressList from "../components/ProgressList.vue";
+import ScreenPanel from "./components/ScreenPanel.vue";
+import ProgressList from "./components/ProgressList.vue";
 
 const emit = defineEmits(["back"]);
 

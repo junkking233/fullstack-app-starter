@@ -1,6 +1,6 @@
 <script setup>
-import MetricCard from "../components/MetricCard.vue";
-import CardBox from "../components/CardBox.vue";
+import MetricCard from "./components/MetricCard.vue";
+import CardBox from "./components/CardBox.vue";
 
 const metrics = [
   { label: "角色数量", value: "12", trend: "启用 10 个", tone: "" },

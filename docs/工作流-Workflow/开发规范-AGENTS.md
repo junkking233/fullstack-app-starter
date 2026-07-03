@@ -35,24 +35,21 @@
 
 固定顺序：
 
-1. 产品需求分析（PRD）
-2. 原型生图提示词（Lovart Prompt）
-3. Figma 设计稿拆解（UI Design）
-4. API 设计
-5. 数据库设计
-6. Goal 长程计划
-7. 功能实现
-8. 对抗式代码审查
-9. 回归验收与修复
+0. 初始化/恢复上下文
+1. PRD 需求分析
+2. Lovart Prompt
+3. Figma 设计稿拆解
+4. 基于 Figma 设计稿实现功能
+5. 对抗式审查、修复与提交
 
-长程任务或整套系统开发时，必须先基于 `docs/工作流-Workflow/Goal长程计划模板-GoalPlanTemplate.md`（如存在）生成 `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`，不能只写普通 TODO。
+第 4 步包含 API 设计、数据库设计、Goal 长程计划和代码实现。长程任务或整套系统开发时，必须先基于 `docs/工作流-Workflow/Goal长程计划模板-GoalPlanTemplate.md`（如存在）生成 `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`，不能只写普通 TODO。
 
 每完成一个阶段或局部任务，必须同步更新 `docs/工作流-Workflow/工作流状态-WorkflowState.md` 和根目录 `index.html`；如果存在 `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`，也必须同步更新。
 
 阶段推进必须有门禁：
 
 - 当前阶段产物、证据和验收项没有全部完成时，不得把状态推进到下一阶段。
-- 阶段 7 功能实现完成前，必须读取 GoalPlan 并逐项检查实现拆解、Goal 完成门禁和验收矩阵。
+- 第 4 步功能实现完成前，必须读取 GoalPlan 并逐项检查实现拆解、Goal 完成门禁和验收矩阵。
 - GoalPlan 中任何必做项仍为待开始、进行中、待验收、待完成、阻塞或空白时，当前阶段仍是功能实现，不能进入对抗式审查。
 - 不能运行服务或测试时，必须把影响写为阻塞或风险；不能把未验证的必做项标为已完成。
 - 阶段同步三件套只能反映真实进度，不能为了进入下一步而提前改阶段。

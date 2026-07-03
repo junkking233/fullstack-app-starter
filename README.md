@@ -177,7 +177,7 @@ docker exec mysql-docker mysqldump -uroot -padmin123 --default-character-set=utf
 
 阶段推进不能只看“做了一部分”。如果存在 GoalPlan，必须先通过 Goal 完成门禁：实现拆解、设计系统、逐页 UI 还原记录、验收矩阵、风险和执行记录都确认完成或标明不适用后，才能从功能实现进入对抗式审查。
 
-小程序和 Web 页面开发不能等到最后审查才检查还原度。阶段 7 每完成一个页面，都必须先按 `docs/原型设计-Design/视觉设计系统-DESIGN.md` 和 `docs/原型设计-Design/页面设计文档-UIDesign.md` 对照对应 Figma 页面 Frame 修复布局、颜色、字号、间距、圆角、阴影、图标、图片、底部 Tab 和安全区；没有 Figma 节点链接、截图或人工对照证据时，该页面不能标为已完成。
+小程序和 Web 页面开发不能等到最后审查才检查还原度。第 4 步实现阶段每完成一个页面，都必须先按 `docs/原型设计-Design/视觉设计系统-DESIGN.md` 和 `docs/原型设计-Design/页面设计文档-UIDesign.md` 对照对应 Figma 页面 Frame 修复布局、颜色、字号、间距、圆角、阴影、图标、图片、底部 Tab 和安全区；没有 Figma 节点链接、截图或人工对照证据时，该页面不能标为已完成。
 
 如果用户只提供 Figma 文件链接或 Page 根节点链接，Agent 必须先读取 Figma metadata，按 `ScreenInventory` 页面编号、页面中文名和 Figma Frame 名称自动匹配页面 Frame，并把匹配到的 nodeId 写入 UI Design/GoalPlan。只有同一页面出现多个候选、找不到候选或命名明显冲突时，才向用户索要具体 Frame 链接。
 
