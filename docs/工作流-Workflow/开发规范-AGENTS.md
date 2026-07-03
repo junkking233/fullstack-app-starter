@@ -71,6 +71,7 @@
 - Lovart 只生成单页开发稿，不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿；弹窗、底部弹层和错误态只写在页面备注中。
 - Lovart 原型图、PSD、PNG 默认放到 `design/lovart/`，并由用户或设计工具沉淀为 Figma 文件。
 - Figma 文件与页面 Frame 链接记录到 `docs/原型设计-Design/页面设计文档-UIDesign.md`；长程任务同步记录到 `docs/工作流-Workflow/Goal长程计划-GoalPlan.md`。代码还原优先使用具体页面 Frame 链接，不优先读取整个 Figma 文件。
+- 如果用户只给 Figma 文件链接或 Page 根节点链接，必须先通过 Figma metadata 按页面编号、页面中文名和 Frame 名称自动匹配页面 Frame；只有重名、缺失或命名冲突时才要求用户补充具体 Frame 链接。
 - UI Design 阶段必须基于 Figma Frame 和 `docs/原型设计-Design/视觉设计系统模板-DESIGNTemplate.md`（如存在）生成 `docs/原型设计-Design/视觉设计系统-DESIGN.md`，用于记录全局颜色、字体、间距、圆角、阴影和组件 token。
 - 如环境允许，可运行 `npx @google/design.md lint docs/原型设计-Design/视觉设计系统-DESIGN.md` 检查设计系统格式；不能运行时写入阻塞或风险。
 - 页面设计拆解优先参考 `docs/原型设计-Design/页面设计文档模板-UIDesignTemplate.md`（如存在），输出到 `docs/原型设计-Design/页面设计文档-UIDesign.md`。

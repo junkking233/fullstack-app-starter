@@ -86,10 +86,11 @@
 
 ### 3. UI Design 设计稿拆解
 
-- 读取 Figma 设计文件或用户提供的具体页面 Frame 链接；Lovart PNG/PSD 仅作为生成来源和备份参考。
+- 读取 Figma 设计文件、Page 根节点或用户提供的具体页面 Frame 链接；Lovart PNG/PSD 仅作为生成来源和备份参考。
 - 对照 PRD、Lovart Prompt 和 `docs/原型设计-Design/页面设计文档模板-UIDesignTemplate.md`（如存在），生成 UI Design 文档。
 - 先用 Lovart Prompt 中的 `ScreenInventory` 检查页面是否出齐，必要状态备注是否记录。
-- 优先让用户提供单个页面 Frame 链接，避免读取整个 Figma 文件造成 MCP 额度浪费。
+- 如果用户只提供 Figma 文件链接或 Page 根节点链接，先读取 Figma metadata，用页面编号、页面中文名和 Frame 名称自动匹配页面 Frame；把匹配结果写入 UI Design/GoalPlan。只有同一页面有多个候选、找不到候选或命名明显冲突时，才向用户索要具体 Frame 链接。
+- 匹配页面 Frame 时，不要遍历整个文件的所有图层；优先读取当前 Page 的第一层 Frame 树，按 `P01`、`01`、页面名、近似名称进行匹配，避免浪费 Figma MCP 额度。
 - 先基于 Figma Frame 的图层、样式、尺寸和 `docs/原型设计-Design/视觉设计系统模板-DESIGNTemplate.md`（如存在）生成 `docs/原型设计-Design/视觉设计系统-DESIGN.md`，沉淀颜色、字体、间距、圆角、阴影和组件 token。
 - 拆解页面路径、Figma nodeId、布局、视觉 token、组件、状态、交互、接口需求、资源需求和还原验收标准。
 - 每个页面必须写清对应 Figma Frame 链接、备用 Lovart PSD/PNG、所需资源、底部 Tab/返回栏规则、固定底部操作区、安全区、Vant/Element 默认样式覆盖点和截图对比要求。

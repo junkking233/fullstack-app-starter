@@ -50,6 +50,7 @@
 
 - 先生成 Lovart Prompt，再由用户或设计工具把 Lovart 单页稿沉淀为 Figma 文件。
 - Lovart Prompt 必须包含页面清单、全局设计系统、导航规则、单页开发稿提示词和验收清单。
+- 如果只有 Figma 文件链接或 Page 根节点链接，先读取 Figma metadata，按页面编号、页面中文名和 Frame 名称自动匹配页面 Frame；只有重名、缺失或命名冲突时，才要求用户补充具体 Frame 链接。
 - UI Design 阶段必须基于 Figma Frame 生成 `docs/原型设计-Design/视觉设计系统-DESIGN.md`，用于统一颜色、字体、间距、圆角、阴影和组件 token；能运行时执行 `npx @google/design.md lint docs/原型设计-Design/视觉设计系统-DESIGN.md`。
 - 代码还原以具体 Figma 页面 Frame 为准；Lovart PSD/PNG 仅作为备份参考，不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿。
 - 页面实现以 Figma Frame、UI Design 和 DESIGN 为准；UI Design 必须写清 Figma nodeId、布局、视觉 token、组件、资源、状态和逐页还原标准。

@@ -179,6 +179,8 @@ docker exec mysql-docker mysqldump -uroot -padmin123 --default-character-set=utf
 
 小程序和 Web 页面开发不能等到最后审查才检查还原度。阶段 7 每完成一个页面，都必须先按 `docs/原型设计-Design/视觉设计系统-DESIGN.md` 和 `docs/原型设计-Design/页面设计文档-UIDesign.md` 对照对应 Figma 页面 Frame 修复布局、颜色、字号、间距、圆角、阴影、图标、图片、底部 Tab 和安全区；没有 Figma 节点链接、截图或人工对照证据时，该页面不能标为已完成。
 
+如果用户只提供 Figma 文件链接或 Page 根节点链接，Agent 必须先读取 Figma metadata，按 `ScreenInventory` 页面编号、页面中文名和 Figma Frame 名称自动匹配页面 Frame，并把匹配到的 nodeId 写入 UI Design/GoalPlan。只有同一页面出现多个候选、找不到候选或命名明显冲突时，才向用户索要具体 Frame 链接。
+
 ## 按需裁剪
 
 - 只做小程序：保留 `apps/backend/`、`apps/miniprogram/`、`db/` 和必要文档，可删除 Web 和 AI 助手。

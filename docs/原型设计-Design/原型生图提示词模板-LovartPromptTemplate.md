@@ -123,7 +123,7 @@
 1. 先生成一级 Tab 页面单页开发稿。
 2. 再生成二级功能页面、详情页面和表单页面单页开发稿。
 3. 不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿。
-4. 出图后将单页稿导入或同步到 Figma，整理为可访问的页面 Frame，并记录 Frame 链接；阶段 3 和代码实现以 Figma Frame 为主依据。
+4. 出图后将单页稿导入或同步到 Figma，整理为可访问的页面 Frame；Frame 名称应尽量包含页面编号和页面名，例如 `P01 登录注册`。阶段 3 可先通过 Figma metadata 按名称自动匹配 Frame，并把链接记录到 UI Design/GoalPlan。
 
 文件归档建议：
 
@@ -131,14 +131,14 @@
 | --- | --- | --- |
 | 单页开发稿 PNG | `design/lovart/pages/` | `P01-首页.png` |
 | 单页开发稿 PSD | `design/lovart/pages/` | `P01-首页.psd` |
-| Figma 页面 Frame 链接 | UI Design 文档或 GoalPlan | `P01-首页 -> node-id=...` |
+| Figma 页面 Frame 链接 | UI Design 文档或 GoalPlan | `P01-首页 -> node-id=...`；可由 Agent 从 Figma Page metadata 自动匹配 |
 
 ### 7. 验收清单
 
 生成 Lovart 图片后，必须逐项检查：
 
 - 页面清单中的每个单页开发稿是否都有 PNG/PSD。
-- 每个可开发页面是否已在 Figma 中形成独立 Frame，并能复制 node 链接。
+- 每个可开发页面是否已在 Figma 中形成独立 Frame，Frame 名称是否能按页面编号或页面名自动匹配。
 - 一级 Tab 页面是否都完整显示同一组底部 Tab。
 - 二级页面是否有返回按钮，且没有误加底部 Tab。
 - 底部 Tab、底部操作区和 Home Indicator 是否完整，不被裁切。
