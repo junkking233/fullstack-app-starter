@@ -159,6 +159,8 @@ docker exec mysql-docker mysqldump -uroot -padmin123 --default-character-set=utf
 - `index.html`
 - `docs/Goal长程计划-GoalPlan.md`（如存在）
 
+阶段推进不能只看“做了一部分”。如果存在 GoalPlan，必须先通过 Goal 完成门禁：实现拆解、验收矩阵、风险和执行记录都确认完成或标明不适用后，才能从功能实现进入对抗式审查。
+
 ## 按需裁剪
 
 - 只做小程序：保留 `apps/backend/`、`apps/miniprogram/`、`db/` 和必要文档，可删除 Web 和 AI 助手。
