@@ -3,7 +3,7 @@
   "compileType": "miniprogram",
   "libVersion": "latest",
   "miniprogramRoot": "./",
-  "projectname": "fullstack-app-starter-miniprogram",
+  "projectname": "business-app-miniprogram",
   "setting": {
     "enhance": true,
     "es6": true,

@@ -64,6 +64,6 @@ cp ../../assets/icons/search.svg assets/icons/search.svg
 - 原生 `button` 只用于授权、分享、获取手机号、表单提交等微信原生能力。
 - 使用底部固定操作栏时必须适配安全区，并为页面内容预留底部空间。
 - 页面样式使用 `rpx`，主色不要使用紫色。
-- Vant Weapp 组件只能作为结构基础，页面颜色、字号、圆角、间距、阴影、底部 Tab、图片和空状态必须按 Figma Frame、`docs/原型设计-Design/视觉设计系统-DESIGN.md` 和 `docs/原型设计-Design/页面设计文档-UIDesign.md` 还原。
+- Vant Weapp 组件只能作为结构基础，页面颜色、字号、圆角、间距、阴影、底部 Tab、图片和空状态必须按 Figma Frame 和根目录 `docs/设计还原文档-UIDesign.md` 还原。
 - 每完成一个页面，先在微信开发者工具或可用截图方式中对照 Figma 设计稿；无法访问 Figma 或截图时，在 GoalPlan 写明阻塞并完成静态样式对照。
 - 构建产物 `miniprogram_npm/` 和个人配置 `project.private.config.json` 不提交到 Git。

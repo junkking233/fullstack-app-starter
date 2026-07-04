@@ -23,5 +23,5 @@ mybatis-plus:
 
 app:
   auth:
-    token-secret: ${AUTH_TOKEN_SECRET:fullstack-app-starter-jwt-secret-key-2025}
+    token-secret: ${AUTH_TOKEN_SECRET:app-scaffold-jwt-secret-key-2026}
     token-ttl-seconds: ${AUTH_TOKEN_TTL_SECONDS:604800}
