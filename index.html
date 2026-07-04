@@ -287,6 +287,10 @@
         margin-top: 18px;
       }
 
+      body:not([data-current-stage="2"]) .prompt-board {
+        display: none;
+      }
+
       .prompt-carousel {
         display: grid;
         gap: 14px;
@@ -646,7 +650,7 @@
         </div>
       </section>
 
-      <footer>对齐规则：本看板放进度摘要和 Lovart 提示词翻页复制区；详细任务、缺陷、阻塞和验收勾选以 GoalPlan 为准。</footer>
+      <footer>对齐规则：本看板默认只放进度摘要、任务、缺陷和阻塞；Lovart 提示词翻页复制区仅在阶段 2 显示。</footer>
     </main>
     <script>
       const lovartPrompts = [
@@ -728,22 +732,24 @@
         }
       }
 
-      promptPrev.addEventListener("click", () => {
-        if (currentPromptIndex > 0) {
-          currentPromptIndex -= 1;
-          renderPrompt();
-        }
-      });
+      if (document.body.dataset.currentStage === "2") {
+        promptPrev.addEventListener("click", () => {
+          if (currentPromptIndex > 0) {
+            currentPromptIndex -= 1;
+            renderPrompt();
+          }
+        });
 
-      promptNext.addEventListener("click", () => {
-        if (currentPromptIndex < lovartPrompts.length - 1) {
-          currentPromptIndex += 1;
-          renderPrompt();
-        }
-      });
+        promptNext.addEventListener("click", () => {
+          if (currentPromptIndex < lovartPrompts.length - 1) {
+            currentPromptIndex += 1;
+            renderPrompt();
+          }
+        });
 
-      promptCopy.addEventListener("click", copyPrompt);
-      renderPrompt();
+        promptCopy.addEventListener("click", copyPrompt);
+        renderPrompt();
+      }
     </script>
   </body>
 </html>

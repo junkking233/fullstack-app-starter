@@ -10,7 +10,7 @@
 | --- | --- |
 | 项目是什么、怎么启动 | `README.md` |
 | AI 必须遵守的硬约束 | `AGENTS.md` |
-| 当前进度和 Lovart 提示词翻页复制 | `index.html` |
+| 当前进度；第 2 步 Lovart 提示词翻页复制 | `index.html` |
 | 任务清单、缺陷、阻塞 | `docs/Goal任务计划-GoalPlan.md` |
 | 需求边界 | `docs/产品需求文档-PRD.md` |
 | Figma 设计还原规则 | `docs/设计还原文档-UIDesign.md` |
@@ -22,7 +22,7 @@
 | --- | --- | --- |
 | 0. 初始化/恢复上下文 | 从脚手架地址克隆到真实项目目录、删除脚手架 `.git`、判断当前阶段 | `index.html`、`GoalPlan` |
 | 1. PRD 需求分析 | 用第一性原理确认用户、问题、角色、流程和边界 | `产品需求文档-PRD.md` |
-| 2. Lovart Prompt | 基于 PRD 生成受控的单页原型提示词，并同步到网页翻页复制区 | `design/lovart/原型生图提示词-LovartPrompt.md`、`index.html` |
+| 2. Lovart Prompt | 基于 PRD 生成受控的单页原型提示词，并同步到网页阶段 2 翻页复制区 | `design/lovart/原型生图提示词-LovartPrompt.md`、`index.html` |
 | 3. Figma 设计稿拆解 | 把 Figma Frame 拆成可还原的视觉与页面规则 | `设计还原文档-UIDesign.md` |
 | 4. 基于 Figma 实现功能 | 实现页面、接口、数据库、状态、资源和联调 | `apps/`、`db/db.sql`、`技术设计文档-TechDesign.md`、`GoalPlan` |
 | 5. 对抗式审查、修复与提交 | 查遗漏、范围膨胀、设计偏差、接口漂移和运行风险 | 问题清单、修复提交 |
@@ -40,7 +40,7 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 ## Figma-first UI 还原
 
 - Lovart 用来生成单页原型图，出图后沉淀到 Figma。
-- 第 2 步生成提示词后，必须从 `design/lovart/原型生图提示词-LovartPrompt.md` 同步 `index.html` 的 Lovart 翻页复制区；每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”，方便按上一张/下一张逐个复制到 Lovart。
+- 第 2 步生成提示词后，必须从 `design/lovart/原型生图提示词-LovartPrompt.md` 同步 `index.html` 的 Lovart 翻页复制区；每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”，方便按上一张/下一张逐个复制到 Lovart。该区域仅第 2 步显示，其他阶段 `index.html` 只保留进度摘要、任务、缺陷和阻塞。
 - 代码还原以具体 Figma 页面 Frame 为准。
 - Figma 中多出来但不属于 P0/P1 的页面，只标记为“仅参考/暂不开发”。
 - 每个页面实现后，要在 GoalPlan 中记录 UI 还原结果。
@@ -53,7 +53,7 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 - 每个阶段、页面、接口、数据、资源、UI 还原项都用复选框跟踪。
 - AI 完成任务后必须勾选对应项。
 - 未完成、待验收、阻塞或空白项存在时，不能推进到下一阶段。
-- `index.html` 展示进度摘要和阶段 2 的 Lovart 提示词翻页复制区，详细任务以 GoalPlan 为准。
+- `index.html` 默认展示进度摘要、任务、缺陷和阻塞；只有阶段 2 额外展示 Lovart 提示词翻页复制区，详细任务以 GoalPlan 为准。
 
 ## 模板使用
 
