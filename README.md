@@ -12,7 +12,7 @@
 2. `AGENTS.md`：AI 开发硬约束。
 3. `docs/项目说明-ProjectGuide.md`：给人看的 6 步工作流。
 4. `docs/Goal任务计划-GoalPlan.md`：当前任务、复选框、缺陷和阻塞。
-5. `index.html`：可直接打开的进度看板。
+5. `index.html`：可直接打开的进度看板和 Lovart 提示词复制区。
 
 ## 目录结构
 
@@ -55,7 +55,7 @@
 | --- | --- | --- |
 | 0 | 初始化/恢复上下文 | 从脚手架地址克隆到真实项目目录、删除脚手架 `.git`、确认当前阶段 |
 | 1 | PRD 需求分析 | `docs/产品需求文档-PRD.md` |
-| 2 | Lovart Prompt | `design/lovart/原型生图提示词-LovartPrompt.md` |
+| 2 | Lovart Prompt | `design/lovart/原型生图提示词-LovartPrompt.md`、`index.html` Lovart 复制区 |
 | 3 | Figma 设计稿拆解 | `docs/设计还原文档-UIDesign.md` |
 | 4 | 基于 Figma 实现功能 | `apps/`、`db/db.sql`、`docs/技术设计文档-TechDesign.md`、`docs/Goal任务计划-GoalPlan.md` |
 | 5 | 对抗式审查、修复与提交 | 问题清单、修复提交 |
@@ -65,6 +65,7 @@
 - PRD 先做 `ScopeBudget`：默认角色不超过 3 个，每个角色 P0/P1 核心功能最多 5 个。
 - Lovart、Figma、API、DB、代码实现只做 P0/P1；P2/暂缓功能不得进入首版。
 - UI 还原以 Figma Frame 为准，Lovart PNG/PSD 只做备份参考。
+- 第 2 步完成后，必须把每个页面的完整 Lovart 单页提示词同步到 `index.html`，方便直接复制到 Lovart 出图。
 - 第 4 步未通过 Goal 复选框和完成门禁前，不得进入对抗式审查。
 
 ## 技术约束

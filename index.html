@@ -265,6 +265,78 @@
         background: #fef2f2;
       }
 
+      .copy-button {
+        flex: 0 0 auto;
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--primary);
+        border-radius: 6px;
+        background: var(--primary);
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .copy-button:focus-visible {
+        outline: 3px solid #bfdbfe;
+        outline-offset: 2px;
+      }
+
+      .prompt-board {
+        margin-top: 18px;
+      }
+
+      .prompt-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .prompt-item {
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel-soft);
+      }
+
+      .prompt-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .prompt-title {
+        font-size: 14px;
+        line-height: 21px;
+        font-weight: 750;
+      }
+
+      .prompt-meta {
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      .prompt-textarea {
+        display: block;
+        width: 100%;
+        min-height: 260px;
+        resize: vertical;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--text);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        line-height: 18px;
+        letter-spacing: 0;
+        white-space: pre-wrap;
+      }
+
       table {
         width: 100%;
         border-collapse: collapse;
@@ -327,6 +399,14 @@
 
         .pill {
           grid-column: 2;
+          justify-self: start;
+        }
+
+        .prompt-top {
+          display: grid;
+        }
+
+        .copy-button {
           justify-self: start;
         }
       }
@@ -487,7 +567,126 @@
         </aside>
       </section>
 
-      <footer>对齐规则：本看板只放进度摘要；详细任务、缺陷、阻塞和验收勾选以 GoalPlan 为准。</footer>
+      <section class="panel prompt-board" id="lovart-prompts">
+        <div class="panel-head">
+          <div>
+            <h2>Lovart 提示词复制区</h2>
+            <p class="note">阶段 2 生成 Lovart Prompt 后，AI 应把每个页面的完整提示词同步到这里。每张图一个文本框，用户可直接复制到 Lovart。</p>
+          </div>
+          <span class="badge">阶段 2</span>
+        </div>
+
+        <div class="prompt-list">
+          <section class="prompt-item">
+            <div class="prompt-top">
+              <div>
+                <div class="prompt-title">全局设计系统 + 导航规则</div>
+                <div class="prompt-meta">用于所有页面保持风格一致；正式项目中由 `design/lovart/原型生图提示词-LovartPrompt.md` 同步。</div>
+              </div>
+              <button class="copy-button" type="button" data-copy-target="lovart-global">复制</button>
+            </div>
+            <textarea class="prompt-textarea" id="lovart-global" readonly>【全局设计系统】
+产品名称：{APP名称}
+设计风格：{由 PRD 判断，例如现代、干净、可信、效率感}
+主色：{主色，用于主按钮、当前 Tab、关键状态}
+辅助色：{正向状态色、提醒色、异常色}
+背景：浅色背景，页面留白舒适，卡片为纯白或低饱和浅色。
+字体：中文移动端 UI 字体，层级清晰，文字必须清晰可读，不要乱码，不要假字。
+组件：8-12px 圆角卡片、明确按钮、线性图标、状态标签、真实表单控件、列表卡片。
+布局：只生成 1 张完整 iPhone 竖屏移动端页面，尺寸接近 390x844，包含状态栏、安全区和真实移动端间距。
+统一要求：所有页面颜色、字号、圆角、阴影、图标风格、按钮样式一致；页面内容不能被底部 Tab 或底部按钮遮挡。
+禁止：网页端、PC 后台、后台管理界面、多屏拼贴、多手机并排、作品集展示、交互流程图、独立弹窗图、独立状态图、低龄卡通、文字乱码、底部裁切、组件漂移、紫色主色。
+
+【导航规则】
+一级 Tab 页面必须显示底部 Tab，底部 Tab 固定在屏幕底部，等宽排列，包含线性图标和中文文字。
+当前页面对应 Tab 必须使用主色高亮，其他 Tab 使用灰色弱化。
+底部 Tab 高度约 64px，并保留 iPhone safe area 和 Home Indicator。
+页面内容区必须预留底部导航高度，最后一块内容不能被底部 Tab 遮挡。
+二级功能页面、详情页面、表单页面默认不显示底部 Tab。
+二级页面顶部必须有返回按钮；如有底部主操作按钮，必须使用固定底部操作区并保留 safe area。
+弹窗、底部弹层、筛选面板、表单错误、空态、加载态和成功提示只作为对应页面的必要状态备注，不单独生成 Lovart 图片。</textarea>
+          </section>
+
+          <section class="prompt-item">
+            <div class="prompt-top">
+              <div>
+                <div class="prompt-title">P01 页面完整提示词</div>
+                <div class="prompt-meta">阶段 2 用正式 P01 提示词替换占位内容；内容必须包含全局设计系统、导航规则和页面提示词。</div>
+              </div>
+              <button class="copy-button" type="button" data-copy-target="lovart-p01">复制</button>
+            </div>
+            <textarea class="prompt-textarea" id="lovart-p01" readonly>【粘贴 P01 完整 Lovart Prompt】
+要求：这是单张页面提示词，不是作品集图，不是多屏拼贴。
+内容应包含：
+1. 全局设计系统
+2. 导航规则
+3. 【P01-页面名称】
+4. 页面类型、用户角色、关联 P0/P1 功能、页面目标
+5. 页面结构、真实数据示例、验收要求、禁止项</textarea>
+          </section>
+
+          <section class="prompt-item">
+            <div class="prompt-top">
+              <div>
+                <div class="prompt-title">P02 页面完整提示词</div>
+                <div class="prompt-meta">阶段 2 用正式 P02 提示词替换占位内容。</div>
+              </div>
+              <button class="copy-button" type="button" data-copy-target="lovart-p02">复制</button>
+            </div>
+            <textarea class="prompt-textarea" id="lovart-p02" readonly>【粘贴 P02 完整 Lovart Prompt】
+要求：这是单张页面提示词，不是作品集图，不是多屏拼贴。
+内容应包含全局设计系统、导航规则和该页面的完整单页开发稿要求。</textarea>
+          </section>
+
+          <section class="prompt-item">
+            <div class="prompt-top">
+              <div>
+                <div class="prompt-title">P03 页面完整提示词</div>
+                <div class="prompt-meta">例如“第三张图”的提示词放这里；复制后直接粘贴到 Lovart。</div>
+              </div>
+              <button class="copy-button" type="button" data-copy-target="lovart-p03">复制</button>
+            </div>
+            <textarea class="prompt-textarea" id="lovart-p03" readonly>【粘贴 P03 完整 Lovart Prompt】
+要求：这是单张页面提示词，不是作品集图，不是多屏拼贴。
+内容应包含全局设计系统、导航规则和该页面的完整单页开发稿要求。</textarea>
+          </section>
+        </div>
+      </section>
+
+      <footer>对齐规则：本看板放进度摘要和 Lovart 提示词复制区；详细任务、缺陷、阻塞和验收勾选以 GoalPlan 为准。</footer>
     </main>
+    <script>
+      const copyButtons = document.querySelectorAll("[data-copy-target]");
+
+      copyButtons.forEach((button) => {
+        button.addEventListener("click", async () => {
+          const target = document.getElementById(button.dataset.copyTarget);
+          if (!target) return;
+
+          const text = target.value.trim();
+          if (!text) return;
+
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              target.focus();
+              target.select();
+              document.execCommand("copy");
+              target.setSelectionRange(0, 0);
+            }
+
+            const originalText = button.textContent;
+            button.textContent = "已复制";
+            window.setTimeout(() => {
+              button.textContent = originalText;
+            }, 1200);
+          } catch (error) {
+            target.focus();
+            target.select();
+          }
+        });
+      });
+    </script>
   </body>
 </html>

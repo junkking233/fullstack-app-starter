@@ -2,6 +2,8 @@
 
 本模板用于阶段 2，指导 Agent 生成 `design/lovart/原型生图提示词-LovartPrompt.md`。目标是生成可被 Figma 和代码实现使用的单页开发稿提示词，不是生成作品集展示图。
 
+阶段 2 完成时，还必须把每个页面的完整 Lovart 单页提示词同步到根目录 `index.html` 的 Lovart 提示词复制区，方便用户直接复制到 Lovart。
+
 ## 核心原则
 
 1. 先读取 `docs/产品需求文档-PRD.md` 的 `ScopeBudget`。
@@ -11,6 +13,7 @@
 5. 弹窗、底部弹层、表单错误、空态、加载态、成功提示只写入对应页面的“必要状态备注”。
 6. 所有页面共用同一套设计系统、导航规则、组件风格、颜色、字号、圆角和图标风格。
 7. Lovart 出图后需要沉淀为 Figma 文件；后续代码还原优先使用具体 Figma 页面 Frame。
+8. 每个页面的完整提示词必须同步到 `index.html`，一张图对应一个可复制文本框。
 
 ## 输出结构
 
@@ -106,4 +109,5 @@
 
 - 单页开发稿 PNG：`design/lovart/pages/P01-首页.png`
 - 单页开发稿 PSD：`design/lovart/pages/P01-首页.psd`
+- `index.html` Lovart 复制区：同步每个页面完整提示词，包含全局设计系统、导航规则和页面提示词。
 - Figma Frame：记录到 `docs/设计还原文档-UIDesign.md` 和 `docs/Goal任务计划-GoalPlan.md`
