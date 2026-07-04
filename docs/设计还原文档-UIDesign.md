@@ -45,6 +45,7 @@
 设计要求：
 
 - 颜色、字号、间距、圆角和阴影优先从 Figma Frame 提取。
+- 第 4 步实现时必须重新读取每个有效页面的 Figma Frame，不能只依赖本文件摘要。
 - Vant Weapp / Element Plus 默认样式必须按 token 覆盖。
 - 不要用组件库默认视觉替代 Figma。
 - 可用时执行 `npx @google/design.md lint docs/设计还原文档-UIDesign.md`；无法运行时写明原因。
@@ -68,6 +69,8 @@
 | --- | --- |
 | 页面路径 |  |
 | Figma Frame |  |
+| Figma nodeId |  |
+| 第 4 步读取要求 | 实现前必须重新读取该 Frame；读取证据写入 GoalPlan |
 | Frame 匹配来源 | 用户直给 / metadata 自动匹配 / 待确认 |
 | 匹配置信度 | 高 / 中 / 低 / 阻塞 |
 | 备用 Lovart 稿 |  |

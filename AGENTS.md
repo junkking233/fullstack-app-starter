@@ -56,6 +56,9 @@
 - Figma 页面 Frame 是视觉还原主依据。
 - `docs/设计还原文档-UIDesign.md` 必须记录 Figma Frame、视觉 token、页面结构、资源、状态、接口需求和逐页还原标准。
 - 如果用户只给 Figma 文件链接或 Page 根节点链接，先按页面编号、页面名和 Frame 名称自动匹配 Frame；只有重名、缺失或冲突时才要求用户补具体 Frame 链接。
+- 第 4 步实现 Web 或小程序页面前，必须重新读取当前页面对应的 Figma Frame，不能只读 `docs/设计还原文档-UIDesign.md` 或 Lovart PNG/PSD 就写页面。
+- 每个页面都必须在 GoalPlan 记录 Figma 读取证据：页面编号、Frame/nodeId、读取时间、提取到的尺寸/颜色/字号/间距/圆角/图标/图片要点、实现文件和对照结论。
+- 无法访问 Figma、找不到 Frame、额度不足或无法截图对照时，只能把该页面标为阻塞/待验收，不能标为 1:1 还原完成。
 - Web/小程序每完成一个页面，都要在 GoalPlan 勾选对应 UI 还原项或写明阻塞。
 - Vant Weapp / Element Plus 只能作为组件基础，不能用默认视觉替代 Figma。
 
