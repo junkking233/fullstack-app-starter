@@ -56,7 +56,9 @@
 - 第 2 步默认只生成可复制提示词；如果本地已安装 `lovart-skill` 且存在 `LOVART_ACCESS_KEY`、`LOVART_SECRET_KEY`，可把它作为可选执行器直接生成单页原型图。未安装或未配置密钥时，不得阻塞阶段完成。
 - 使用 `lovart-skill` 自动出图时，只允许生成 P0/P1 单页开发稿，产物保存到 `design/lovart/pages/`，并在 GoalPlan 记录生成方式、输出文件、Lovart project/thread（如有）和失败原因（如有）。
 - 使用 `lovart-skill` 自动出图时，图片模型固定优先 `generate_image_gpt_image_2_medium`；APP/微信小程序页面默认 9:16，网页页面默认 16:9。
-- 每个新业务需求都必须新建 Lovart Project，Project 名称使用业务中文名称；不要把新业务原型图生成到旧项目里。
+- 默认按省积分策略出图：生成前先切换 `set-mode --unlimited`；除非用户明确要求加速或 fast credits，不主动使用 fast 模式。
+- 每个新业务需求都必须新建 Lovart Project，Project 名称使用业务中文名称；不要把新业务原型图生成到旧项目里。生成后必须再次检查并校正本地 Project 名称，防止被 prompt 前缀覆盖。
+- 每次只生成当前页面 1 张图，不批量生成作品集、交互图、状态图或多变体；失败时先记录原因和优化提示词，不连续重试消耗额度。
 - `lovart-skill` 不能替代 Figma；Lovart 出图后仍要导入或整理到 Figma，第 4 步代码还原仍以 Figma Frame 为准。
 - Figma 页面 Frame 是视觉还原主依据。
 - `docs/设计还原文档-UIDesign.md` 必须记录 Figma Frame、视觉 token、页面结构、资源、状态、接口需求和逐页还原标准。
