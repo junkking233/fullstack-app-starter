@@ -67,9 +67,9 @@
 - PRD 先做 `ScopeBudget`：默认角色不超过 3 个，每个角色 P0/P1 核心功能最多 5 个。
 - Lovart、Stitch、Figma、API、DB、代码实现只做 P0/P1；P2/暂缓功能不得进入首版。
 - 第 2 步默认生成可复制的 Lovart 单页提示词；如已安装 `lovart-skill` 并配置 `LOVART_ACCESS_KEY` / `LOVART_SECRET_KEY`，可自动生成单页原型图到 `design/lovart/pages/`，但不能因此扩大页面范围。自动出图固定优先 `generate_image_gpt_image_2_medium`，APP/小程序默认 9:16，网页默认 16:9，默认先切 `unlimited` 省积分，每个新业务需求都新建以业务中文名命名的 Lovart Project，并在生成后校正 Project 名称。
-- 推荐设计链路：Lovart 生成 P0/P1 单页高保真图片；Stitch 用 Lovart 图片 + 页面完整提示词重建可编辑 UI screen；再导出/同步到 Figma 或 HTML；代码阶段仍以 Figma Frame 为准。
-- Stitch 是可选执行器：只有安装 `stitch-design`、`stitch-utilities` 且 Stitch MCP/API Key 可用时才自动执行；否则记录为待手动导入 Figma，不阻塞已有 Figma 设计稿的拆解。
-- UI 还原以 Figma Frame 为准，Lovart PNG/PSD 和 Stitch HTML 只做备份参考。
+- 推荐设计链路：Lovart 生成 P0/P1 单页高保真图片；Stitch 用 Lovart 图片 + 页面完整提示词重建可编辑 UI screen；再在 Stitch 页面 Copy/Paste 到目标 Figma 文件，形成可读取的 Figma Frame；代码阶段仍以 Figma Frame 为准。
+- Stitch 是可选执行器：只有安装 `stitch-design`、`stitch-utilities` 且 Stitch MCP/API Key 可用时才自动执行；否则记录为待手动形成 Figma Frame，不阻塞已有 Figma 设计稿的拆解。
+- UI 还原以 Figma Frame 为准，Lovart PNG/PSD、Stitch HTML 和截图只做备份参考。
 - 第 4 步实现 Web/小程序页面前，必须逐页重新读取 Figma Frame，并在 GoalPlan 记录读取证据和对照结论；不能只凭 UIDesign 摘要或组件库默认样式开发。
 - 第 2 步完成后，必须从 `design/lovart/原型生图提示词-LovartPrompt.md` 同步 `index.html` 的 Lovart 翻页复制区：每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”，用户按上一张/下一张逐个复制到 Lovart 出图。该翻页区只在 `data-current-stage="2"` 时显示，其他阶段只保留进度看板。
 - 第 4 步未通过 Goal 复选框和完成门禁前，不得进入对抗式审查。

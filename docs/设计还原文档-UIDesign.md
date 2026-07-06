@@ -9,7 +9,8 @@
 | PRD | `docs/产品需求文档-PRD.md` | 待确认 |
 | Lovart Prompt | `design/lovart/原型生图提示词-LovartPrompt.md` | 待确认 |
 | Lovart 备份稿 | `design/lovart/` | 待确认 |
-| Stitch UI screen / HTML | `design/stitch/` 或 `.stitch/` | 待确认 |
+| Stitch UI screen / HTML/截图备份 | `design/stitch/` 或 `.stitch/` | 待确认 |
+| Stitch Copy/Paste 到 Figma | 目标 Figma 文件 / Page / Frame | 待确认 |
 | Figma 文件 / Page / Frame |  | 待确认 |
 
 ## 2. Figma Frame 索引
@@ -23,7 +24,7 @@
 匹配规则：
 
 - 用户只提供 Figma 文件链接或 Page 根节点链接时，先读取 Figma metadata，不要直接要求用户逐页复制 Frame 链接。
-- 按页面编号、页面中文名、Lovart 文件名和 Figma Frame 名称建立匹配表。
+- 按页面编号、页面中文名、Lovart 文件名、Stitch screen 名称和 Figma Frame 名称建立匹配表。
 - 优先读取当前 Page 第一层 Frame 树；只有页面名匹配失败时，才少量下钻候选节点。
 - 同一页面出现多个候选、找不到候选或命名明显冲突时，才向用户索要具体 Frame 链接。
 
@@ -76,6 +77,7 @@
 | 匹配置信度 | 高 / 中 / 低 / 阻塞 |
 | 备用 Lovart 稿 |  |
 | Stitch screen / HTML |  |
+| Stitch -> Figma | 已 Copy/Paste / 不适用 / 阻塞 |
 | 页面类型 | 一级 Tab / 二级功能 / 详情 / 表单 |
 | 范围状态 | P0/P1 有效 / P2 暂缓 / 仅参考 / 待确认 |
 | 页面目标 |  |
