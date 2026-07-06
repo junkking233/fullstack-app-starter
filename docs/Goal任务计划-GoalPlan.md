@@ -19,7 +19,7 @@
 - [x] 0. 初始化/恢复上下文：脚手架结构、规范、资源和进度看板已就位。
 - [ ] 1. PRD 需求分析：生成 `docs/产品需求文档-PRD.md`，完成 ScopeBudget。
 - [ ] 2. Lovart Prompt：生成 `design/lovart/原型生图提示词-LovartPrompt.md`，只覆盖 P0/P1 单页开发稿，并同步 `index.html` Lovart 翻页复制区；如使用 `lovart-skill`，记录输出文件。
-- [ ] 3. Stitch 重建与 Figma 设计稿拆解：如使用 Stitch，已重建 UI screen，并已从 Stitch 页面 Copy/Paste 到 Figma 形成 Frame；生成 `docs/设计还原文档-UIDesign.md`。
+- [ ] 3. Stitch 重建与 Figma 设计稿拆解：如使用 Stitch，已重建 UI screen，并已通过 AI 自动落地或人工 Copy/Paste 形成 Figma Frame；生成 `docs/设计还原文档-UIDesign.md`。
 - [ ] 4. 基于 Figma 设计稿实现功能：完成页面、接口、数据库、资源、状态和联调。
 - [ ] 5. 对抗式审查、修复与提交：完成审查、修复和提交。
 
@@ -44,7 +44,9 @@
 - [ ] Stitch 项目：已按业务中文名称新建或定位 Project；每个 P0/P1 页面只重建 1 个 screen。
 - [ ] Stitch 输入：已使用当前页面 Lovart 单页图 + 页面完整提示词；未生成多变体、作品集图、交互图或独立状态图。
 - [ ] Stitch 备份：screenId、HTML、截图已保存到 `design/stitch/` 或 `.stitch/`；无法执行时已写明原因。
-- [ ] Stitch -> Figma：已在 Stitch 页面 Copy/Paste 到目标 Figma 文件；Figma Frame 链接/nodeId 已记录。
+- [ ] Stitch -> Figma 落地方式：AI 自动 / 用户手动 Copy/Paste / 不适用 / 阻塞。
+- [ ] Stitch -> Figma：已形成真实 Figma Frame；目标 Figma 文件、Page、Frame 链接/nodeId 已记录。
+- [ ] 人工交接：如 AI 无法自动落地，已向用户输出 Stitch Project、screenId、HTML/截图备份和 Copy/Paste 操作说明，并等待或记录用户回传的 Frame 链接。
 - [ ] 页面 Pxx：Figma Frame 已匹配。
 - [ ] 页面 Pxx：实现前已重新读取 Figma Frame，并记录 nodeId、读取时间和关键视觉 token。
 - [ ] 页面 Pxx：代码已实现。
@@ -83,6 +85,6 @@ Figma 读取证据模板：
 - [ ] 阶段 2 如使用 `lovart-skill`，已把生成方式、输出文件、Lovart project/thread（如有）和失败原因（如有）写入本文件；未配置 `lovart-skill` 时已保留手动复制提示词路径。
 - [ ] 阶段 2 如使用 `lovart-skill`，已确认新建业务中文名 Project、`unlimited` 模式、模型 `generate_image_gpt_image_2_medium`、正确画幅和生成后项目名校正；不得复用旧业务 Lovart Project。
 - [ ] 阶段 2 如使用 `lovart-skill`，新业务首次出图未复用旧 `thread-id`；同一页面微调重试才允许复用该页面 thread。
-- [ ] 阶段 3 如使用 Stitch，已记录 Stitch Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、Copy/Paste 到 Figma 的目标文件和 Figma Frame 链接/nodeId；没有 Figma Frame 时不得进入第 4 步完成态。
+- [ ] 阶段 3 如使用 Stitch，已记录 Stitch Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、Figma 落地方式、目标文件和 Figma Frame 链接/nodeId；没有 Figma Frame 时不得进入第 4 步完成态。
 - [ ] 第 4 步进入第 5 步前，所有 P0/P1 页面、接口、数据、资源和 UI 还原项已完成或明确不适用；每个已完成页面都有 Figma Frame 读取证据和对照结论。
 - [ ] 不能运行的检查已写明阻塞原因。

@@ -41,7 +41,9 @@
 - [ ] Stitch 执行方式：自动调用 Stitch / 手动导入 Stitch / 不适用。
 - [ ] Stitch 项目：业务中文名 Project、screenId、来源 Lovart 图、页面提示词。
 - [ ] Stitch 备份：screenId / HTML / 截图 / 阻塞说明。
-- [ ] Stitch -> Figma：已从 Stitch 页面 Copy/Paste 到目标 Figma 文件，Frame 链接/nodeId 已记录。
+- [ ] Stitch -> Figma 落地方式：AI 自动 / 用户手动 Copy/Paste / 不适用 / 阻塞。
+- [ ] Stitch -> Figma：已形成真实 Figma Frame，目标文件、Page、Frame 链接/nodeId 已记录。
+- [ ] 人工交接：如 AI 无法自动落地，已向用户输出 Stitch Project、screenId、HTML/截图备份和 Copy/Paste 操作说明，并等待或记录用户回传的 Frame 链接。
 - [ ] 页面：
 - [ ] Figma Frame：
 - [ ] Figma 读取证据：nodeId、读取时间、尺寸、颜色、字号、间距、圆角、图标、图片要点
@@ -78,6 +80,6 @@
 - [ ] 阶段 2 如使用 `lovart-skill`，已把生成方式、输出文件、Lovart project/thread（如有）和失败原因（如有）写入本文件；未配置 `lovart-skill` 时已保留手动复制提示词路径。
 - [ ] 阶段 2 如使用 `lovart-skill`，已确认新建业务中文名 Project、`unlimited` 模式、模型 `generate_image_gpt_image_2_medium`、正确画幅和生成后项目名校正；不得复用旧业务 Lovart Project。
 - [ ] 阶段 2 如使用 `lovart-skill`，新业务首次出图未复用旧 `thread-id`；同一页面微调重试才允许复用该页面 thread。
-- [ ] 阶段 3 如使用 Stitch，已记录 Stitch Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、Copy/Paste 到 Figma 的目标文件和 Figma Frame 链接/nodeId；没有 Figma Frame 时不得进入第 4 步完成态。
+- [ ] 阶段 3 如使用 Stitch，已记录 Stitch Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、Figma 落地方式、目标文件和 Figma Frame 链接/nodeId；没有 Figma Frame 时不得进入第 4 步完成态。
 - [ ] 第 4 步进入第 5 步前，所有 P0/P1 页面、接口、数据、资源和 UI 还原项已完成或明确不适用；每个已完成页面都有 Figma Frame 读取证据和对照结论。
 - [ ] 不能运行的检查已写明阻塞原因。

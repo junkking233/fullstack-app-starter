@@ -14,7 +14,7 @@
 4. 不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿。
 5. 弹窗、底部弹层、表单错误、空态、加载态、成功提示只写入对应页面的“必要状态备注”。
 6. 所有页面共用同一套设计系统、导航规则、组件风格、颜色、字号、圆角和图标风格。
-7. Lovart 出图后优先进入 Stitch 重建 UI screen，再在 Stitch 页面 Copy/Paste 到目标 Figma 文件；后续代码还原只使用具体 Figma 页面 Frame。
+7. Lovart 出图后优先进入 Stitch 重建 UI screen，再通过 AI 自动落地或用户手动 Copy/Paste 形成目标 Figma Frame；后续代码还原只使用具体 Figma 页面 Frame。
 8. 每个页面的完整提示词必须同步到 `index.html` 的阶段 2 翻页复制区，一张图对应一张卡片。
 9. `lovart-skill` 和 Stitch 都只是可选执行器，不替代提示词文档、`index.html` 翻页复制区或 Figma 设计稿。
 
@@ -116,7 +116,7 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 - 单页开发稿 PSD：`design/lovart/pages/P01-首页.psd`
 - `index.html` 阶段 2 Lovart 翻页复制区：同步每个页面完整提示词，每张卡片包含全局设计系统、导航规则和当前页面提示词。
 - Lovart Skill 可选记录：生成方式、输出文件、Lovart project/thread（如有）、失败原因（如有）写入 `docs/Goal任务计划-GoalPlan.md`。
-- Stitch 重建记录：Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、Copy/Paste 到 Figma 的目标文件和 Figma Frame 链接/nodeId 写入 `docs/Goal任务计划-GoalPlan.md`。
+- Stitch 重建记录：Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、Figma 落地方式、目标文件和 Figma Frame 链接/nodeId 写入 `docs/Goal任务计划-GoalPlan.md`。
 - Figma Frame：记录到 `docs/设计还原文档-UIDesign.md` 和 `docs/Goal任务计划-GoalPlan.md`
 
 ### 7. 可选 Lovart Skill 执行规则
@@ -142,4 +142,4 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 - 生成 screen 前先确认 Project、图片路径、文件大小和页面编号；不要在未确认时上传文件或消耗额度。
 - 不生成多变体、作品集拼贴、交互流程图、独立弹层图或独立状态图。
 - Stitch 输出的 screenId、HTML、截图写入 `docs/Goal任务计划-GoalPlan.md`，可归档到 `design/stitch/` 或 `.stitch/`。
-- Stitch 结果必须在 Stitch 页面 Copy/Paste 到目标 Figma 文件，形成可访问的 Figma Frame。没有 Figma Frame 时，第 4 步不能标记 UI 还原完成。
+- Stitch 结果必须通过 AI 自动落地或用户在 Stitch 页面 Copy/Paste 到目标 Figma 文件，形成可访问的 Figma Frame。没有 Figma Frame 时，第 4 步不能标记 UI 还原完成。
