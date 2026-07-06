@@ -22,7 +22,7 @@
 | --- | --- | --- |
 | 0. 初始化/恢复上下文 | 从脚手架地址克隆到真实项目目录、删除脚手架 `.git`、判断当前阶段 | `index.html`、`GoalPlan` |
 | 1. PRD 需求分析 | 用第一性原理确认用户、问题、角色、流程和边界 | `产品需求文档-PRD.md` |
-| 2. Lovart Prompt | 基于 PRD 生成受控的单页原型提示词，并同步到网页阶段 2 翻页复制区 | `design/lovart/原型生图提示词-LovartPrompt.md`、`index.html` |
+| 2. Lovart Prompt | 基于 PRD 生成受控的单页原型提示词，并同步到网页阶段 2 翻页复制区；如已配置 `lovart-skill`，可自动生成单页原型图 | `design/lovart/原型生图提示词-LovartPrompt.md`、`design/lovart/pages/`、`index.html` |
 | 3. Figma 设计稿拆解 | 把 Figma Frame 拆成可还原的视觉与页面规则 | `设计还原文档-UIDesign.md` |
 | 4. 基于 Figma 实现功能 | 实现页面、接口、数据库、状态、资源和联调 | `apps/`、`db/db.sql`、`技术设计文档-TechDesign.md`、`GoalPlan` |
 | 5. 对抗式审查、修复与提交 | 查遗漏、范围膨胀、设计偏差、接口漂移和运行风险 | 问题清单、修复提交 |
@@ -41,6 +41,8 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 
 - Lovart 用来生成单页原型图，出图后沉淀到 Figma。
 - 第 2 步生成提示词后，必须从 `design/lovart/原型生图提示词-LovartPrompt.md` 同步 `index.html` 的 Lovart 翻页复制区；每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”，方便按上一张/下一张逐个复制到 Lovart。该区域仅第 2 步显示，其他阶段 `index.html` 只保留进度摘要、任务、缺陷和阻塞。
+- 如果本地已安装 `lovart-skill` 并配置 `LOVART_ACCESS_KEY` / `LOVART_SECRET_KEY`，第 2 步可以直接调用 Lovart 生成 P0/P1 单页原型图，图片保存到 `design/lovart/pages/`，并在 GoalPlan 记录生成方式、输出文件和失败原因。
+- 没有安装 `lovart-skill` 或没有 AK/SK 时，流程不阻塞，继续使用 `index.html` 翻页复制提示词到 Lovart 手动出图。
 - 代码还原以具体 Figma 页面 Frame 为准。
 - 第 4 步写页面代码前，AI 必须重新打开并读取当前页面的 Figma Frame；UIDesign 文档只是索引和摘要，不能替代 Figma 原型文件。
 - 每个页面按“读取 Figma Frame -> 提取视觉 token 和图层结构 -> 实现代码 -> 截图或静态对照 -> 修复偏差 -> 在 GoalPlan 记录证据”循环推进。

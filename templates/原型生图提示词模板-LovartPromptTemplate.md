@@ -4,6 +4,8 @@
 
 阶段 2 完成时，还必须从本文件把每个页面的完整 Lovart 单页提示词同步到根目录 `index.html` 的 Lovart 提示词翻页复制区，方便用户按上一张/下一张逐个复制到 Lovart。该翻页区只在 `index.html` 当前阶段为 2 时显示，其他阶段仍按进度看板显示。
 
+如本地已安装 `lovart-skill` 并配置 `LOVART_ACCESS_KEY`、`LOVART_SECRET_KEY`，可把本文件中的单页提示词作为输入，直接调用 Lovart 生成 P0/P1 单页原型图。未安装或未配置密钥时，不阻塞本阶段，继续使用 `index.html` 翻页复制提示词手动出图。
+
 ## 核心原则
 
 1. 先读取 `docs/产品需求文档-PRD.md` 的 `ScopeBudget`。
@@ -14,6 +16,7 @@
 6. 所有页面共用同一套设计系统、导航规则、组件风格、颜色、字号、圆角和图标风格。
 7. Lovart 出图后需要沉淀为 Figma 文件；后续代码还原优先使用具体 Figma 页面 Frame。
 8. 每个页面的完整提示词必须同步到 `index.html` 的阶段 2 翻页复制区，一张图对应一张卡片。
+9. `lovart-skill` 只是可选执行器，不替代提示词文档、`index.html` 翻页复制区或 Figma 设计稿。
 
 ## 输出结构
 
@@ -110,4 +113,13 @@
 - 单页开发稿 PNG：`design/lovart/pages/P01-首页.png`
 - 单页开发稿 PSD：`design/lovart/pages/P01-首页.psd`
 - `index.html` 阶段 2 Lovart 翻页复制区：同步每个页面完整提示词，每张卡片包含全局设计系统、导航规则和当前页面提示词。
+- Lovart Skill 可选记录：生成方式、输出文件、Lovart project/thread（如有）、失败原因（如有）写入 `docs/Goal任务计划-GoalPlan.md`。
 - Figma Frame：记录到 `docs/设计还原文档-UIDesign.md` 和 `docs/Goal任务计划-GoalPlan.md`
+
+### 7. 可选 Lovart Skill 执行规则
+
+- 仅在已安装 `lovart-skill` 且 `LOVART_ACCESS_KEY`、`LOVART_SECRET_KEY` 均可用时自动出图。
+- 自动出图只使用本文件的单页完整提示词，不额外生成作品集总览、交互概览、独立弹窗或独立状态图。
+- 每个页面单独生成并保存到 `design/lovart/pages/`，文件名使用 `Pxx-页面名称`。
+- 如果自动生成失败、额度不足、环境变量缺失或工具不可用，把原因写入 GoalPlan，并保留手动复制提示词路径。
+- Lovart 输出图必须进入 Figma 整理；第 4 步代码实现不能直接以 Lovart PNG/PSD 替代 Figma Frame。

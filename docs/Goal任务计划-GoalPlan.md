@@ -18,7 +18,7 @@
 
 - [x] 0. 初始化/恢复上下文：脚手架结构、规范、资源和进度看板已就位。
 - [ ] 1. PRD 需求分析：生成 `docs/产品需求文档-PRD.md`，完成 ScopeBudget。
-- [ ] 2. Lovart Prompt：生成 `design/lovart/原型生图提示词-LovartPrompt.md`，只覆盖 P0/P1 单页开发稿，并同步 `index.html` Lovart 翻页复制区。
+- [ ] 2. Lovart Prompt：生成 `design/lovart/原型生图提示词-LovartPrompt.md`，只覆盖 P0/P1 单页开发稿，并同步 `index.html` Lovart 翻页复制区；如使用 `lovart-skill`，记录输出文件。
 - [ ] 3. Figma 设计稿拆解：生成 `docs/设计还原文档-UIDesign.md`。
 - [ ] 4. 基于 Figma 设计稿实现功能：完成页面、接口、数据库、资源、状态和联调。
 - [ ] 5. 对抗式审查、修复与提交：完成审查、修复和提交。
@@ -36,6 +36,8 @@
 
 ### 页面与 UI 还原
 
+- [ ] Lovart 生成方式：手动复制提示词 / `lovart-skill` 自动出图 / 不适用。
+- [ ] Lovart 输出文件：`design/lovart/pages/` 中的 P0/P1 单页原型图，或写明未自动出图原因。
 - [ ] 页面 Pxx：Figma Frame 已匹配。
 - [ ] 页面 Pxx：实现前已重新读取 Figma Frame，并记录 nodeId、读取时间和关键视觉 token。
 - [ ] 页面 Pxx：代码已实现。
@@ -71,5 +73,6 @@ Figma 读取证据模板：
 - [ ] 当前阶段所有必做任务已完成或明确不适用。
 - [ ] `index.html` 当前阶段、当前任务、进度、缺陷和阻塞与本文件一致。
 - [ ] 阶段 2 完成时，`index.html` Lovart 翻页复制区已包含每个页面的完整单页提示词，且每张卡片都包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”；非阶段 2 时该区域不显示。
+- [ ] 阶段 2 如使用 `lovart-skill`，已把生成方式、输出文件、Lovart project/thread（如有）和失败原因（如有）写入本文件；未配置 `lovart-skill` 时已保留手动复制提示词路径。
 - [ ] 第 4 步进入第 5 步前，所有 P0/P1 页面、接口、数据、资源和 UI 还原项已完成或明确不适用；每个已完成页面都有 Figma Frame 读取证据和对照结论。
 - [ ] 不能运行的检查已写明阻塞原因。
