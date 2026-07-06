@@ -44,6 +44,7 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 - 如果本地已安装 `lovart-skill` 并配置 `LOVART_ACCESS_KEY` / `LOVART_SECRET_KEY`，第 2 步可以直接调用 Lovart 生成 P0/P1 单页原型图，图片保存到 `design/lovart/pages/`，并在 GoalPlan 记录生成方式、输出文件和失败原因。
 - Lovart Skill 自动出图固定优先使用 `generate_image_gpt_image_2_medium`；APP/微信小程序页面默认 9:16，网页页面默认 16:9。默认先切 `unlimited` 省积分；只有用户明确要求速度时才使用 fast 模式。
 - 每个新业务需求都新建 Lovart Project，名称使用业务中文名称；生成后再次检查并校正 Project 名称，避免本地状态被 prompt 前缀覆盖。
+- 新业务首次出图必须显式使用新 Project 的 `--project-id`，并且不复用旧 `thread-id`；只有同一业务、同一页面微调重试时才复用该页面 thread。
 - 每次只生成当前页面 1 张图，先看结果再决定是否重试；不要批量生成多变体、作品集图、交互图或独立状态图。
 - 没有安装 `lovart-skill` 或没有 AK/SK 时，流程不阻塞，继续使用 `index.html` 翻页复制提示词到 Lovart 手动出图。
 - 代码还原以具体 Figma 页面 Frame 为准。

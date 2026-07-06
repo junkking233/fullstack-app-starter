@@ -58,6 +58,7 @@
 - 使用 `lovart-skill` 自动出图时，图片模型固定优先 `generate_image_gpt_image_2_medium`；APP/微信小程序页面默认 9:16，网页页面默认 16:9。
 - 默认按省积分策略出图：生成前先切换 `set-mode --unlimited`；除非用户明确要求加速或 fast credits，不主动使用 fast 模式。
 - 每个新业务需求都必须新建 Lovart Project，Project 名称使用业务中文名称；不要把新业务原型图生成到旧项目里。生成后必须再次检查并校正本地 Project 名称，防止被 prompt 前缀覆盖。
+- 新业务首次自动出图时必须显式传入新 Project 的 `--project-id`，并且不传旧 `--thread-id`；只有同一业务、同一页面的修正重试才允许复用该页面 thread。
 - 每次只生成当前页面 1 张图，不批量生成作品集、交互图、状态图或多变体；失败时先记录原因和优化提示词，不连续重试消耗额度。
 - `lovart-skill` 不能替代 Figma；Lovart 出图后仍要导入或整理到 Figma，第 4 步代码还原仍以 Figma Frame 为准。
 - Figma 页面 Frame 是视觉还原主依据。
