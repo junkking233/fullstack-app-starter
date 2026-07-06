@@ -1,6 +1,6 @@
 # 设计还原文档 UIDesign
 
-本文件由阶段 3 基于 Figma 页面 Frame 生成或更新。它把视觉设计系统和页面拆解合并到一份文档，服务代码还原，不写作品集说明。
+本文件由阶段 3 基于 Stitch 输出和 Figma 页面 Frame 生成或更新。它把视觉设计系统和页面拆解合并到一份文档，服务代码还原，不写作品集说明。
 
 ## 1. 设计来源
 
@@ -9,6 +9,7 @@
 | PRD | `docs/产品需求文档-PRD.md` | 待确认 |
 | Lovart Prompt | `design/lovart/原型生图提示词-LovartPrompt.md` | 待确认 |
 | Lovart 备份稿 | `design/lovart/` | 待确认 |
+| Stitch UI screen / HTML | `design/stitch/` 或 `.stitch/` | 待确认 |
 | Figma 文件 / Page / Frame |  | 待确认 |
 
 ## 2. Figma Frame 索引
@@ -74,6 +75,7 @@
 | Frame 匹配来源 | 用户直给 / metadata 自动匹配 / 待确认 |
 | 匹配置信度 | 高 / 中 / 低 / 阻塞 |
 | 备用 Lovart 稿 |  |
+| Stitch screen / HTML |  |
 | 页面类型 | 一级 Tab / 二级功能 / 详情 / 表单 |
 | 范围状态 | P0/P1 有效 / P2 暂缓 / 仅参考 / 待确认 |
 | 页面目标 |  |

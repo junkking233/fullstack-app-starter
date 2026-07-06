@@ -23,7 +23,7 @@
 | 0. 初始化/恢复上下文 | 从脚手架地址克隆到真实项目目录、删除脚手架 `.git`、判断当前阶段 | `index.html`、`GoalPlan` |
 | 1. PRD 需求分析 | 用第一性原理确认用户、问题、角色、流程和边界 | `产品需求文档-PRD.md` |
 | 2. Lovart Prompt | 基于 PRD 生成受控的单页原型提示词，并同步到网页阶段 2 翻页复制区；如已配置 `lovart-skill`，可自动生成单页原型图 | `design/lovart/原型生图提示词-LovartPrompt.md`、`design/lovart/pages/`、`index.html` |
-| 3. Figma 设计稿拆解 | 把 Figma Frame 拆成可还原的视觉与页面规则 | `设计还原文档-UIDesign.md` |
+| 3. Stitch 重建与 Figma 设计稿拆解 | 用 Lovart 图片和页面提示词在 Stitch 重建 UI screen，再把最终 Figma Frame 拆成可还原规则 | `design/stitch/`、`设计还原文档-UIDesign.md` |
 | 4. 基于 Figma 实现功能 | 实现页面、接口、数据库、状态、资源和联调 | `apps/`、`db/db.sql`、`技术设计文档-TechDesign.md`、`GoalPlan` |
 | 5. 对抗式审查、修复与提交 | 查遗漏、范围膨胀、设计偏差、接口漂移和运行风险 | 问题清单、修复提交 |
 
@@ -34,12 +34,12 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 - 默认角色不超过 3 个。
 - 每个角色 P0/P1 核心功能最多 5 个。
 - P0 是业务闭环必需，P1 是首版体验必需，P2 是后续迭代。
-- Lovart、Figma、API、DB 和代码只做 P0/P1。
+- Lovart、Stitch、Figma、API、DB 和代码只做 P0/P1。
 - P2、暂缓功能和待确认功能只记录，不进入首版实现。
 
 ## Figma-first UI 还原
 
-- Lovart 用来生成单页原型图，出图后沉淀到 Figma。
+- Lovart 用来生成单页原型图，出图后通过 Stitch 或手动整理沉淀到 Figma。
 - 第 2 步生成提示词后，必须从 `design/lovart/原型生图提示词-LovartPrompt.md` 同步 `index.html` 的 Lovart 翻页复制区；每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”，方便按上一张/下一张逐个复制到 Lovart。该区域仅第 2 步显示，其他阶段 `index.html` 只保留进度摘要、任务、缺陷和阻塞。
 - 如果本地已安装 `lovart-skill` 并配置 `LOVART_ACCESS_KEY` / `LOVART_SECRET_KEY`，第 2 步可以直接调用 Lovart 生成 P0/P1 单页原型图，图片保存到 `design/lovart/pages/`，并在 GoalPlan 记录生成方式、输出文件和失败原因。
 - Lovart Skill 自动出图固定优先使用 `generate_image_gpt_image_2_medium`；APP/微信小程序页面默认 9:16，网页页面默认 16:9。默认先切 `unlimited` 省积分；只有用户明确要求速度时才使用 fast 模式。
@@ -47,6 +47,10 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 - 新业务首次出图必须显式使用新 Project 的 `--project-id`，并且不复用旧 `thread-id`；只有同一业务、同一页面微调重试时才复用该页面 thread。
 - 每次只生成当前页面 1 张图，先看结果再决定是否重试；不要批量生成多变体、作品集图、交互图或独立状态图。
 - 没有安装 `lovart-skill` 或没有 AK/SK 时，流程不阻塞，继续使用 `index.html` 翻页复制提示词到 Lovart 手动出图。
+- 推荐设计链路是 `Lovart 单页图 -> Stitch UI screen -> Figma Frame -> 代码实现`。
+- Stitch 只作为可选重建层：已安装 `stitch-design`、`stitch-utilities`，并且 Stitch MCP/API Key 可用时，才把每张 Lovart 单页图和对应页面完整提示词上传到同名 Stitch Project，重建 1 个 UI screen。
+- Stitch 生成后，把 HTML、截图、screenId 或导出记录保存到 `design/stitch/` 或 `.stitch/`，并写入 GoalPlan。不要让 Stitch 生成多变体、作品集拼贴、交互大图或额外状态图。
+- Stitch 输出必须继续导出或同步到 Figma；如果只有 Stitch HTML、没有可访问的 Figma Frame，第 4 步只能标为阻塞或待验收，不能标为 1:1 还原完成。
 - 代码还原以具体 Figma 页面 Frame 为准。
 - 第 4 步写页面代码前，AI 必须重新打开并读取当前页面的 Figma Frame；UIDesign 文档只是索引和摘要，不能替代 Figma 原型文件。
 - 每个页面按“读取 Figma Frame -> 提取视觉 token 和图层结构 -> 实现代码 -> 截图或静态对照 -> 修复偏差 -> 在 GoalPlan 记录证据”循环推进。

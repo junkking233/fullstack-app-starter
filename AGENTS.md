@@ -27,7 +27,7 @@
 0. 初始化/恢复上下文
 1. PRD 需求分析
 2. Lovart Prompt
-3. Figma 设计稿拆解
+3. Stitch 重建与 Figma 设计稿拆解
 4. 基于 Figma 设计稿实现功能
 5. 对抗式审查、修复与提交
 
@@ -44,14 +44,14 @@
 - PRD 必须建立 `ScopeBudget` 范围预算。
 - 默认角色不超过 3 个。
 - 每个角色 P0/P1 核心功能最多 5 个。
-- P0/P1 才进入 Lovart、Figma 拆解、API、DB、GoalPlan 和代码实现。
+- P0/P1 才进入 Lovart、Stitch、Figma 拆解、API、DB、GoalPlan 和代码实现。
 - P2、暂缓功能、待确认功能不得做进首版。
 - 超出预算时，先合并、删减、延期或等待用户确认。
 
 ## 设计与 UI 还原
 
 - Lovart 只生成单页开发稿，不生成作品集总览、交互概览、独立状态稿或独立弹层稿。
-- Lovart PNG/PSD 放 `design/lovart/`，并沉淀到 Figma。
+- Lovart PNG/PSD 放 `design/lovart/`，并通过 Stitch 或手动整理沉淀到 Figma。
 - Lovart Prompt 正式文档写入 `design/lovart/原型生图提示词-LovartPrompt.md`，并同步到 `index.html` 的阶段 2 翻页复制区；每张卡片必须包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”。
 - 第 2 步默认只生成可复制提示词；如果本地已安装 `lovart-skill` 且存在 `LOVART_ACCESS_KEY`、`LOVART_SECRET_KEY`，可把它作为可选执行器直接生成单页原型图。未安装或未配置密钥时，不得阻塞阶段完成。
 - 使用 `lovart-skill` 自动出图时，只允许生成 P0/P1 单页开发稿，产物保存到 `design/lovart/pages/`，并在 GoalPlan 记录生成方式、输出文件、Lovart project/thread（如有）和失败原因（如有）。
@@ -61,6 +61,12 @@
 - 新业务首次自动出图时必须显式传入新 Project 的 `--project-id`，并且不传旧 `--thread-id`；只有同一业务、同一页面的修正重试才允许复用该页面 thread。
 - 每次只生成当前页面 1 张图，不批量生成作品集、交互图、状态图或多变体；失败时先记录原因和优化提示词，不连续重试消耗额度。
 - `lovart-skill` 不能替代 Figma；Lovart 出图后仍要导入或整理到 Figma，第 4 步代码还原仍以 Figma Frame 为准。
+- Stitch 是 Lovart 与 Figma 之间的可选重建层：`Lovart 单页图 + 页面完整提示词 -> Stitch UI screen -> 导出/同步到 Figma 或 HTML`。
+- 只有已安装 `stitch-design`、`stitch-utilities`，且 Stitch MCP/API Key 可用时，才自动执行 Stitch；未配置时不伪造结果，改为记录“待手动导入 Figma/待配置 Stitch”。
+- 每个新业务需求必须新建或定位同名 Stitch Project；每个 P0/P1 页面只上传当前 Lovart 单页图，并用对应页面提示词重建 1 个 UI screen，不生成多变体、作品集图或额外状态图。
+- Stitch 上传图片或 DESIGN.md 前必须确认文件路径、大小和目标 Project；不得在用户不知情时消耗 Stitch 额度。
+- Stitch 输出的 HTML、截图或 screen 信息归档到 `design/stitch/` 或 `.stitch/`，并在 GoalPlan 记录 Project、screenId、来源 Lovart 图、页面提示词和导出结果。
+- Stitch 不能替代 Figma。若最终没有可访问的 Figma Frame，第 4 步只能标为阻塞或待验收；HTML 只能作为辅助对照，不能作为 1:1 完成依据。
 - Figma 页面 Frame 是视觉还原主依据。
 - `docs/设计还原文档-UIDesign.md` 必须记录 Figma Frame、视觉 token、页面结构、资源、状态、接口需求和逐页还原标准。
 - 如果用户只给 Figma 文件链接或 Page 根节点链接，先按页面编号、页面名和 Frame 名称自动匹配 Frame；只有重名、缺失或冲突时才要求用户补具体 Frame 链接。
