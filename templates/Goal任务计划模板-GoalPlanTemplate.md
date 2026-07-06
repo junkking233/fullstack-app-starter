@@ -35,6 +35,7 @@
 ### 页面与 UI 还原
 
 - [ ] Lovart 生成方式：手动复制提示词 / `lovart-skill` 自动出图 / 不适用。
+- [ ] Lovart 项目：已按业务中文名称新建 Project；图片模型为 `generate_image_gpt_image_2_medium`；画幅为 APP/小程序 9:16 或网页 16:9。
 - [ ] Lovart 输出文件：`design/lovart/pages/` 中的 P0/P1 单页原型图，或写明未自动出图原因。
 - [ ] 页面：
 - [ ] Figma Frame：
@@ -70,5 +71,6 @@
 - [ ] `index.html` 与本文件的阶段、任务、进度、缺陷、阻塞一致。
 - [ ] 阶段 2 完成时，`index.html` Lovart 翻页复制区已包含每个页面的完整单页提示词，且每张卡片都包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”；非阶段 2 时该区域不显示。
 - [ ] 阶段 2 如使用 `lovart-skill`，已把生成方式、输出文件、Lovart project/thread（如有）和失败原因（如有）写入本文件；未配置 `lovart-skill` 时已保留手动复制提示词路径。
+- [ ] 阶段 2 如使用 `lovart-skill`，已确认新建业务中文名 Project、模型 `generate_image_gpt_image_2_medium` 和正确画幅；不得复用旧业务 Lovart Project。
 - [ ] 第 4 步进入第 5 步前，所有 P0/P1 页面、接口、数据、资源和 UI 还原项已完成或明确不适用；每个已完成页面都有 Figma Frame 读取证据和对照结论。
 - [ ] 不能运行的检查已写明阻塞原因。

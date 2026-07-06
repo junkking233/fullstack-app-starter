@@ -42,6 +42,7 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 - Lovart 用来生成单页原型图，出图后沉淀到 Figma。
 - 第 2 步生成提示词后，必须从 `design/lovart/原型生图提示词-LovartPrompt.md` 同步 `index.html` 的 Lovart 翻页复制区；每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”，方便按上一张/下一张逐个复制到 Lovart。该区域仅第 2 步显示，其他阶段 `index.html` 只保留进度摘要、任务、缺陷和阻塞。
 - 如果本地已安装 `lovart-skill` 并配置 `LOVART_ACCESS_KEY` / `LOVART_SECRET_KEY`，第 2 步可以直接调用 Lovart 生成 P0/P1 单页原型图，图片保存到 `design/lovart/pages/`，并在 GoalPlan 记录生成方式、输出文件和失败原因。
+- Lovart Skill 自动出图固定优先使用 `generate_image_gpt_image_2_medium`；APP/微信小程序页面默认 9:16，网页页面默认 16:9。每个新业务需求都新建 Lovart Project，名称使用业务中文名称。
 - 没有安装 `lovart-skill` 或没有 AK/SK 时，流程不阻塞，继续使用 `index.html` 翻页复制提示词到 Lovart 手动出图。
 - 代码还原以具体 Figma 页面 Frame 为准。
 - 第 4 步写页面代码前，AI 必须重新打开并读取当前页面的 Figma Frame；UIDesign 文档只是索引和摘要，不能替代 Figma 原型文件。

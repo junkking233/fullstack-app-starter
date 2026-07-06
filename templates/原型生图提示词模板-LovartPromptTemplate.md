@@ -119,6 +119,9 @@
 ### 7. 可选 Lovart Skill 执行规则
 
 - 仅在已安装 `lovart-skill` 且 `LOVART_ACCESS_KEY`、`LOVART_SECRET_KEY` 均可用时自动出图。
+- 每个新业务需求都新建 Lovart Project，Project 名称使用业务中文名称，不复用旧业务项目。
+- 自动出图固定优先使用图片模型 `generate_image_gpt_image_2_medium`。
+- 画幅按端类型决定：APP/微信小程序页面使用 9:16，网页页面使用 16:9。
 - 自动出图只使用本文件的单页完整提示词，不额外生成作品集总览、交互概览、独立弹窗或独立状态图。
 - 每个页面单独生成并保存到 `design/lovart/pages/`，文件名使用 `Pxx-页面名称`。
 - 如果自动生成失败、额度不足、环境变量缺失或工具不可用，把原因写入 GoalPlan，并保留手动复制提示词路径。
