@@ -47,8 +47,8 @@ async function handleRegister() {
   <div class="register-page">
     <div class="register-card">
       <div class="register-brand">
-        <h1>智享门户</h1>
-        <p>创建您的账号</p>
+        <h1>业务项目脚手架</h1>
+        <p>创建普通用户账号</p>
       </div>
 
       <el-form ref="formRef" :model="form" :rules="rules" class="register-form" @submit.prevent="handleRegister">

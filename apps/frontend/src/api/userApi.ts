@@ -21,4 +21,12 @@ export const userApi = {
   delete(id: number): Promise<void> {
     return http.delete<never, void>(`/users/${id}`);
   },
+
+  ban(id: number): Promise<void> {
+    return http.put<never, void>(`/users/${id}/ban`);
+  },
+
+  unban(id: number): Promise<void> {
+    return http.put<never, void>(`/users/${id}/unban`);
+  },
 };

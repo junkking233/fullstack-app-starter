@@ -49,7 +49,7 @@
   --shadow-md: 0 4px 6px -1px rgb(15 23 42 / 8%), 0 2px 4px -2px rgb(15 23 42 / 4%);
   --shadow-lg: 0 10px 15px -3px rgb(15 23 42 / 8%), 0 4px 6px -4px rgb(15 23 42 / 4%);
   --shadow-xl: 0 20px 25px -5px rgb(15 23 42 / 8%), 0 8px 10px -6px rgb(15 23 42 / 4%);
-  --shadow-glow: 0 0 0 3px rgb(13 148 136 / 12%);
+  --shadow-glow: 0 0 0 3px rgb(47 107 255 / 12%);
 
   /* Radius */
   --radius-sm: 6px;
@@ -98,13 +98,13 @@ select {
 .el-button--primary:not(.is-link):not(.is-text) {
   background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
   border-color: transparent;
-  box-shadow: 0 2px 6px rgb(13 148 136 / 25%);
+  box-shadow: 0 2px 6px rgb(47 107 255 / 25%);
   transition: all var(--transition-base);
 }
 
 .el-button--primary:not(.is-link):not(.is-text):hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgb(13 148 136 / 35%);
+  box-shadow: 0 4px 12px rgb(47 107 255 / 35%);
   background: linear-gradient(135deg, var(--c-primary-light), var(--c-primary));
 }
 
@@ -124,7 +124,7 @@ select {
 
 /* Input focus */
 .el-input__wrapper.is-focus {
-  box-shadow: 0 0 0 3px rgb(13 148 136 / 10%), inset 0 0 0 1px var(--c-primary) !important;
+  box-shadow: 0 0 0 3px rgb(47 107 255 / 10%), inset 0 0 0 1px var(--c-primary) !important;
 }
 
 /* Menu */
@@ -171,17 +171,17 @@ select {
 /* Pagination */
 .el-pagination .el-pager li.is-active {
   background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-  box-shadow: 0 2px 6px rgb(13 148 136 / 25%);
+  box-shadow: 0 2px 6px rgb(47 107 255 / 25%);
 }
 
 /* Timeline */
 .el-timeline-item__node {
-  box-shadow: 0 0 0 3px rgb(13 148 136 / 12%);
+  box-shadow: 0 0 0 3px rgb(47 107 255 / 12%);
 }
 
 /* Steps */
 .el-step__icon.is-text {
-  box-shadow: 0 0 0 3px rgb(13 148 136 / 10%);
+  box-shadow: 0 0 0 3px rgb(47 107 255 / 10%);
 }
 
 /* Tabs */
@@ -201,92 +201,7 @@ select {
   box-shadow: var(--shadow-sm);
 }
 
-/* ---------- 4. Chat Styles (shared) ---------- */
-.chat-page {
-  display: flex;
-  height: calc(100vh - 172px);
-  min-height: 520px;
-  overflow: hidden;
-  background: var(--c-surface);
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-}
-
-.chat-panel {
-  display: flex;
-  flex: 1;
-  min-width: 0;
-  flex-direction: column;
-}
-
-.chat-messages {
-  flex: 1;
-  min-height: 0;
-  padding: 24px;
-  overflow-y: auto;
-  background: linear-gradient(180deg, #fafcfb, #f0fdfa);
-}
-
-.message {
-  display: flex;
-  margin-bottom: 16px;
-  animation: msgIn 0.3s ease;
-}
-
-@keyframes msgIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.message.user {
-  justify-content: flex-end;
-}
-
-.message.assistant {
-  justify-content: flex-start;
-}
-
-.message-bubble {
-  max-width: min(720px, 78%);
-  padding: 12px 16px;
-  line-height: 1.7;
-  word-break: break-word;
-  white-space: pre-wrap;
-  border-radius: var(--radius-md);
-}
-
-.message.user .message-bubble {
-  color: #fff;
-  background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-  box-shadow: var(--shadow-sm);
-}
-
-.message.assistant .message-bubble {
-  background: var(--c-surface);
-  border: 1px solid var(--c-line);
-  box-shadow: var(--shadow-xs);
-}
-
-.chat-input-area {
-  padding: 18px 20px;
-  background: var(--c-surface);
-  border-top: 1px solid var(--c-line);
-}
-
-.chat-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 12px;
-}
-
-/* ---------- 5. Utility Classes ---------- */
+/* ---------- 4. Utility Classes ---------- */
 .page-section {
   padding: 22px;
   background: var(--c-surface);
@@ -315,7 +230,7 @@ select {
   padding-top: 16px;
 }
 
-/* ---------- 6. Scrollbar ---------- */
+/* ---------- 5. Scrollbar ---------- */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -340,19 +255,10 @@ select {
   scrollbar-color: rgb(148 163 184 / 40%) transparent;
 }
 
-/* ---------- 7. Responsive ---------- */
+/* ---------- 6. Responsive ---------- */
 @media (max-width: 860px) {
   .page-toolbar {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .chat-page {
-    height: calc(100vh - 220px);
-    min-height: 460px;
-  }
-
-  .message-bubble {
-    max-width: 90%;
   }
 }

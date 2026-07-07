@@ -12,10 +12,6 @@ export default defineConfig({
   server: {
     port: 9999,
     proxy: {
-      '/api/ai': {
-        target: process.env.VITE_PROXY_AI || 'http://localhost:8000',
-        changeOrigin: true,
-      },
       '/api': {
         target: process.env.VITE_PROXY_BACKEND || 'http://localhost:8888',
         changeOrigin: true,
@@ -24,13 +20,5 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 1200,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'element-plus': ['element-plus'],
-          echarts: ['echarts', 'vue-echarts'],
-        },
-      },
-    },
   },
 });

@@ -55,10 +55,7 @@ export function getCurrentUser() {
 
 export function defaultPathForRole(role: string) {
   if (role === 'ADMIN') {
-    return '/admin/dashboard';
-  }
-  if (role === 'PARTNER') {
-    return '/partner/dashboard';
+    return '/admin/users';
   }
   return '/portal/home';
 }

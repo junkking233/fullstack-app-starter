@@ -67,9 +67,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     // GET requests allowed for anonymous access
     private boolean isPublicReadPath(String path) {
-        return path.startsWith("/api/charts")
-            || path.startsWith("/api/categories")
-            || path.startsWith("/api/tags");
+        return false;
     }
 
     private void checkPermission(String path, TokenSubject subject) {

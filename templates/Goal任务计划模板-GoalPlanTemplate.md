@@ -18,8 +18,8 @@
 
 - [ ] 0. 初始化/恢复上下文
 - [ ] 1. PRD 需求分析
-- [ ] 2. Lovart Prompt：已同步 `index.html` 阶段 2 Lovart 提示词翻页复制区；如使用 `lovart-skill`，已记录输出文件
-- [ ] 3. Stitch 重建与 Figma 设计稿拆解
+- [ ] 2. Lovart Prompt：已同步 `index.html` 阶段 2 Lovart 提示词翻页复制区；已调用 `lovart-skill` 出图并记录 Project/thread/输出文件
+- [ ] 3. Stitch 重建与 Figma 设计稿拆解：已调用 Stitch 重建 UI screen，并由用户手动 Copy/Paste 到 Figma 形成真实 Frame
 - [ ] 4. 基于 Figma 设计稿实现功能
 - [ ] 5. 对抗式审查、修复与提交
 
@@ -27,6 +27,7 @@
 
 - [ ] 角色不超过 3 个，或已写明合并/延期原因。
 - [ ] 每个角色 P0/P1 核心功能不超过 5 个。
+- [ ] 页面数量受控：单端首版建议不超过 8-10 个页面，多端合计超过 12 个页面时已合并、删减或延期。
 - [ ] P2/暂缓功能没有进入 Lovart、Stitch、Figma、API、DB 或代码实现。
 - [ ] 超出范围的功能已写入待确认或后续迭代。
 
@@ -34,11 +35,12 @@
 
 ### 页面与 UI 还原
 
-- [ ] Lovart 生成方式：手动复制提示词 / `lovart-skill` 自动出图 / 不适用。
+- [ ] Lovart 生成方式：必须使用 `lovart-skill` 自动出图；未出图时写入阻塞，不得推进阶段。
 - [ ] Lovart 项目：已按业务中文名称新建 Project；已切 `unlimited` 省积分；图片模型为 `generate_image_gpt_image_2_medium`；画幅为 APP/小程序 9:16 或网页 16:9；生成后已校正 Project 名称。
-- [ ] Lovart thread：新业务首次出图已使用新 Project 的 `--project-id`，未复用旧 `thread-id`。
-- [ ] Lovart 输出文件：`design/lovart/pages/` 中的 P0/P1 单页原型图，或写明未自动出图原因。
-- [ ] Stitch 执行方式：自动调用 Stitch / 手动导入 Stitch / 不适用。
+- [ ] Lovart 并发计划：同一业务共用 1 个 Project；每个 P0/P1 页面独立新 thread；默认并发上限 3；超过 3 页时已分批执行。
+- [ ] Lovart thread：每个页面首次出图已使用新 Project 的 `--project-id`，未复用旧 `thread-id`；同一页面微调才复用该页面 thread。
+- [ ] Lovart 输出文件：`design/lovart/pages/` 中的 P0/P1 单页原型图；缺失时写明阻塞原因。
+- [ ] Stitch 执行方式：必须自动调用 Stitch；未配置或失败时写入阻塞，不得推进阶段。
 - [ ] Stitch 项目：业务中文名 Project、screenId、来源 Lovart 图、页面提示词。
 - [ ] Stitch 备份：screenId / HTML / 截图 / 阻塞说明。
 - [ ] Stitch -> Figma：已向用户输出 Stitch Project、screenId、HTML/截图备份和 Copy/Paste 操作说明。
@@ -77,9 +79,9 @@
 - [ ] 当前阶段所有必做任务已完成或明确不适用。
 - [ ] `index.html` 与本文件的阶段、任务、进度、缺陷、阻塞一致。
 - [ ] 阶段 2 完成时，`index.html` Lovart 翻页复制区已包含每个页面的完整单页提示词，且每张卡片都包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”；非阶段 2 时该区域不显示。
-- [ ] 阶段 2 如使用 `lovart-skill`，已把生成方式、输出文件、Lovart project/thread（如有）和失败原因（如有）写入本文件；未配置 `lovart-skill` 时已保留手动复制提示词路径。
-- [ ] 阶段 2 如使用 `lovart-skill`，已确认新建业务中文名 Project、`unlimited` 模式、模型 `generate_image_gpt_image_2_medium`、正确画幅和生成后项目名校正；不得复用旧业务 Lovart Project。
-- [ ] 阶段 2 如使用 `lovart-skill`，新业务首次出图未复用旧 `thread-id`；同一页面微调重试才允许复用该页面 thread。
-- [ ] 阶段 3 如使用 Stitch，已记录 Stitch Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、用户手动 Copy/Paste 状态、目标文件和 Figma Frame 链接/nodeId；没有 Figma Frame 时不得进入第 4 步完成态。
+- [ ] 阶段 2 已调用 `lovart-skill`，并把生成方式、输出文件、Lovart project/thread 和失败原因写入本文件；未配置或失败时阶段 2 必须阻塞。
+- [ ] 阶段 2 已确认新建业务中文名 Project、`unlimited` 模式、模型 `generate_image_gpt_image_2_medium`、正确画幅和生成后项目名校正；不得复用旧业务 Lovart Project。
+- [ ] 阶段 2 已按受控并发出图：每个页面独立 thread，默认并发上限 3；409/429、额度、风控、下载失败或无输出文件时已记录失败页面并降低并发或排队重试。
+- [ ] 阶段 3 已调用 Stitch，并记录 Stitch Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、用户手动 Copy/Paste 状态、目标文件和 Figma Frame 链接/nodeId；没有真实 Figma Frame 时不得进入第 4 步。
 - [ ] 第 4 步进入第 5 步前，所有 P0/P1 页面、接口、数据、资源和 UI 还原项已完成或明确不适用；每个已完成页面都有 Figma Frame 读取证据和对照结论。
 - [ ] 不能运行的检查已写明阻塞原因。

@@ -31,33 +31,13 @@ CREATE TABLE IF NOT EXISTS t_user (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户表';
 
 -- ============================================================================
--- 2. 操作日志表
--- ============================================================================
-CREATE TABLE IF NOT EXISTS t_operation_log (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '日志ID',
-    user_id BIGINT COMMENT '操作用户ID',
-    username VARCHAR(50) COMMENT '操作用户名',
-    action VARCHAR(100) NOT NULL COMMENT '操作类型',
-    module VARCHAR(100) COMMENT '操作模块',
-    target_id BIGINT COMMENT '操作目标ID',
-    detail TEXT COMMENT '操作详情(JSON)',
-    ip VARCHAR(45) COMMENT '操作IP',
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
-    INDEX idx_user_id (user_id),
-    INDEX idx_action (action),
-    INDEX idx_created_at (created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表';
-
--- ============================================================================
 -- 种子数据
 -- ============================================================================
 
 -- 用户 (密码均为 MD5 加密)
 -- admin/admin123 -> 0192023a7bbd73250516f069df18b500 (MD5 of admin123)
--- partner/123456 -> e10adc3949ba59abbe56e057f20f883e (MD5 of 123456)
 -- user/123456    -> e10adc3949ba59abbe56e057f20f883e (MD5 of 123456)
 
 INSERT IGNORE INTO t_user (id, username, password, nickname, role, status) VALUES
 (1, 'admin',   '0192023a7bbd73250516f069df18b500', '管理员',   'ADMIN',   'active'),
-(2, 'partner', 'e10adc3949ba59abbe56e057f20f883e', '服务方',   'PARTNER', 'active'),
-(3, 'user',    'e10adc3949ba59abbe56e057f20f883e', '普通用户', 'USER',    'active');
+(2, 'user',    'e10adc3949ba59abbe56e057f20f883e', '普通用户', 'USER',    'active');

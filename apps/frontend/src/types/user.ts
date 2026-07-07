@@ -2,18 +2,19 @@ export interface User {
   id: number;
   username: string;
   password?: string;
-  email: string;
-  phone: string;
-  role: 'ADMIN' | 'PARTNER' | 'USER' | string;
-  status: number;
-  createTime: string;
-  updateTime: string;
+  nickname?: string;
+  avatar?: string;
+  bio?: string;
+  role: 'ADMIN' | 'USER' | string;
+  status: 'active' | 'banned' | string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface UserQuery {
   username?: string;
-  email?: string;
-  status?: number;
+  nickname?: string;
+  status?: string;
   page: number;
   pageSize: number;
 }
