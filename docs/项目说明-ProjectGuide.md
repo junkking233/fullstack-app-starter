@@ -23,7 +23,7 @@
 | 0. 初始化/恢复上下文 | 从脚手架地址克隆到真实项目目录、删除脚手架 `.git`、判断当前阶段 | `index.html`、`GoalPlan` |
 | 1. PRD 需求分析 | 用第一性原理确认用户、问题、角色、流程和边界 | `产品需求文档-PRD.md` |
 | 2. Lovart Prompt | 基于 PRD 生成受控的单页原型提示词，并同步到网页阶段 2 翻页复制区；如已配置 `lovart-skill`，可自动生成单页原型图 | `design/lovart/原型生图提示词-LovartPrompt.md`、`design/lovart/pages/`、`index.html` |
-| 3. Stitch 重建与 Figma 设计稿拆解 | 用 Lovart 图片和页面提示词在 Stitch 重建 UI screen，再自动或人工落地到目标 Figma 文件，最后拆解 Figma Frame | `design/stitch/`、`设计还原文档-UIDesign.md` |
+| 3. Stitch 重建与 Figma 设计稿拆解 | 用 Lovart 图片和页面提示词在 Stitch 重建 UI screen，等待用户手动 Copy/Paste 到目标 Figma 文件，最后拆解 Figma Frame | `design/stitch/`、`设计还原文档-UIDesign.md` |
 | 4. 基于 Figma 实现功能 | 实现页面、接口、数据库、状态、资源和联调 | `apps/`、`db/db.sql`、`技术设计文档-TechDesign.md`、`GoalPlan` |
 | 5. 对抗式审查、修复与提交 | 查遗漏、范围膨胀、设计偏差、接口漂移和运行风险 | 问题清单、修复提交 |
 
@@ -39,7 +39,7 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 
 ## Figma-first UI 还原
 
-- Lovart 用来生成单页原型图，出图后通过 AI 自动落地、Stitch Copy/Paste 或手动整理形成真实 Figma Frame。
+- Lovart 用来生成单页原型图，出图后由用户从 Stitch 手动 Copy/Paste 到 Figma，形成真实 Figma Frame。
 - 第 2 步生成提示词后，必须从 `design/lovart/原型生图提示词-LovartPrompt.md` 同步 `index.html` 的 Lovart 翻页复制区；每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”，方便按上一张/下一张逐个复制到 Lovart。该区域仅第 2 步显示，其他阶段 `index.html` 只保留进度摘要、任务、缺陷和阻塞。
 - 如果本地已安装 `lovart-skill` 并配置 `LOVART_ACCESS_KEY` / `LOVART_SECRET_KEY`，第 2 步可以直接调用 Lovart 生成 P0/P1 单页原型图，图片保存到 `design/lovart/pages/`，并在 GoalPlan 记录生成方式、输出文件和失败原因。
 - Lovart Skill 自动出图固定优先使用 `generate_image_gpt_image_2_medium`；APP/微信小程序页面默认 9:16，网页页面默认 16:9。默认先切 `unlimited` 省积分；只有用户明确要求速度时才使用 fast 模式。
@@ -47,10 +47,10 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 - 新业务首次出图必须显式使用新 Project 的 `--project-id`，并且不复用旧 `thread-id`；只有同一业务、同一页面微调重试时才复用该页面 thread。
 - 每次只生成当前页面 1 张图，先看结果再决定是否重试；不要批量生成多变体、作品集图、交互图或独立状态图。
 - 没有安装 `lovart-skill` 或没有 AK/SK 时，流程不阻塞，继续使用 `index.html` 翻页复制提示词到 Lovart 手动出图。
-- 推荐设计链路是 `Lovart 单页图 -> Stitch UI screen -> Figma 落地 -> Figma Frame -> 代码实现`。
+- 推荐设计链路是 `Lovart 单页图 -> Stitch UI screen -> 用户手动 Copy/Paste 到 Figma -> Figma Frame -> 代码实现`。
 - Stitch 只作为可选重建层：已安装 `stitch-design`、`stitch-utilities`，并且 Stitch MCP/API Key 可用时，才把每张 Lovart 单页图和对应页面完整提示词上传到同名 Stitch Project，重建 1 个 UI screen。
-- Figma 落地先尝试 AI 自动模式：如果用户提供目标 Figma 文件链接，且 Figma/Browser 工具可用，AI 可以尝试创建或定位真实 Frame，并记录链接/nodeId。
-- 如果 AI 不能稳定完成 Stitch 网页 `Copy/Paste to Figma`，就进入人工交接模式：AI 输出 Stitch Project、screenId、HTML/截图备份和操作说明；用户在 Stitch 页面点击 Copy/Paste to Figma，把 screen 放入目标 Figma 文件，并按 `Pxx-页面名称` 命名 Frame；用户返回 Frame 链接后，AI 更新 GoalPlan 和 UIDesign。
+- Stitch 完成后，AI 输出 Stitch Project、screenId、HTML/截图备份和操作说明；用户在 Stitch 页面点击 Copy/Paste to Figma，把 screen 放入目标 Figma 文件，并按 `Pxx-页面名称` 命名 Frame；用户返回 Frame 链接/nodeId 后，AI 更新 GoalPlan 和 UIDesign。
+- AI 不代替用户完成 Stitch 网页 Copy/Paste，不伪造 Figma nodeId；没有用户回传的真实 Figma Frame 时，阶段 3 只能标为待用户手动 Figma 交接或阻塞。
 - Stitch 的 HTML、截图和 screenId 只保存到 `design/stitch/` 或 `.stitch/` 做备份，并写入 GoalPlan。不要让 Stitch 生成多变体、作品集拼贴、交互大图或额外状态图。
 - 如果只有 Stitch HTML/截图、没有可访问的 Figma Frame，第 4 步只能标为阻塞或待验收，不能标为 1:1 还原完成。
 - 代码还原以具体 Figma 页面 Frame 为准。
