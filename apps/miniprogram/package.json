@@ -6,7 +6,8 @@
   "scripts": {
     "install:dev": "npm install",
     "dev": "npm run install:dev",
-    "build": "echo \"Open WeChat DevTools and run: Tools -> Build npm\""
+    "check": "node scripts/check.js",
+    "build": "npm run check"
   },
   "dependencies": {
     "@vant/weapp": "1.11.7"

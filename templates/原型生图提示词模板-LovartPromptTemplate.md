@@ -2,9 +2,9 @@
 
 本模板用于阶段 2，指导 Agent 生成 `design/lovart/原型生图提示词-LovartPrompt.md`。目标是生成可被 Lovart 出图、Stitch 重建和 Figma 还原使用的单页开发稿提示词，不是生成作品集展示图。
 
-阶段 2 完成时，还必须从本文件把每个页面的完整 Lovart 单页提示词同步到根目录 `index.html` 的 Lovart 提示词翻页复制区，方便用户按上一张/下一张逐个复制到 Lovart。该翻页区只在 `index.html` 当前阶段为 2 时显示，其他阶段仍按进度看板显示。
+阶段 2 完成时，必须运行 `python3 scripts/workflow.py sync`，从正式文档自动生成根目录 `index.html` 的 Lovart 提示词翻页数据。该翻页区只在当前阶段为 2 时显示。
 
-阶段 2 必须调用 `lovart-skill`，把本文件中的单页提示词作为输入，生成 P0/P1 单页原型图。未安装 `lovart-skill`、未配置 `LOVART_ACCESS_KEY`/`LOVART_SECRET_KEY`、额度不足、生成失败或没有输出文件时，必须写入 GoalPlan 阻塞项，不得把阶段 2 标记完成。
+阶段 2 必须先探测当前环境实际可用的 Lovart 能力标识、认证、额度和模型，获得用户对页面数量与本批额度消耗的明确批准，再把单页提示词作为输入生成 P0/P1 原型图。未安装能力、未配置认证、未获额度批准、生成失败或没有输出文件时，必须写入 GoalPlan 阻塞项与恢复动作。
 
 ## 核心原则
 
@@ -15,8 +15,10 @@
 5. 弹窗、底部弹层、表单错误、空态、加载态、成功提示只写入对应页面的“必要状态备注”。
 6. 所有页面共用同一套设计系统、导航规则、组件风格、颜色、字号、圆角和图标风格。
 7. Lovart 出图后优先进入 Stitch 重建 UI screen，再由用户手动 Copy/Paste 到目标 Figma 文件形成 Figma Frame；后续代码还原只使用具体 Figma 页面 Frame。
-8. 每个页面的完整提示词必须同步到 `index.html` 的阶段 2 翻页复制区，一张图对应一张卡片。
-9. `lovart-skill`、Stitch 和 Figma 都是必选链路；缺少任一环节都必须阻塞，不能推进下一阶段。
+8. 每个页面的完整提示词必须能被 `workflow.py sync` 解析，一张图对应一张卡片。
+9. Lovart、Stitch 和 Figma 都是必选链路；缺少任一环节都必须阻塞，不能推进下一阶段。
+10. 先生成 1 张代表页面并获得用户方向确认，再批量生成其余页面。
+11. 正式文档的每个单页提示词必须使用 `### P01-页面名称` 标题和紧随其后的 `text` 代码块，供 `workflow.py sync` 自动解析，禁止手工维护 HTML 提示词数组。
 
 ## 输出结构
 
@@ -78,6 +80,10 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 
 ### 5. 单页开发稿提示词 SinglePagePrompts
 
+正式文档中每个页面分别使用以下标题与代码块格式：
+
+### P01-页面名称
+
 ```text
 【Pxx-页面名称】
 生成目标：只生成 1 张完整单页开发稿，不要生成多屏拼贴，不要生成交互流程图。APP/微信小程序使用 9:16 竖屏，网页使用 16:9。
@@ -114,32 +120,34 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 
 - 单页开发稿 PNG：`design/lovart/pages/P01-首页.png`
 - 单页开发稿 PSD：`design/lovart/pages/P01-首页.psd`
-- `index.html` 阶段 2 Lovart 翻页复制区：同步每个页面完整提示词，每张卡片包含全局设计系统、导航规则和当前页面提示词。
-- Lovart Skill 必选记录：生成方式、输出文件、Lovart project/thread、模型、画幅、失败原因写入 `docs/Goal任务计划-GoalPlan.md`。
+- `index.html` 阶段 2 Lovart 翻页复制区：运行 `python3 scripts/workflow.py sync`，由正式 Prompt 文档自动生成。
+- Lovart 必选记录：实际能力标识、认证/额度、用户批准、代表页确认、输出文件、Project/thread、模型、画幅、原模式/恢复结果、失败原因写入 GoalPlan。
 - Stitch 重建记录：Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、用户手动 Copy/Paste 状态、目标文件和 Figma Frame 链接/nodeId 写入 `docs/Goal任务计划-GoalPlan.md`。
 - Figma Frame：记录到 `docs/设计还原文档-UIDesign.md` 和 `docs/Goal任务计划-GoalPlan.md`
 
-### 7. 必选 Lovart Skill 执行规则
+### 7. 必选 Lovart 能力执行规则
 
-- 必须调用 `lovart-skill` 自动出图；未安装、未配置密钥、额度不足、生成失败或无输出文件时，阶段 2 必须阻塞。
+- 必须调用当前环境实际可用的 Lovart 能力自动出图；先记录能力标识、认证、额度和用户批次批准，缺任一项时阶段 2 必须阻塞。
+- 先生成 1 张代表页面并获得用户方向确认，再开始其余页面的受控批次。
 - 每个新业务需求都新建 Lovart Project，Project 名称使用业务中文名称，不复用旧业务项目。
-- 生成前先调用 `set-mode --unlimited` 省积分；只有用户明确要求速度时才使用 fast 模式。
+- 生成前先调用 `query-mode` 记录原账户模式，再临时调用 `set-mode --unlimited` 省积分；只有用户明确要求速度时才使用 fast 模式。批次正常完成或失败退出后恢复原模式，用户明确要求保持新模式时除外。
 - 每次生成后重新检查并校正 Project 名称，防止本地状态被 prompt 前缀覆盖。
 - Lovart 多页面出图必须受控并发执行：同一业务共用同一个 Lovart Project，每个 P0/P1 页面使用独立新 thread 并显式传入新 Project 的 `--project-id`；默认并发上限为 3，页面数量超过 3 时分批执行。
 - 自动出图固定优先使用图片模型 `generate_image_gpt_image_2_medium`。
 - 画幅按端类型决定：APP/微信小程序页面使用 9:16，网页页面使用 16:9。
 - 自动出图只使用本文件的单页完整提示词，不额外生成作品集总览、交互概览、独立弹窗或独立状态图。
-- 每个页面单独生成并保存到 `design/lovart/pages/`，文件名使用 `Pxx-页面名称`；每个页面只生成 1 张单页开发稿，不生成多变体。
+- 每个页面单独生成并保存到 `design/lovart/pages/`，生成命令显式使用 `--prefix "Pxx-页面名称"`；每个页面只生成 1 张单页开发稿，不生成多变体。
 - 同一页面微调重试时才允许复用该页面 thread；并发出图遇到 409/429、额度、风控、下载失败或无输出文件时，先记录失败页面和原因，再降低并发或排队重试，不连续无控制重试。
 - 如果自动生成失败、额度不足、环境变量缺失或工具不可用，把原因写入 GoalPlan 阻塞项，不得标记阶段 2 完成。
 - Lovart 输出图必须进入 Stitch 或 Figma 整理；第 4 步代码实现不能直接以 Lovart PNG/PSD 替代 Figma Frame。
 
 ### 8. 必选 Stitch 重建与 Figma 交接规则
 
-- 必须安装 `stitch-design`、`stitch-utilities` 且 Stitch MCP/API Key 可用；不可用时阶段 3 必须阻塞。
+- 必须探测到实际可执行的 Stitch 重建/上传能力且 Stitch MCP/API Key 可用；不可用时阶段 3 必须阻塞。
 - 每个新业务需求新建或定位同名 Stitch Project。
 - 每个页面只使用当前页面的 Lovart 单页图和对应完整页面提示词，重建 1 个 UI screen。
 - 生成 screen 前先确认 Project、图片路径、文件大小和页面编号；不要在未确认时上传文件或消耗额度。
 - 不生成多变体、作品集拼贴、交互流程图、独立弹层图或独立状态图。
 - Stitch 输出的 screenId、HTML、截图写入 `docs/Goal任务计划-GoalPlan.md`，并归档到 `design/stitch/` 或 `.stitch/`。
 - Stitch 结果必须由用户在 Stitch 页面 Copy/Paste 到目标 Figma 文件，形成可访问的真实 Figma Frame。没有 Figma Frame 时，第 4 步不能开始。
+- 用户还必须明确确认 P0/P1 页面设计可进入开发；Frame 存在不能替代设计确认。

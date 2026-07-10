@@ -11,6 +11,7 @@
 | Lovart 备份稿 | `design/lovart/` | 待确认 |
 | Stitch UI screen / HTML/截图备份 | `design/stitch/` 或 `.stitch/` | 待确认 |
 | Stitch -> Figma 交接 | 必须用户手动 Copy/Paste 到 Figma；目标 Figma 文件 / Page / Frame；缺失则阻塞 | 待确认 |
+| 用户设计确认 | P0/P1 页面已明确确认可进入开发；不能用 Frame 存在替代 | 待确认 |
 | Figma 文件 / Page / Frame |  | 待确认 |
 
 ## 2. Figma Frame 索引
@@ -78,6 +79,7 @@
 | 备用 Lovart 稿 |  |
 | Stitch screen / HTML |  |
 | Stitch -> Figma | 用户手动 Copy/Paste / 已完成 / 阻塞 |
+| 用户设计确认 | 已确认可开发 / 需迭代 / 阻塞 |
 | 页面类型 | 一级 Tab / 二级功能 / 详情 / 表单 |
 | 范围状态 | P0/P1 有效 / P2 暂缓 / 仅参考 / 待确认 |
 | 页面目标 |  |

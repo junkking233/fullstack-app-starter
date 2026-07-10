@@ -12,9 +12,14 @@ Java 21、Spring Boot 3.3.4、MyBatis Plus 3.5.7、MySQL Connector 8.0.26、Mave
 
 ```bash
 cd apps/backend
+mvn test
 mvn clean package
+export SPRING_DATASOURCE_URL='jdbc:mysql://localhost:3306/<business_db>?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai'
+export AUTH_TOKEN_SECRET='<at-least-32-random-characters>'
 mvn spring-boot:run
 ```
+
+数据库 URL 和 Token 密钥必须显式设置；正式业务不得使用 `template_db` 或公开固定密钥。Compose 模式由 `scripts/workflow.py init` 生成 `apps/.env`。
 
 ## 目录结构
 
@@ -49,3 +54,4 @@ mvn spring-boot:run
 - 统一响应结构包含 `code`、`message`、`data`、`timestamp`。
 - Controller 只处理 HTTP 入参、出参和权限上下文，业务逻辑放到 Service。
 - 数据库表结构更新后，只同步根目录 `db/db.sql`，不要在后端资源目录保留第二份 SQL。
+- `db/db.sql` 是快照，不是迁移脚本；已有数据库禁止导入含 `DROP TABLE` 的 dump。

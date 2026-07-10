@@ -1,87 +1,64 @@
 # Goal 任务计划模板 GoalPlanTemplate
 
-本模板用于长程任务或整套系统开发，生成 `docs/Goal任务计划-GoalPlan.md`。GoalPlan 是任务进度、缺陷、阻塞和阶段门禁的唯一详细记录。
+阶段状态不在本模板手工维护。`workflow/state.json` 是唯一状态源，运行 `python3 scripts/workflow.py sync` 后，GoalPlan 状态区和 `index.html` 会同步更新。
 
-## 1. 当前状态
+阶段只允许 `pending / in_progress / blocked / completed / not_applicable`。推进时只检查当前阶段 gates；未来阶段待开始项不阻塞当前阶段。阻塞必须写明恢复动作。
 
-| 项目 | 内容 |
-| --- | --- |
-| 当前阶段 |  |
-| 当前任务 |  |
-| 总进度 |  |
-| 最近完成 |  |
-| 下一步 |  |
-| 阻塞项 |  |
-| 最后更新 |  |
+## 当前状态与门禁
 
-## 2. 阶段 Checklist
+正式 GoalPlan 中保留以下标记，由脚本生成内容：
 
-- [ ] 0. 初始化/恢复上下文
-- [ ] 1. PRD 需求分析
-- [ ] 2. Lovart Prompt：已同步 `index.html` 阶段 2 Lovart 提示词翻页复制区；已调用 `lovart-skill` 出图并记录 Project/thread/输出文件
-- [ ] 3. Stitch 重建与 Figma 设计稿拆解：已调用 Stitch 重建 UI screen，并由用户手动 Copy/Paste 到 Figma 形成真实 Frame
-- [ ] 4. 基于 Figma 设计稿实现功能
-- [ ] 5. 对抗式审查、修复与提交
+```markdown
+<!-- WORKFLOW:GENERATED:START -->
+<!-- WORKFLOW:GENERATED:END -->
+```
 
-## 3. ScopeBudget Checklist
+## ScopeBudget 记录
 
-- [ ] 角色不超过 3 个，或已写明合并/延期原因。
-- [ ] 每个角色 P0/P1 核心功能不超过 5 个。
-- [ ] 页面数量受控：单端首版建议不超过 8-10 个页面，多端合计超过 12 个页面时已合并、删减或延期。
-- [ ] P2/暂缓功能没有进入 Lovart、Stitch、Figma、API、DB 或代码实现。
-- [ ] 超出范围的功能已写入待确认或后续迭代。
+| 角色 | P0/P1 核心功能（最多 5 个） | P2/暂缓功能 | 合并/删减说明 | 状态 |
+| --- | --- | --- | --- | --- |
+|  |  |  |  | 待填写 |
 
-## 4. 任务 Checklist
+| 端 | P0/P1 页面数 | 合并/删减说明 | 状态 |
+| --- | --- | --- | --- |
+| Web/小程序/APP |  |  | 待填写 |
 
-### 页面与 UI 还原
+## 外部能力、额度与设计确认
 
-- [ ] Lovart 生成方式：必须使用 `lovart-skill` 自动出图；未出图时写入阻塞，不得推进阶段。
-- [ ] Lovart 项目：已按业务中文名称新建 Project；已切 `unlimited` 省积分；图片模型为 `generate_image_gpt_image_2_medium`；画幅为 APP/小程序 9:16 或网页 16:9；生成后已校正 Project 名称。
-- [ ] Lovart 并发计划：同一业务共用 1 个 Project；每个 P0/P1 页面独立新 thread；默认并发上限 3；超过 3 页时已分批执行。
-- [ ] Lovart thread：每个页面首次出图已使用新 Project 的 `--project-id`，未复用旧 `thread-id`；同一页面微调才复用该页面 thread。
-- [ ] Lovart 输出文件：`design/lovart/pages/` 中的 P0/P1 单页原型图；缺失时写明阻塞原因。
-- [ ] Stitch 执行方式：必须自动调用 Stitch；未配置或失败时写入阻塞，不得推进阶段。
-- [ ] Stitch 项目：业务中文名 Project、screenId、来源 Lovart 图、页面提示词。
-- [ ] Stitch 备份：screenId / HTML / 截图 / 阻塞说明。
-- [ ] Stitch -> Figma：已向用户输出 Stitch Project、screenId、HTML/截图备份和 Copy/Paste 操作说明。
-- [ ] 用户手动交接：用户已在 Stitch 页面 Copy/Paste 到目标 Figma 文件，并回传 Frame 链接/nodeId。
-- [ ] Figma Frame：目标文件、Page、Frame 链接/nodeId 已记录。
-- [ ] 页面：
-- [ ] Figma Frame：
-- [ ] Figma 读取证据：nodeId、读取时间、尺寸、颜色、字号、间距、圆角、图标、图片要点
-- [ ] 实现文件：
-- [ ] 对照结果：截图 / 静态对照 / 阻塞说明
+| 阶段 | 服务 | 实际能力标识 | 认证 | 额度/计费 | 用户批准批次 | 原模式/恢复结果 | 证据 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2 | Lovart |  | 待检查 | 待检查 | 未批准 | 待记录 |  |
+| 3 | Stitch |  | 待检查 | 待检查 | 未批准 | 不适用 |  |
+| 3-4 | Figma |  | 待检查 |  | 不适用 | 不适用 |  |
 
-| 页面 | Figma Frame / nodeId | 读取时间 | 关键视觉 token / 图层要点 | 实现文件 | 对照方式 | 结论 |
+Lovart 先做 1 张代表页并获得用户方向确认，再批量生成；切换模式前记录 `query-mode`，批次成功或失败退出后恢复原模式。Figma Frame 存在和用户设计确认是两个独立门禁。
+
+## 页面与实现证据
+
+| 页面 | Lovart Project/thread/输出 | Stitch screen/备份 | Figma Frame/nodeId | 用户设计确认 | 实现文件 | 对照结论 |
 | --- | --- | --- | --- | --- | --- | --- |
-| Pxx |  |  |  |  | 截图 / 静态对照 / 阻塞 | 待验收 |
+| Pxx |  |  |  | 待确认 |  | 待验收 |
 
-### API 与数据库
+## API 与数据库
 
-- [ ] 接口：
-- [ ] 数据表：
-- [ ] 字段/权限/状态：
-
-### 联调与检查
-
-- [ ] 构建/测试/lint：
-- [ ] 静态检查：
-- [ ] 阻塞说明：
-
-## 5. 缺陷与阻塞
-
-| 编号 | 类型 | 内容 | 影响 | 责任层 | 状态 |
+| 类型 | 名称 | 关联 P0/P1 功能 | 权限/异常/数据 | 实现位置 | 状态 |
 | --- | --- | --- | --- | --- | --- |
-| D1 | 缺陷 / 阻塞 / 待确认 |  |  |  | 待处理 |
+| API |  |  |  |  | 待开始 |
+| DB |  |  |  | `db/db.sql` | 待开始 |
 
-## 6. 阶段完成门禁
+## 缺陷与阻塞
 
-- [ ] 当前阶段所有必做任务已完成或明确不适用。
-- [ ] `index.html` 与本文件的阶段、任务、进度、缺陷、阻塞一致。
-- [ ] 阶段 2 完成时，`index.html` Lovart 翻页复制区已包含每个页面的完整单页提示词，且每张卡片都包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”；非阶段 2 时该区域不显示。
-- [ ] 阶段 2 已调用 `lovart-skill`，并把生成方式、输出文件、Lovart project/thread 和失败原因写入本文件；未配置或失败时阶段 2 必须阻塞。
-- [ ] 阶段 2 已确认新建业务中文名 Project、`unlimited` 模式、模型 `generate_image_gpt_image_2_medium`、正确画幅和生成后项目名校正；不得复用旧业务 Lovart Project。
-- [ ] 阶段 2 已按受控并发出图：每个页面独立 thread，默认并发上限 3；409/429、额度、风控、下载失败或无输出文件时已记录失败页面并降低并发或排队重试。
-- [ ] 阶段 3 已调用 Stitch，并记录 Stitch Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、用户手动 Copy/Paste 状态、目标文件和 Figma Frame 链接/nodeId；没有真实 Figma Frame 时不得进入第 4 步。
-- [ ] 第 4 步进入第 5 步前，所有 P0/P1 页面、接口、数据、资源和 UI 还原项已完成或明确不适用；每个已完成页面都有 Figma Frame 读取证据和对照结论。
-- [ ] 不能运行的检查已写明阻塞原因。
+| 编号 | 类型 | 内容 | 影响阶段 | 状态 | 恢复动作 |
+| --- | --- | --- | --- | --- | --- |
+| D1 | 缺陷/阻塞/待确认 |  |  | 待处理 |  |
+
+## 阶段 5 检查
+
+| 检查 | 命令/方式 | 结果 | 证据 |
+| --- | --- | --- | --- |
+| 工作流 | `python3 scripts/workflow.py validate` | 待执行 |  |
+| 后端 | `mvn test` | 待执行 |  |
+| 前端 | `npm run check` | 待执行 |  |
+| 小程序 | `npm run check` | 待执行 |  |
+| AI 服务 | `python3 -m unittest discover -s tests` | 待执行 |  |
+| 页面/安全/Git | 浏览器、权限、数据、remote 与提交范围 | 待执行 |  |

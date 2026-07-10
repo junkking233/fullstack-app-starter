@@ -117,9 +117,10 @@
       }
 
       .progress-bar {
-        width: 17%;
+        width: 0;
         height: 100%;
         background: var(--primary);
+        transition: width 180ms ease;
       }
 
       .progress-text {
@@ -466,23 +467,23 @@
       }
     </style>
   </head>
-  <body data-current-stage="0" data-progress="1/6" data-last-updated="2026-07-04">
+  <body data-current-stage="0" data-progress="0/6" data-last-updated="2026-07-10">
     <main>
       <header>
         <section class="hero">
           <div class="eyebrow">项目进度看板</div>
-          <h1>业务项目进度</h1>
+          <h1 id="project-title">业务项目进度</h1>
           <p class="subtitle">这里不写完整工作流细节，只追踪当前任务、完成情况、未完成项、缺陷和阻塞。详细任务以 <code>docs/Goal任务计划-GoalPlan.md</code> 为准。</p>
         </section>
 
         <aside class="panel summary-card">
           <div>
             <div class="stage-label">当前阶段</div>
-            <div class="stage-value">0. 初始化/恢复上下文</div>
+            <div class="stage-value" id="current-stage">读取状态中…</div>
           </div>
           <div>
-            <div class="progress-track"><div class="progress-bar"></div></div>
-            <div class="progress-text">业务阶段进度：1 / 6</div>
+            <div class="progress-track"><div class="progress-bar" id="progress-bar"></div></div>
+            <div class="progress-text" id="progress-text">业务阶段进度：0 / 6</div>
           </div>
         </aside>
       </header>
@@ -495,13 +496,13 @@
                 <h2>当前任务</h2>
                 <p class="note">AI 每完成一项，应同步勾选 GoalPlan，并更新本看板摘要。</p>
               </div>
-              <span class="badge">最后更新 2026-07-04</span>
+              <span class="badge" id="last-updated">最后更新 2026-07-10</span>
             </div>
             <div class="status-grid">
-              <div class="status-item"><span>当前任务</span><strong>脚手架已准备，等待输入真实业务需求。</strong></div>
-              <div class="status-item"><span>最近完成</span><strong>收缩 docs 结构，建立 Goal checklist 与进度看板机制。</strong></div>
-              <div class="status-item"><span>下一步</span><strong>基于用户资料生成 PRD，并先完成 ScopeBudget。</strong></div>
-              <div class="status-item"><span>阻塞项</span><strong>暂无。</strong></div>
+              <div class="status-item"><span>当前任务</span><strong id="current-task">读取状态中…</strong></div>
+              <div class="status-item"><span>最近完成</span><strong id="recently-completed">读取状态中…</strong></div>
+              <div class="status-item"><span>下一步</span><strong id="next-step">读取状态中…</strong></div>
+              <div class="status-item"><span>阻塞项</span><strong id="blocker-summary">读取状态中…</strong></div>
             </div>
           </section>
 
@@ -512,56 +513,7 @@
                 <p class="note">这里是摘要；详细任务、页面、接口、缺陷和验收项写在 GoalPlan。</p>
               </div>
             </div>
-            <div class="checklist">
-              <label class="check-row">
-                <input type="checkbox" checked disabled />
-                <span>
-                  <span class="check-title">0. 初始化/恢复上下文</span>
-                  <span class="check-meta">脚手架结构、规范、资源和看板已就位。</span>
-                </span>
-                <span class="pill done">完成</span>
-              </label>
-              <label class="check-row">
-                <input type="checkbox" disabled />
-                <span>
-                  <span class="check-title">1. PRD 需求分析</span>
-                  <span class="check-meta">生成 PRD，完成 ScopeBudget：角色不超过 3 个，每角色 P0/P1 不超过 5 个，页面数量受控。</span>
-                </span>
-                <span class="pill todo">待做</span>
-              </label>
-              <label class="check-row">
-                <input type="checkbox" disabled />
-                <span>
-                  <span class="check-title">2. Lovart Prompt</span>
-                  <span class="check-meta">生成单页提示词并必须调用 lovart-skill 受控并发出图；每页独立 thread，默认最多 3 页同时生成。</span>
-                </span>
-                <span class="pill todo">待做</span>
-              </label>
-              <label class="check-row">
-                <input type="checkbox" disabled />
-                <span>
-                  <span class="check-title">3. Stitch 重建与 Figma 设计稿拆解</span>
-                  <span class="check-meta">必须用 Lovart 单页图和提示词重建 Stitch screen，并等待用户手动 Copy/Paste 到 Figma 后拆解真实 Frame。</span>
-                </span>
-                <span class="pill todo">待做</span>
-              </label>
-              <label class="check-row">
-                <input type="checkbox" disabled />
-                <span>
-                  <span class="check-title">4. 基于 Figma 实现功能</span>
-                  <span class="check-meta">实现前逐页读取 Figma Frame，记录证据并完成页面、接口、数据库、资源、状态和联调。</span>
-                </span>
-                <span class="pill todo">待做</span>
-              </label>
-              <label class="check-row">
-                <input type="checkbox" disabled />
-                <span>
-                  <span class="check-title">5. 对抗式审查、修复与提交</span>
-                  <span class="check-meta">检查范围膨胀、设计偏差、接口漂移、缺陷和运行风险。</span>
-                </span>
-                <span class="pill todo">待做</span>
-              </label>
-            </div>
+            <div class="checklist" id="stage-checklist"></div>
           </section>
         </div>
 
@@ -577,10 +529,7 @@
               <thead>
                 <tr><th>任务</th><th>状态</th></tr>
               </thead>
-              <tbody>
-                <tr><td>生成真实业务 PRD，并完成角色、功能、页面三重 ScopeBudget。</td><td><span class="pill todo">待做</span></td></tr>
-                <tr><td>生成 Lovart Prompt、Stitch/Figma 拆解、技术设计和实现任务。</td><td><span class="pill todo">待做</span></td></tr>
-              </tbody>
+              <tbody id="next-task-list"><tr><td>读取状态中…</td><td><span class="pill todo">待开始</span></td></tr></tbody>
             </table>
           </section>
 
@@ -595,9 +544,7 @@
               <thead>
                 <tr><th>编号</th><th>内容</th><th>状态</th></tr>
               </thead>
-              <tbody>
-                <tr><td>D1</td><td>暂无。</td><td><span class="pill done">关闭</span></td></tr>
-              </tbody>
+              <tbody id="blocker-list"><tr><td>D1</td><td>读取状态中…</td><td><span class="pill todo">检查中</span></td></tr></tbody>
             </table>
           </section>
 
@@ -625,17 +572,17 @@
         <div class="panel-head">
           <div>
             <h2>Lovart 提示词翻页复制区</h2>
-            <p class="note">阶段 2 生成 `design/lovart/原型生图提示词-LovartPrompt.md` 后，AI 必须把每个页面整理成“全局设计系统 + 导航规则 + Pxx 页面完整提示词”，同步到这里，并调用 lovart-skill 受控并发生成单页图、记录每页 thread/批次/输出到 GoalPlan。Stitch 重建与 Figma 交接在阶段 3 必选执行。</p>
+            <p class="note">阶段 2 生成 `design/lovart/原型生图提示词-LovartPrompt.md` 后，运行 workflow sync 自动生成这里的“全局设计系统 + 导航规则 + Pxx 页面完整提示词”。先完成能力/额度预检和代表页确认，再受控分批生成单页图并记录 thread、批次和输出。</p>
           </div>
-          <span class="badge" id="prompt-counter">1 / 3</span>
+          <span class="badge" id="prompt-counter">0 / 0</span>
         </div>
 
         <div class="prompt-carousel">
           <div class="prompt-controls">
             <button class="nav-button" type="button" id="prompt-prev">上一张</button>
             <div class="prompt-title">
-              <strong id="prompt-title">P01 页面完整提示词</strong>
-              <span id="prompt-meta">全局设计系统 + 导航规则 + P01 页面完整提示词</span>
+              <strong id="prompt-title">尚未生成提示词</strong>
+              <span id="prompt-meta">阶段 2 由正式 Lovart Prompt 文档自动同步</span>
             </div>
             <button class="nav-button" type="button" id="prompt-next">下一张</button>
           </div>
@@ -652,24 +599,106 @@
 
       <footer>对齐规则：本看板默认只放进度摘要、任务、缺陷和阻塞；Lovart 提示词翻页复制区仅在阶段 2 显示。</footer>
     </main>
+    <script src="workflow/state.generated.js"></script>
     <script>
-      const lovartPrompts = [
-        {
-          id: "P01",
-          title: "P01 页面完整提示词",
-          prompt: "【全局设计系统】\\n产品名称：{APP名称}\\n设计风格：{由 PRD 判断}\\n主色：{主色}\\n辅助色：{辅助色}\\n背景：浅色背景，页面留白舒适。\\n字体：中文 UI 字体，层级清晰，文字必须清晰可读。\\n组件：圆角卡片、明确按钮、线性图标、状态标签、真实表单控件。\\n布局：APP/微信小程序生成 9:16 竖屏完整页面；网页生成 16:9 完整页面。\\n禁止：错误端类型、PC 后台、多屏拼贴、作品集展示、交互流程图、独立状态图、文字乱码、底部裁切。\\n\\n【导航规则】\\nAPP/微信小程序一级 Tab 页面显示底部 Tab；网页页面使用顶部导航或侧栏导航。\\n底部 Tab 或底部固定按钮必须保留 safe area，内容不能被遮挡。\\n\\n【P01-页面名称】\\n这里粘贴 P01 的完整单页提示词。"
-        },
-        {
-          id: "P02",
-          title: "P02 页面完整提示词",
-          prompt: "【全局设计系统】\\n{粘贴同一套全局设计系统}\\n\\n【导航规则】\\n{粘贴同一套导航规则}\\n\\n【P02-页面名称】\\n这里粘贴 P02 的完整单页提示词。"
-        },
-        {
-          id: "P03",
-          title: "P03 页面完整提示词",
-          prompt: "【全局设计系统】\\n{粘贴同一套全局设计系统}\\n\\n【导航规则】\\n{粘贴同一套导航规则}\\n\\n【P03-页面名称】\\n这里粘贴 P03 的完整单页提示词。"
+      const workflowData = window.WORKFLOW_DATA;
+      const state = workflowData?.state;
+      const lovartPrompts = workflowData?.lovartPrompts || [];
+      const statusLabels = {
+        pending: "待开始",
+        in_progress: "进行中",
+        blocked: "阻塞",
+        completed: "已完成",
+        not_applicable: "不适用"
+      };
+
+      function statusClass(status) {
+        if (status === "completed" || status === "not_applicable") return "done";
+        if (status === "blocked") return "blocked";
+        return "todo";
+      }
+
+      function renderWorkflow() {
+        if (!state) {
+          document.getElementById("current-stage").textContent = "状态文件缺失";
+          document.getElementById("blocker-summary").textContent = "请运行 python3 scripts/workflow.py sync";
+          return;
         }
-      ];
+
+        const workflow = state.workflow;
+        const project = state.project;
+        const currentStage = workflow.stages[workflow.currentStage];
+        const totalStages = workflow.stages.length;
+        document.body.dataset.currentStage = String(workflow.currentStage);
+        document.body.dataset.progress = `${workflow.completedStages}/${totalStages}`;
+        document.body.dataset.lastUpdated = workflow.lastUpdated;
+        document.getElementById("project-title").textContent = project.mode === "business" ? `${project.name} · 项目进度` : "业务项目模板 · 工作流状态";
+        document.title = project.mode === "business" ? `${project.name} · 项目进度` : "业务项目模板 · 工作流状态";
+        document.getElementById("current-stage").textContent = `${currentStage.id}. ${currentStage.name} · ${statusLabels[currentStage.status]}`;
+        document.getElementById("progress-bar").style.width = `${workflow.completedStages / totalStages * 100}%`;
+        document.getElementById("progress-text").textContent = `业务阶段进度：${workflow.completedStages} / ${totalStages}`;
+        document.getElementById("last-updated").textContent = `最后更新 ${workflow.lastUpdated}`;
+        document.getElementById("current-task").textContent = workflow.currentTask;
+        document.getElementById("recently-completed").textContent = workflow.recentlyCompleted;
+        document.getElementById("next-step").textContent = workflow.nextStep;
+        document.getElementById("blocker-summary").textContent = workflow.blockers.length
+          ? workflow.blockers.map((item) => item.message).join("；")
+          : "暂无。";
+
+        const checklist = document.getElementById("stage-checklist");
+        checklist.innerHTML = "";
+        workflow.stages.forEach((stage) => {
+          const row = document.createElement("label");
+          row.className = "check-row";
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.disabled = true;
+          checkbox.checked = stage.status === "completed" || stage.status === "not_applicable";
+          const content = document.createElement("span");
+          const title = document.createElement("span");
+          title.className = "check-title";
+          title.textContent = `${stage.id}. ${stage.name}`;
+          const meta = document.createElement("span");
+          meta.className = "check-meta";
+          meta.textContent = stage.summary;
+          content.append(title, meta);
+          const pill = document.createElement("span");
+          pill.className = `pill ${statusClass(stage.status)}`;
+          pill.textContent = statusLabels[stage.status];
+          row.append(checkbox, content, pill);
+          checklist.appendChild(row);
+        });
+
+        const nextTasks = document.getElementById("next-task-list");
+        nextTasks.innerHTML = "";
+        workflow.nextTasks.forEach((task) => {
+          const row = document.createElement("tr");
+          const taskCell = document.createElement("td");
+          taskCell.textContent = task;
+          const statusCell = document.createElement("td");
+          statusCell.innerHTML = '<span class="pill todo">待处理</span>';
+          row.append(taskCell, statusCell);
+          nextTasks.appendChild(row);
+        });
+
+        const blockerList = document.getElementById("blocker-list");
+        blockerList.innerHTML = "";
+        if (!workflow.blockers.length) {
+          blockerList.innerHTML = '<tr><td>—</td><td>暂无。</td><td><span class="pill done">正常</span></td></tr>';
+        } else {
+          workflow.blockers.forEach((blocker, index) => {
+            const row = document.createElement("tr");
+            const idCell = document.createElement("td");
+            idCell.textContent = blocker.id || `B${index + 1}`;
+            const messageCell = document.createElement("td");
+            messageCell.textContent = `${blocker.message}；恢复动作：${blocker.resumeAction}`;
+            const statusCell = document.createElement("td");
+            statusCell.innerHTML = '<span class="pill blocked">阻塞</span>';
+            row.append(idCell, messageCell, statusCell);
+            blockerList.appendChild(row);
+          });
+        }
+      }
 
       let currentPromptIndex = 0;
       const promptTitle = document.getElementById("prompt-title");
@@ -697,6 +726,17 @@
       }
 
       function renderPrompt() {
+        if (!lovartPrompts.length) {
+          promptTitle.textContent = "尚未生成提示词";
+          promptMeta.textContent = "请先生成正式 Lovart Prompt 文档并运行 workflow sync";
+          promptBox.value = "";
+          promptCounter.textContent = "0 / 0";
+          promptPrev.disabled = true;
+          promptNext.disabled = true;
+          promptCopy.disabled = true;
+          promptDots.innerHTML = "";
+          return;
+        }
         const item = lovartPrompts[currentPromptIndex];
         promptTitle.textContent = item.title;
         promptMeta.textContent = "全局设计系统 + 导航规则 + " + item.id + " 页面完整提示词";
@@ -704,6 +744,7 @@
         promptCounter.textContent = currentPromptIndex + 1 + " / " + lovartPrompts.length;
         promptPrev.disabled = currentPromptIndex === 0;
         promptNext.disabled = currentPromptIndex === lovartPrompts.length - 1;
+        promptCopy.disabled = false;
         renderPromptDots();
       }
 
@@ -732,24 +773,23 @@
         }
       }
 
-      if (document.body.dataset.currentStage === "2") {
-        promptPrev.addEventListener("click", () => {
-          if (currentPromptIndex > 0) {
-            currentPromptIndex -= 1;
-            renderPrompt();
-          }
-        });
+      promptPrev.addEventListener("click", () => {
+        if (currentPromptIndex > 0) {
+          currentPromptIndex -= 1;
+          renderPrompt();
+        }
+      });
 
-        promptNext.addEventListener("click", () => {
-          if (currentPromptIndex < lovartPrompts.length - 1) {
-            currentPromptIndex += 1;
-            renderPrompt();
-          }
-        });
+      promptNext.addEventListener("click", () => {
+        if (currentPromptIndex < lovartPrompts.length - 1) {
+          currentPromptIndex += 1;
+          renderPrompt();
+        }
+      });
 
-        promptCopy.addEventListener("click", copyPrompt);
-        renderPrompt();
-      }
+      promptCopy.addEventListener("click", copyPrompt);
+      renderWorkflow();
+      renderPrompt();
     </script>
   </body>
 </html>

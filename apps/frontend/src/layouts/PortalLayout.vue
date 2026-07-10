@@ -6,6 +6,16 @@ import { getCurrentUser } from '@/utils/auth';
 const route = useRoute();
 const router = useRouter();
 const currentUser = getCurrentUser();
+
+function handleAccountEntry() {
+  if (!currentUser) {
+    router.push('/login');
+    return;
+  }
+  if (currentUser.role === 'ADMIN') {
+    router.push('/admin/users');
+  }
+}
 </script>
 
 <template>
@@ -27,8 +37,13 @@ const currentUser = getCurrentUser();
           </el-menu-item>
         </el-menu>
 
-        <el-button type="primary" :icon="User" @click="router.push(currentUser ? '/admin/users' : '/login')">
-          {{ currentUser ? '进入后台' : '登录' }}
+        <el-button
+          type="primary"
+          :icon="User"
+          :disabled="Boolean(currentUser && currentUser.role !== 'ADMIN')"
+          @click="handleAccountEntry"
+        >
+          {{ !currentUser ? '登录' : currentUser.role === 'ADMIN' ? '进入后台' : '已登录' }}
         </el-button>
       </div>
     </header>

@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "mode": "template",
+    "name": "",
+    "databaseName": "template_db",
+    "composeProjectName": "app-scaffold"
+  },
+  "workflow": {
+    "currentStage": 0,
+    "currentStageStatus": "pending",
+    "completedStages": 0,
+    "lastUpdated": "2026-07-10",
+    "currentTask": "模板已就绪；复制为业务项目后执行阶段 0 初始化预检。",
+    "recentlyCompleted": "完成脚手架工作流复审与状态模型重构。",
+    "nextStep": "删除脚手架 Git 关联、设置业务名称与独立数据库，再运行工作流预检。",
+    "gatePolicy": "current_stage_only",
+    "stages": [
+      {
+        "id": 0,
+        "name": "初始化/恢复上下文",
+        "status": "pending",
+        "summary": "业务克隆完成身份、仓库、数据库、密钥和运行环境隔离。"
+      },
+      {
+        "id": 1,
+        "name": "PRD 需求分析",
+        "status": "pending",
+        "summary": "生成 PRD，完成角色、功能和页面 ScopeBudget。"
+      },
+      {
+        "id": 2,
+        "name": "Lovart Prompt 与原型",
+        "status": "pending",
+        "summary": "完成能力与额度预检、代表页确认、提示词和 P0/P1 单页原型图。"
+      },
+      {
+        "id": 3,
+        "name": "Stitch 重建与 Figma 设计确认",
+        "status": "pending",
+        "summary": "重建 Stitch screen、完成人工交接，并获得真实 Figma Frame 与用户设计确认。"
+      },
+      {
+        "id": 4,
+        "name": "基于 Figma 实现功能",
+        "status": "pending",
+        "summary": "逐页读取 Figma Frame，实现页面、接口、数据库、状态和联调。"
+      },
+      {
+        "id": 5,
+        "name": "对抗式审查、修复与提交",
+        "status": "pending",
+        "summary": "完成自动检查、权限与数据安全审查、视觉复核和 Git 安全提交。"
+      }
+    ],
+    "gates": {
+      "0": [
+        {
+          "id": "project_identity",
+          "label": "真实业务名称、业务目录和 project.mode=business 已设置",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "git_isolation",
+          "label": "脚手架 Git 关联已移除，当前 remote 不指向脚手架仓库",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "database_isolation",
+          "label": "独立数据库名已设置并完成存在性检查，未静默复用其他项目数据库",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "runtime_isolation",
+          "label": "Compose 项目名、Token 密钥、mysql-docker 和 shared-network 预检通过",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "template_cleanup",
+          "label": "正式文档生成后 templates/ 已删除",
+          "status": "pending",
+          "evidence": ""
+        }
+      ],
+      "1": [
+        {
+          "id": "prd_complete",
+          "label": "PRD 的用户、问题、角色、流程、异常分支和交付边界已定稿",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "scope_budget",
+          "label": "角色、P0/P1 功能和页面数量通过 ScopeBudget",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "open_questions",
+          "label": "阻塞性待确认问题已解决，非阻塞假设已记录",
+          "status": "pending",
+          "evidence": ""
+        }
+      ],
+      "2": [
+        {
+          "id": "lovart_preflight",
+          "label": "已记录实际 Lovart 能力标识、认证、额度、模型和画幅",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "generation_approval",
+          "label": "用户已确认页面数量、代表页方案和本批次额度消耗",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "representative_page",
+          "label": "代表页面已出图并获得用户方向确认，再开始批量生成",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "prompt_sync",
+          "label": "正式提示词文档已生成，workflow sync 已生成看板翻页数据",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "lovart_outputs",
+          "label": "所有 P0/P1 页面都有独立 thread、Pxx 前缀输出文件和失败记录",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "lovart_mode_restore",
+          "label": "已记录原账户模式，并在批次正常或失败退出后恢复原模式",
+          "status": "pending",
+          "evidence": ""
+        }
+      ],
+      "3": [
+        {
+          "id": "stitch_preflight",
+          "label": "已记录实际 Stitch 能力、认证、额度和目标 Project",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "stitch_outputs",
+          "label": "每个有效页面都有 screenId、HTML/截图备份和来源映射",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "figma_handoff",
+          "label": "用户已 Copy/Paste 到 Figma 并回传真实 Frame 链接/nodeId",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "design_approval",
+          "label": "用户已明确确认 P0/P1 页面设计可进入开发",
+          "status": "pending",
+          "evidence": ""
+        }
+      ],
+      "4": [
+        {
+          "id": "figma_read_evidence",
+          "label": "每个实现页面都有最新 Figma Frame 读取证据",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "implementation_complete",
+          "label": "P0/P1 页面、接口、数据库、资源和状态均已实现",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "integration_complete",
+          "label": "字段、权限、空态、错误态、加载态和关键流程联调闭环",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "visual_comparison",
+          "label": "逐页截图或静态对照完成，偏差已修复或明确阻塞",
+          "status": "pending",
+          "evidence": ""
+        }
+      ],
+      "5": [
+        {
+          "id": "automated_checks",
+          "label": "后端测试、前端类型检查与构建、小程序检查、AI 测试均通过",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "security_review",
+          "label": "认证、授权、输入校验、敏感信息、限流和数据安全已审查",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "scope_and_design_review",
+          "label": "范围膨胀、设计偏差、接口漂移和遗留占位符已检查",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "git_safety",
+          "label": "提交范围已确认，remote 不指向脚手架仓库，提交记录可追溯",
+          "status": "pending",
+          "evidence": ""
+        }
+      ]
+    },
+    "blockers": [],
+    "nextTasks": [
+      "复制脚手架到真实业务目录并解除脚手架 Git remote。",
+      "设置业务名称、独立数据库名、Compose 项目名和随机 Token 密钥。",
+      "运行 python3 scripts/workflow.py preflight 与 validate。"
+    ]
+  }
+}

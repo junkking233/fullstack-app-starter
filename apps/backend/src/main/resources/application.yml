@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/template_db?useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai}
+    url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME:root}
     password: ${SPRING_DATASOURCE_PASSWORD:admin123}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -23,5 +23,5 @@ mybatis-plus:
 
 app:
   auth:
-    token-secret: ${AUTH_TOKEN_SECRET:app-scaffold-jwt-secret-key-2026}
+    token-secret: ${AUTH_TOKEN_SECRET}
     token-ttl-seconds: ${AUTH_TOKEN_TTL_SECONDS:604800}

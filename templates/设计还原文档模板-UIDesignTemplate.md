@@ -19,6 +19,7 @@
 - P2/暂缓页面、作品集总览、交互概览、独立弹层图、被裁切页面、底部 Tab 缺失页面只能标为仅参考或无效。
 - 用户只提供 Figma 文件链接或 Page 根节点链接时，先读取 Figma metadata 自动匹配 Frame。
 - 必须使用 Stitch，先记录 Project、screenId、来源 Lovart 图、HTML/截图备份、用户手动 Copy/Paste 状态和结果；最终必须映射到 Figma Frame，缺失则阻塞。
+- 必须单独记录用户设计确认；Figma Frame 存在只代表交接完成，不能替代用户确认设计可进入开发。
 - UIDesign 是实现索引，不是 Figma 原型替代品；第 4 步不能只凭 UIDesign 摘要写页面。
 - 不要因为 Figma 中存在额外页面就扩大实现范围。
 - Vant Weapp / Element Plus 默认样式必须按 Figma token 覆盖。

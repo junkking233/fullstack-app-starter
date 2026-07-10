@@ -7,7 +7,9 @@
     "install:dev": "npm install && npm run start",
     "start": "vite --host 0.0.0.0 --port 9999",
     "dev": "npm run install:dev",
+    "typecheck": "vue-tsc --noEmit",
     "build": "vite build",
+    "check": "npm run typecheck && npm run build",
     "preview": "vite preview"
   },
   "dependencies": {

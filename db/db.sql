@@ -38,6 +38,6 @@ CREATE TABLE IF NOT EXISTS t_user (
 -- admin/admin123 -> 0192023a7bbd73250516f069df18b500 (MD5 of admin123)
 -- user/123456    -> e10adc3949ba59abbe56e057f20f883e (MD5 of 123456)
 
-INSERT IGNORE INTO t_user (id, username, password, nickname, role, status) VALUES
-(1, 'admin',   '0192023a7bbd73250516f069df18b500', '管理员',   'ADMIN',   'active'),
-(2, 'user',    'e10adc3949ba59abbe56e057f20f883e', '普通用户', 'USER',    'active');
+INSERT IGNORE INTO t_user (username, password, nickname, role, status) VALUES
+('admin', '0192023a7bbd73250516f069df18b500', '管理员', 'ADMIN', 'active'),
+('user',  'e10adc3949ba59abbe56e057f20f883e', '普通用户', 'USER',  'active');

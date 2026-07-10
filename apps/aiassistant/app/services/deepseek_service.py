@@ -41,7 +41,8 @@ async def chat_stream(
     }
 
     try:
-        async with httpx.AsyncClient(timeout=None) as client:
+        timeout = httpx.Timeout(120.0, connect=10.0)
+        async with httpx.AsyncClient(timeout=timeout) as client:
             async with client.stream(
                 "POST",
                 f"{DEEPSEEK_BASE_URL}/chat/completions",
@@ -49,10 +50,9 @@ async def chat_stream(
                 json=payload,
             ) as response:
                 if response.status_code >= 400:
-                    body = await response.aread()
                     yield sse_event({
                         "type": "error",
-                        "message": f"DeepSeek API 请求失败：HTTP {response.status_code} {body.decode('utf-8', errors='ignore')}",
+                        "message": f"DeepSeek API 请求失败：HTTP {response.status_code}",
                     })
                     yield sse_event({"type": "done"})
                     return

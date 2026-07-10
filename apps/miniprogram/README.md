@@ -13,9 +13,12 @@
 ```bash
 cd apps/miniprogram
 npm install
+npm run check
 ```
 
 安装后在微信开发者工具中执行“工具 -> 构建 npm”，再预览或调试。
+
+`npm run check` 会检查 JSON、JavaScript 语法、页面四件套、固定 AppID，并阻止普通操作误用无原生能力的 `<button>`。它不能替代微信开发者工具的构建和真机测试。
 
 ## 目录结构
 

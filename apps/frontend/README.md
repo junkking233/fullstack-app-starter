@@ -12,7 +12,8 @@ Vue 3、Vite、TypeScript、Element Plus、Vue Router、Axios、ECharts。
 cd apps/frontend
 npm install
 npm run start
-npm run build
+npm run typecheck
+npm run check
 ```
 
 ## 页面和代码位置
@@ -65,6 +66,7 @@ cp ../../assets/icons/search.svg src/assets/icons/search.svg
 - Element Plus 只是组件基础，页面颜色、字号、圆角、间距、阴影、菜单、表单、图片和空状态必须按 Figma Frame 和根目录 `docs/设计还原文档-UIDesign.md` 还原。
 - 当前页面只作为脚手架最小参考；不属于 P0/P1 的页面必须删除、暂缓或标为仅参考。
 - 每完成一个页面，先用浏览器截图或人工对照 Figma 检查设计稿；无法访问 Figma 或截图时，在 GoalPlan 写明阻塞并完成静态样式对照。
+- 阶段 5 必须运行 `npm run check`；`vite build` 不替代 TypeScript/Vue 类型检查。
 - 禁止使用紫色作为主色。
 - 门户菜单使用水平模式；后台管理可使用侧栏垂直菜单并允许内嵌子菜单。
 - 下拉框宽度要根据内容合理设置，避免选项显示不全。
