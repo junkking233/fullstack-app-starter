@@ -30,7 +30,8 @@ class WorkflowValidationTest(unittest.TestCase):
 
     def test_blocked_stage_requires_blocker_and_resume_action(self):
         state = copy.deepcopy(self.state)
-        state["workflow"]["stages"][0]["status"] = "blocked"
+        current_stage = state["workflow"]["currentStage"]
+        state["workflow"]["stages"][current_stage]["status"] = "blocked"
         state["workflow"]["currentStageStatus"] = "blocked"
         errors = WORKFLOW.validate_state(state)
         self.assertTrue(any("必须记录 blocker" in error for error in errors))
@@ -41,7 +42,9 @@ class WorkflowValidationTest(unittest.TestCase):
 
     def test_completed_gate_requires_evidence(self):
         state = copy.deepcopy(self.state)
-        state["workflow"]["gates"]["0"][0]["status"] = "completed"
+        current_stage = str(state["workflow"]["currentStage"])
+        state["workflow"]["gates"][current_stage][0]["status"] = "completed"
+        state["workflow"]["gates"][current_stage][0]["evidence"] = ""
         errors = WORKFLOW.validate_state(state)
         self.assertTrue(any("完成但缺少证据" in error for error in errors))
 
