@@ -23,6 +23,11 @@ class WorkflowValidationTest(unittest.TestCase):
         self.assertTrue(all(gate["status"] == "pending" for gate in state["workflow"]["gates"]["5"]))
         self.assertEqual([], WORKFLOW.validate_state(state))
 
+    def test_template_cleanup_is_required_before_implementation(self):
+        gates = self.state["workflow"]["gates"]
+        self.assertNotIn("template_cleanup", [gate["id"] for gate in gates["0"]])
+        self.assertIn("template_cleanup", [gate["id"] for gate in gates["3"]])
+
     def test_blocked_stage_requires_blocker_and_resume_action(self):
         state = copy.deepcopy(self.state)
         state["workflow"]["stages"][0]["status"] = "blocked"

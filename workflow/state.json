@@ -78,12 +78,6 @@
           "label": "Compose 项目名、Token 密钥、mysql-docker 和 shared-network 预检通过",
           "status": "pending",
           "evidence": ""
-        },
-        {
-          "id": "template_cleanup",
-          "label": "正式文档生成后 templates/ 已删除",
-          "status": "pending",
-          "evidence": ""
         }
       ],
       "1": [
@@ -166,6 +160,12 @@
         {
           "id": "design_approval",
           "label": "用户已明确确认 P0/P1 页面设计可进入开发",
+          "status": "pending",
+          "evidence": ""
+        },
+        {
+          "id": "template_cleanup",
+          "label": "阶段 1-3 正式文档已生成，进入开发前 templates/ 已删除",
           "status": "pending",
           "evidence": ""
         }

@@ -95,4 +95,4 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 | `templates/设计还原文档模板-UIDesignTemplate.md` | 生成 Figma 设计还原文档 |
 | `templates/Goal任务计划模板-GoalPlanTemplate.md` | 生成长程任务计划和验收清单 |
 
-业务项目完成初始化并生成正式文件后，必须删除 `templates/`，避免模板内容干扰后续代码开发上下文。
+业务项目在阶段 1-3 生成正式文件后、进入阶段 4 开发前，必须删除 `templates/`，避免模板内容干扰代码开发上下文。

@@ -260,11 +260,11 @@ def validate_state(state: dict) -> list[str]:
             secret = env_values.get("AUTH_TOKEN_SECRET", "")
             if len(secret) < 32 or secret.startswith("replace-"):
                 errors.append("AUTH_TOKEN_SECRET 必须替换为至少 32 位随机值")
-            if (ROOT / "templates").exists():
-                errors.append("阶段 0 完成后必须删除 templates/")
             db_source = (ROOT / "db" / "db.sql").read_text(encoding="utf-8")
             if f"CREATE DATABASE IF NOT EXISTS {db_name}" not in db_source or f"USE {db_name};" not in db_source:
                 errors.append("db/db.sql 尚未切换到业务独立数据库")
+        if stages[3]["status"] == "completed" and (ROOT / "templates").exists():
+            errors.append("阶段 3 完成、进入开发前必须删除 templates/")
 
     stage_two = stages[2]
     if stage_two["status"] == "completed":
@@ -429,12 +429,12 @@ def command_init(args: argparse.Namespace) -> int:
     workflow["completedStages"] = 0
     workflow["stages"][0]["status"] = "in_progress"
     workflow["currentTask"] = "完成业务项目初始化门禁并记录证据。"
-    workflow["nextStep"] = "运行 preflight，生成正式文档，删除 templates/ 后关闭阶段 0 门禁。"
+    workflow["nextStep"] = "运行 preflight，补齐阶段 0 门禁证据后进入阶段 1。"
     workflow["lastUpdated"] = args.date
     workflow["nextTasks"] = [
         "运行 python3 scripts/workflow.py preflight。",
-        "生成正式 PRD、GoalPlan 和设计文档后删除 templates/。",
-        "补齐阶段 0 门禁证据，再把阶段 0 标为 completed。",
+        "记录项目、Git、数据库和运行隔离的阶段 0 门禁证据。",
+        "完成阶段 0，并把 currentStage 推进到阶段 1。",
     ]
     save_state(state)
 

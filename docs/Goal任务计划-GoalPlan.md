@@ -38,7 +38,6 @@
 - [ ] `git_isolation` 脚手架 Git 关联已移除，当前 remote 不指向脚手架仓库（待开始）
 - [ ] `database_isolation` 独立数据库名已设置并完成存在性检查，未静默复用其他项目数据库（待开始）
 - [ ] `runtime_isolation` Compose 项目名、Token 密钥、mysql-docker 和 shared-network 预检通过（待开始）
-- [ ] `template_cleanup` 正式文档生成后 templates/ 已删除（待开始）
 
 <!-- WORKFLOW:GENERATED:END -->
 

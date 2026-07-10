@@ -19,7 +19,7 @@
 - 克隆脚手架开始业务开发后，必须删除脚手架 `.git`。
 - 业务项目需要版本控制时，重新 `git init` 并绑定新的业务仓库 remote。
 - 不得把业务项目提交或推送到脚手架仓库。
-- 业务项目完成初始化并生成正式文档后，必须删除 `templates/`，避免模板干扰后续代码开发上下文。
+- 业务项目在阶段 1-3 生成正式文档后、进入阶段 4 开发前，必须删除 `templates/`，避免模板干扰代码开发上下文。
 - 模板仓库保持 `project.mode=template`、阶段 0 `pending`、总进度 `0/6`；不得把模板准备状态记作业务阶段完成。
 - 业务副本解除脚手架 Git 关联后，使用 `python3 scripts/workflow.py init --project-name <中文名> --database-name <独立库名> --compose-project-name <slug>` 初始化；目标数据库已存在时必须确认归属并显式使用 `--reuse-existing-database`。
 - 阶段 0 完成前必须运行 `python3 scripts/workflow.py preflight` 和 `validate`，并确认业务 remote 不指向脚手架仓库。

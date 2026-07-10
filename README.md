@@ -77,7 +77,7 @@ python3 scripts/workflow.py validate
     └── Goal任务计划模板-GoalPlanTemplate.md
 ```
 
-正式业务项目主要看 `docs/` 的 5 个文件。`templates/` 只用于生成正式文档，业务项目完成初始化并生成正式文档后必须删除模板，减少上下文噪音。
+正式业务项目主要看 `docs/` 的 5 个文件。`templates/` 只用于阶段 1-3 生成正式文档；进入阶段 4 开发前必须删除模板，减少上下文噪音。
 
 ## 6 步工作流
 
