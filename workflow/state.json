@@ -12,8 +12,8 @@
     "completedStages": 0,
     "lastUpdated": "2026-07-21",
     "currentTask": "模板已就绪；复制为业务项目后执行阶段 0 初始化预检。",
-    "recentlyCompleted": "补充阶段 4/5 Git Worktree 并行开发规则与门禁。",
-    "nextStep": "删除脚手架 Git 关联、设置业务名称与独立数据库，再运行工作流预检。",
+    "recentlyCompleted": "补充 Git Worktree 实测环境隔离规则：每个 worktree 需单独准备本地 .env 和依赖，不提交本地环境文件。",
+    "nextStep": "复制脚手架到真实业务目录并解除脚手架 Git remote；阶段 4 如启用 Worktree，先按 GoalPlan 准备外部工作区。",
     "gatePolicy": "current_stage_only",
     "stages": [
       {

@@ -142,6 +142,8 @@ git worktree add ../真实业务项目-worktrees/backend-order-api -b ai/backend
 python3 scripts/workflow.py worktree-status
 ```
 
+每个 worktree 都是独立工作区。`.env`、`node_modules`、构建产物和其他未跟踪本地文件不会共享；Worker 运行局部检查前，需要按任务范围复制或重建本地 `.env`，并在对应端执行必要的依赖安装，例如 `npm ci --ignore-scripts`。这些本地环境文件和依赖目录不得提交。
+
 合并示例：
 
 ```bash

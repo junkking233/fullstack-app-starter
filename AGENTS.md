@@ -97,6 +97,7 @@
 - 适合并行的任务包括独立页面、独立 API、独立测试修复、独立资源整理；不适合并行的任务包括全局鉴权、公共请求层、全局样式 token、数据库核心结构、工作流状态和跨端共享契约。
 - 推荐由主控目录创建 `stage4/integration` 集成分支，每个任务使用 `ai/<task>` 独立分支和项目目录外部的独立 worktree。额外 worktree 不得创建在业务项目目录内部。
 - 创建 worktree 前必须确认集成分支已经包含最新工作流、接口契约、设计还原文档和基础代码；主控目录未提交的修改不会自动进入新 worktree。
+- 每个 worktree 是独立工作区，未跟踪的 `apps/.env`、`node_modules`、构建产物和本地缓存不会共享。Worker 运行局部检查前必须按任务范围复制或重建本地 `.env` 并安装必要依赖；这些本地文件和依赖目录不得提交。
 - Worker worktree 只处理分配给自己的文件范围。Worker 不得推进 `workflow/state.json`，不得手工修改 `workflow/state.generated.js`、`index.html` 或 GoalPlan 生成区域，不得提交或推送。
 - 全局状态、GoalPlan 任务矩阵、阶段门禁和 `index.html` 只能在主控目录统一更新。
 - 每个 Worker 完成后先运行与任务范围相称的局部检查，并把修改范围、检查结果、阻塞和 Figma 对照证据交回主控目录。
