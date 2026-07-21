@@ -4,6 +4,7 @@ set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
 python3 "$ROOT/scripts/workflow.py" validate
+python3 "$ROOT/scripts/workflow.py" worktree-status
 python3 -m unittest discover -s "$ROOT/scripts/tests"
 node "$ROOT/scripts/check-dashboard.js"
 ENV_FILE="$ROOT/apps/.env.example"

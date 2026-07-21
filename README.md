@@ -1,6 +1,6 @@
 # 业务项目脚手架 AppScaffold
 
-这是一个全栈业务项目脚手架，包含 Spring Boot 后端、Vue Web 前端、原生微信小程序、FastAPI AI 助手服务、MySQL 脚本，以及 `Lovart -> Stitch -> Figma -> 代码实现` 的 Figma-first 开发工作流。
+这是一个全栈业务项目脚手架，包含 Spring Boot 后端、Vue Web 前端、原生微信小程序、FastAPI AI 助手服务、MySQL 脚本，以及 `Lovart -> Stitch -> Figma -> 代码实现` 的 Figma-first 开发工作流。阶段 4 支持 Git Worktree 并行开发模式，用于把边界清楚的代码任务分配到独立工作区后统一合并验证。
 
 `fullstack-app-starter` 只是远程脚手架仓库名，不是业务项目名。每次克隆后，先把目录和文档中的项目名改成真实业务项目名，并删除脚手架自带 `.git`，避免把业务代码提交回脚手架仓库。
 
@@ -87,8 +87,8 @@ python3 scripts/workflow.py validate
 | 1 | PRD 需求分析 | `docs/产品需求文档-PRD.md` |
 | 2 | Lovart Prompt | `design/lovart/原型生图提示词-LovartPrompt.md`、`index.html` 阶段 2 Lovart 翻页复制区、`design/lovart/pages/` 单页原型图、GoalPlan Lovart 执行记录 |
 | 3 | Stitch 重建与 Figma 设计稿拆解 | `design/stitch/`、`docs/设计还原文档-UIDesign.md` |
-| 4 | 基于 Figma 实现功能 | `apps/`、`db/db.sql`、`docs/技术设计文档-TechDesign.md`、`docs/Goal任务计划-GoalPlan.md` |
-| 5 | 对抗式审查、修复与提交 | 问题清单、修复提交 |
+| 4 | 基于 Figma 实现功能 | 任务拆解、串行或 Git Worktree 并行模式选择、`apps/`、`db/db.sql`、`docs/技术设计文档-TechDesign.md`、`docs/Goal任务计划-GoalPlan.md` |
+| 5 | 对抗式审查、修复与提交 | 问题清单、Worktree 合并/清理复核、修复提交 |
 
 核心门禁：
 
@@ -101,8 +101,66 @@ python3 scripts/workflow.py validate
 - AI 不代替用户完成 Stitch -> Figma：AI 只输出 Stitch Project/screenId 和操作说明，等待用户手动 Copy/Paste 后回传 Frame 链接/nodeId。
 - UI 还原以 Figma Frame 为准，Lovart PNG/PSD、Stitch HTML 和截图只做备份参考。
 - 第 4 步实现 Web/小程序页面前，必须逐页重新读取 Figma Frame，并在 GoalPlan 记录读取证据和对照结论；不能只凭 UIDesign 摘要或组件库默认样式开发。
+- 第 4 步开发前必须先拆分 P0/P1 任务，并记录串行开发或 Git Worktree 并行开发模式。启用 Worktree 时，主控目录保留集成分支，每个独立任务使用一个独立分支和一个位于项目目录外部的 worktree；Worker 只修改分配范围，不能推进全局状态。
+- 创建 Worktree 前必须确认集成分支已经包含最新工作流、接口契约、设计还原文档和基础代码；主控目录未提交的修改不会自动进入新 worktree。
+- Worktree 只适合边界清楚的并行任务，例如独立页面、独立 API、独立测试修复。全局状态文件、公共鉴权、全局样式、数据库核心结构和 `workflow/state.json` 不得被多个 worktree 同时修改。
+- 第 5 步必须复核 Worktree 使用情况：运行 `python3 scripts/workflow.py worktree-status`，确认额外 worktree 不在项目目录内部；若启用了 Worktree，还要确认分支已合并、冲突已处理、临时 worktree 已移除或明确保留原因。
 - 第 2 步完成前必须同时满足：正式 Lovart Prompt 已生成、`workflow.py sync` 已自动生成看板翻页数据、代表页已确认、每个 P0/P1 页面都已出图并保存，GoalPlan 已记录实际能力、用户额度批准、Project、每页 thread、批次、输出文件、模型、画幅和失败原因。
 - 第 4 步未通过当前阶段 gates 和完成门禁前，不得进入对抗式审查。
+
+## Git Worktree 并行开发
+
+Git Worktree 是阶段 4 的可选执行模式，不是新阶段。只有当任务边界清楚、文件范围不冲突、前置设计和接口已确认时才启用；否则按串行开发执行，并在 GoalPlan 写明原因。创建 worktree 前，先确保集成分支已包含最新基线；未提交修改不会自动出现在新 worktree 中。
+
+推荐分支模型：
+
+```text
+main
+└── stage4/integration
+    ├── ai/miniprogram-home
+    ├── ai/backend-order-api
+    └── ai/db-schema
+```
+
+推荐目录模型：
+
+```text
+真实业务项目/
+../真实业务项目-worktrees/
+  miniprogram-home/
+  backend-order-api/
+  db-schema/
+```
+
+创建示例：
+
+```bash
+git switch -c stage4/integration
+mkdir -p ../真实业务项目-worktrees
+git worktree add ../真实业务项目-worktrees/miniprogram-home -b ai/miniprogram-home stage4/integration
+git worktree add ../真实业务项目-worktrees/backend-order-api -b ai/backend-order-api stage4/integration
+python3 scripts/workflow.py worktree-status
+```
+
+合并示例：
+
+```bash
+git switch stage4/integration
+git merge --no-ff ai/miniprogram-home
+git merge --no-ff ai/backend-order-api
+python3 scripts/workflow.py worktree-status
+sh scripts/check-all.sh
+```
+
+清理示例：
+
+```bash
+git worktree remove ../真实业务项目-worktrees/miniprogram-home
+git branch -d ai/miniprogram-home
+git worktree prune
+```
+
+Worker worktree 不负责推进 `workflow/state.json`、`workflow/state.generated.js`、`index.html` 或 GoalPlan 生成区域；这些全局状态只在主控目录统一更新。
 
 ## 技术约束
 

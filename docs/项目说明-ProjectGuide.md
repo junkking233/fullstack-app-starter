@@ -25,8 +25,8 @@
 | 1. PRD 需求分析 | 用第一性原理确认用户、问题、角色、流程和边界 | `产品需求文档-PRD.md` |
 | 2. Lovart Prompt | 基于 PRD 生成受控单页提示词，自动生成网页翻页数据，并调用实际可用的 Lovart 能力生成 P0/P1 单页原型图 | `design/lovart/原型生图提示词-LovartPrompt.md`、`design/lovart/pages/`、`index.html`、GoalPlan Lovart 执行记录 |
 | 3. Stitch 重建与 Figma 设计稿拆解 | 用 Lovart 图片和页面提示词在 Stitch 重建 UI screen，等待用户手动 Copy/Paste 到目标 Figma 文件，最后拆解 Figma Frame | `design/stitch/`、`设计还原文档-UIDesign.md` |
-| 4. 基于 Figma 实现功能 | 实现页面、接口、数据库、状态、资源和联调 | `apps/`、`db/db.sql`、`技术设计文档-TechDesign.md`、`GoalPlan` |
-| 5. 对抗式审查、修复与提交 | 查遗漏、范围膨胀、设计偏差、接口漂移和运行风险 | 问题清单、修复提交 |
+| 4. 基于 Figma 实现功能 | 先拆分 P0/P1 任务并判断串行或 Git Worktree 并行模式，再实现页面、接口、数据库、状态、资源和联调 | `apps/`、`db/db.sql`、`技术设计文档-TechDesign.md`、`GoalPlan` |
+| 5. 对抗式审查、修复与提交 | 查遗漏、范围膨胀、设计偏差、接口漂移、Worktree 合并/清理和运行风险 | 问题清单、Worktree 复核、修复提交 |
 
 ## 范围预算 ScopeBudget
 
@@ -66,6 +66,49 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 - Figma 中多出来但不属于 P0/P1 的页面，只标记为“仅参考/暂不开发”。
 - 每个页面实现后，要在 GoalPlan 中记录 UI 还原结果。
 - 如果无法截图或访问 Figma，也要完成静态对照并写清阻塞。
+
+## 阶段 4 Git Worktree 并行开发模式
+
+Git Worktree 是阶段 4 的可选执行模式，用于让多个 AI 任务在同一业务项目上并行开发，但各自拥有独立代码现场。它不是新增阶段，也不是替代分支；分支负责代码路线，Worktree 负责本地工作区。创建 worktree 前，先确认集成分支已经包含最新工作流、接口契约、设计还原文档和基础代码；主控目录未提交的修改不会自动进入新 worktree。
+
+阶段 4 开始时，先完成任务拆解：
+
+| 检查项 | 说明 |
+| --- | --- |
+| 任务边界 | 每个任务必须能说明修改哪些页面、接口、表、资源或测试 |
+| 文件范围 | 多个任务不得同时修改同一批核心文件 |
+| 依赖关系 | DB/API 等前置任务先做，页面任务按接口契约开发 |
+| 执行模式 | 能并行则启用 Worktree；不能并行则串行并写清原因 |
+| 合并顺序 | 先合并基础契约，再合并页面和测试，最后完整检查 |
+
+推荐结构：
+
+```text
+真实业务项目/
+../真实业务项目-worktrees/
+  miniprogram-home/
+  backend-order-api/
+  db-schema/
+```
+
+推荐命令：
+
+```bash
+git switch -c stage4/integration
+mkdir -p ../真实业务项目-worktrees
+git worktree add ../真实业务项目-worktrees/miniprogram-home -b ai/miniprogram-home stage4/integration
+git worktree add ../真实业务项目-worktrees/backend-order-api -b ai/backend-order-api stage4/integration
+python3 scripts/workflow.py worktree-status
+```
+
+Worker 只在自己的 worktree 中开发分配任务，不推进 `workflow/state.json`，不手工修改 `workflow/state.generated.js`、`index.html` 或 GoalPlan 生成区域。主控目录负责记录任务证据、更新阶段状态、合并分支和运行完整检查。
+
+阶段 5 必须复核 Worktree：
+
+- 运行 `python3 scripts/workflow.py worktree-status`。
+- 确认额外 worktree 没有放在项目目录内部。
+- 如果启用过 Worktree，确认任务分支已合并、冲突已处理、临时 worktree 已移除或写明保留原因。
+- 合并后运行项目完整检查，再决定是否提交。
 
 ## 阶段状态与门禁机制
 

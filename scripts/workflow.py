@@ -345,6 +345,70 @@ def run_capture(command: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(command, cwd=ROOT, text=True, capture_output=True, check=False)
 
 
+def parse_worktree_porcelain(output: str) -> list[dict[str, str]]:
+    entries: list[dict[str, str]] = []
+    current: dict[str, str] = {}
+    for line in output.splitlines():
+        if not line.strip():
+            if current:
+                entries.append(current)
+                current = {}
+            continue
+        key, _, value = line.partition(" ")
+        current[key] = value
+    if current:
+        entries.append(current)
+    return entries
+
+
+def path_is_inside(path: Path, parent: Path) -> bool:
+    try:
+        path.resolve().relative_to(parent.resolve())
+    except ValueError:
+        return False
+    return True
+
+
+def command_worktree_status(_: argparse.Namespace) -> int:
+    result = run_capture(["git", "worktree", "list", "--porcelain"])
+    if result.returncode != 0:
+        print("无法读取 git worktree 状态；当前目录可能不是 Git 仓库。", file=sys.stderr)
+        print(result.stderr.strip(), file=sys.stderr)
+        return 1
+
+    entries = parse_worktree_porcelain(result.stdout)
+    if not entries:
+        print("未发现 Git worktree。")
+        return 0
+
+    errors: list[str] = []
+    root_resolved = ROOT.resolve()
+    print(f"worktree.count={len(entries)}")
+    for entry in entries:
+        path = Path(entry.get("worktree", ""))
+        branch = entry.get("branch", "detached").replace("refs/heads/", "")
+        head = entry.get("HEAD", "")[:12]
+        current = "yes" if path.resolve() == root_resolved else "no"
+        status_result = subprocess.run(
+            ["git", "-C", str(path), "status", "--short"],
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        dirty = "unknown" if status_result.returncode != 0 else ("yes" if status_result.stdout.strip() else "no")
+        print(f"- path={path} branch={branch} head={head} current={current} dirty={dirty}")
+        if path.resolve() != root_resolved and path_is_inside(path, ROOT):
+            errors.append(f"额外 worktree 不应放在项目目录内部：{path}")
+
+    if errors:
+        print("worktree 布局检查失败：", file=sys.stderr)
+        for error in errors:
+            print(f"- {error}", file=sys.stderr)
+        return 1
+    print("worktree 布局检查通过；额外 worktree 未放入项目目录内部。")
+    return 0
+
+
 def command_preflight(_: argparse.Namespace) -> int:
     state = load_state()
     project = state["project"]
@@ -468,6 +532,7 @@ def build_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("sync", help="从唯一状态源同步生成文件").set_defaults(func=command_sync)
     subparsers.add_parser("validate", help="校验状态、门禁和生成文件").set_defaults(func=command_validate)
     subparsers.add_parser("preflight", help="只读检查 Git、MySQL 容器、网络和数据库").set_defaults(func=command_preflight)
+    subparsers.add_parser("worktree-status", help="只读检查 Git worktree 布局与脏状态").set_defaults(func=command_worktree_status)
 
     init_parser = subparsers.add_parser("init", help="在已解除脚手架 Git 关联的业务副本中初始化")
     init_parser.add_argument("--project-name", required=True)

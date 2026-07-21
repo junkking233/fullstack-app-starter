@@ -43,6 +43,7 @@
 - 修改 `workflow/state.json` 或正式 Lovart Prompt 后，必须运行 `python3 scripts/workflow.py sync` 和 `validate`，禁止手工双写看板状态或提示词数组。
 - 第 2 步 Lovart Prompt 完成前，必须生成 `design/lovart/原型生图提示词-LovartPrompt.md`、运行工作流同步，并调用当前环境可用的 Lovart 能力新建业务中文名 Project、生成 P0/P1 单页原型图到 `design/lovart/pages/`、把实际能力标识/project/thread/输出文件/失败原因写入 GoalPlan；缺任一项不得推进阶段 3。
 - 第 4 步未通过 Goal 完成门禁前，不得进入第 5 步。
+- 第 4 步开始开发前必须完成任务拆解，并记录采用串行开发还是 Git Worktree 并行开发。选择串行时写清原因；选择 Worktree 时写清任务、分支、worktree 路径、修改范围、依赖和合并顺序。
 
 ## ScopeBudget
 
@@ -88,6 +89,20 @@
 - 无法访问 Figma、找不到 Frame、额度不足或无法截图对照时，只能把该页面标为阻塞，不能标为 1:1 还原完成。
 - Web/小程序每完成一个页面，都要在 GoalPlan 勾选对应 UI 还原项或写明阻塞。
 - Vant Weapp / Element Plus 只能作为组件基础，不能用默认视觉替代 Figma。
+
+## Git Worktree 并行开发
+
+- Git Worktree 只作为阶段 4 和阶段 5 的执行模式，不新增主流程阶段。
+- 启用前必须先拆分 P0/P1 任务，确认任务之间文件范围清楚、依赖顺序明确、不会同时修改同一批核心文件。
+- 适合并行的任务包括独立页面、独立 API、独立测试修复、独立资源整理；不适合并行的任务包括全局鉴权、公共请求层、全局样式 token、数据库核心结构、工作流状态和跨端共享契约。
+- 推荐由主控目录创建 `stage4/integration` 集成分支，每个任务使用 `ai/<task>` 独立分支和项目目录外部的独立 worktree。额外 worktree 不得创建在业务项目目录内部。
+- 创建 worktree 前必须确认集成分支已经包含最新工作流、接口契约、设计还原文档和基础代码；主控目录未提交的修改不会自动进入新 worktree。
+- Worker worktree 只处理分配给自己的文件范围。Worker 不得推进 `workflow/state.json`，不得手工修改 `workflow/state.generated.js`、`index.html` 或 GoalPlan 生成区域，不得提交或推送。
+- 全局状态、GoalPlan 任务矩阵、阶段门禁和 `index.html` 只能在主控目录统一更新。
+- 每个 Worker 完成后先运行与任务范围相称的局部检查，并把修改范围、检查结果、阻塞和 Figma 对照证据交回主控目录。
+- 主控目录逐个合并任务分支。每次合并后检查冲突、接口契约、数据库快照、资源路径和 UI 还原证据；全部合并后运行完整检查。
+- 阶段 5 必须运行 `python3 scripts/workflow.py worktree-status` 作为 Git/Worktree 安全证据。启用过 Worktree 时，还必须确认临时 worktree 已移除或写明保留原因，并执行 `git worktree prune`。
+- 不得让多个 Agent 在同一个工作目录中并行修改代码；并行开发必须使用独立 worktree 或明确改为串行。
 
 ## 技术约束
 

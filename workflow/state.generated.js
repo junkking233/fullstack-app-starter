@@ -12,9 +12,9 @@ window.WORKFLOW_DATA = {
       "currentStage": 0,
       "currentStageStatus": "pending",
       "completedStages": 0,
-      "lastUpdated": "2026-07-10",
+      "lastUpdated": "2026-07-21",
       "currentTask": "模板已就绪；复制为业务项目后执行阶段 0 初始化预检。",
-      "recentlyCompleted": "完成脚手架工作流复审与状态模型重构。",
+      "recentlyCompleted": "补充阶段 4/5 Git Worktree 并行开发规则与门禁。",
       "nextStep": "删除脚手架 Git 关联、设置业务名称与独立数据库，再运行工作流预检。",
       "gatePolicy": "current_stage_only",
       "stages": [
@@ -46,7 +46,7 @@ window.WORKFLOW_DATA = {
           "id": 4,
           "name": "基于 Figma 实现功能",
           "status": "pending",
-          "summary": "逐页读取 Figma Frame，实现页面、接口、数据库、状态和联调。"
+          "summary": "逐页读取 Figma Frame，先完成任务拆解与串行/Worktree 模式选择，再实现页面、接口、数据库、状态和联调。"
         },
         {
           "id": 5,
@@ -174,6 +174,12 @@ window.WORKFLOW_DATA = {
         ],
         "4": [
           {
+            "id": "worktree_plan",
+            "label": "已完成阶段 4 任务拆解，明确串行或 Git Worktree 并行模式、修改范围、依赖和合并顺序",
+            "status": "pending",
+            "evidence": ""
+          },
+          {
             "id": "figma_read_evidence",
             "label": "每个实现页面都有最新 Figma Frame 读取证据",
             "status": "pending",
@@ -214,6 +220,12 @@ window.WORKFLOW_DATA = {
           {
             "id": "scope_and_design_review",
             "label": "范围膨胀、设计偏差、接口漂移和遗留占位符已检查",
+            "status": "pending",
+            "evidence": ""
+          },
+          {
+            "id": "worktree_merge_review",
+            "label": "如启用 Git Worktree，已完成分支合并、冲突处理、worktree 布局检查和清理；未启用时已记录不适用证据",
             "status": "pending",
             "evidence": ""
           },
