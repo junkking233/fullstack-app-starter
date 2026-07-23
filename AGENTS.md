@@ -58,7 +58,7 @@
 ## 设计与 UI 还原
 
 - Lovart 只生成单页开发稿，不生成作品集总览、交互概览、独立状态稿或独立弹层稿。
-- Lovart PNG/PSD 放 `design/lovart/`，并由用户从 Stitch 手动 Copy/Paste 到 Figma，形成真实 Figma Frame。
+- Lovart PNG/PSD 放 `design/lovart/`，并经 Stitch 重建后由 Figma MCP 同步到目标 Figma 文件，形成真实可编辑 Figma Frame；截图或图片不能作为唯一图层。
 - Lovart Prompt 正式文档写入 `design/lovart/原型生图提示词-LovartPrompt.md`，再运行 `workflow.py sync` 自动生成 `index.html` 的阶段 2 翻页数据；每张卡片必须包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”。
 - 第 2 步必须调用当前环境实际可用的 Lovart 能力出图（能力名可能显示为 `lovart-api`、`lovart-skill` 或其他已安装标识），不能只生成提示词文档或只同步 `index.html` 就标记完成。
 - Lovart 只允许生成 P0/P1 单页开发稿，产物保存到 `design/lovart/pages/`，每次显式使用 `--prefix "Pxx-页面名"`；并在 GoalPlan 记录生成方式、输出文件、Lovart project/thread、模型、画幅、原模式/恢复结果和失败原因。
@@ -72,15 +72,15 @@
 - 每个页面只生成 1 张单页开发稿，不生成作品集、交互图、状态图或多变体；同一页面修正重试才允许复用该页面 thread。
 - 并发出图遇到 409/429、额度、风控、下载失败或无输出文件时，先记录失败页面和原因，再降低并发或排队重试；不得连续无控制重试消耗额度。
 - Lovart 能力不能替代 Figma；Lovart 出图后仍要形成真实 Figma Frame，第 4 步代码还原仍以 Figma Frame 为准。
-- Stitch 是 Lovart 与 Figma 之间的必选重建层：`Lovart 单页图 + 页面完整提示词 -> Stitch UI screen -> 用户手动 Copy/Paste 到 Figma -> Figma Frame`。
-- 必须有可执行 Stitch 重建和上传能力（当前环境可能以多个 `stitch-design:*`、`stitch-utilities:*` 能力暴露），且 Stitch MCP/API Key 可用。阶段 3 必须先记录实际能力与额度，再自动执行 Stitch；未配置、调用失败、无 screenId、无 HTML/截图备份或没有用户回传的真实 Figma Frame 时，必须记录阻塞，不得推进阶段 4。
+- Stitch 是 Lovart 与 Figma 之间的必选重建层：`Lovart 单页图 + 页面完整提示词 -> Stitch UI screen -> Figma MCP 同步 -> Figma Frame`。
+- 必须有可执行 Stitch 重建和上传能力（当前环境可能以多个 `stitch-design:*`、`stitch-utilities:*` 能力暴露），且 Stitch MCP/API Key 可用。还必须有可写入目标 Figma 文件的 Figma MCP 能力。阶段 3 必须先记录实际能力与额度，再自动执行 Stitch 和 Figma 同步；未配置、调用失败、无 screenId、无 htmlCode/designSystem/截图备份或没有真实可编辑 Figma Frame 时，必须记录阻塞，不得推进阶段 4。
 - 每个新业务需求必须新建或定位同名 Stitch Project；每个 P0/P1 页面只上传当前 Lovart 单页图，并用对应页面提示词重建 1 个 UI screen，不生成多变体、作品集图或额外状态图。
 - Stitch 上传图片或 DESIGN.md 前必须确认文件路径、大小和目标 Project；不得在用户不知情时消耗 Stitch 额度。
-- Stitch 输出的 screen 信息和 HTML/截图备份归档到 `design/stitch/` 或 `.stitch/`，并在 GoalPlan 记录 Project、screenId、来源 Lovart 图、页面提示词、目标 Figma 文件和 Figma Frame 链接/nodeId。
-- `Stitch -> Figma` 固定由用户手动完成：AI 输出 Stitch Project、screenId、HTML/截图备份和操作说明；用户在 Stitch 页面点击 Copy/Paste to Figma，粘贴到目标 Figma 文件并返回 Frame 链接/nodeId；AI 再更新 GoalPlan、UIDesign 和 index.html。
-- AI 不代替用户完成 Stitch 网页 Copy/Paste，不伪造 Figma nodeId；没有用户回传的真实 Figma Frame 链接/nodeId 时，不得进入第 4 步完成态。
+- Stitch 输出的 screen 信息、htmlCode、designSystem 和截图备份归档到 `design/stitch/` 或 `.stitch/`，并在 GoalPlan 记录 Project、screenId、来源 Lovart 图、页面提示词、目标 Figma 文件、Figma MCP 同步方式、Figma Frame 链接/nodeId 和可编辑节点检查结果。
+- `Stitch -> Figma` 默认由 AI 通过 Stitch MCP + Figma MCP 自动完成：读取 Stitch Project/screen/htmlCode/designSystem/screenMetadata，使用 Figma MCP 在目标 Figma 文件创建或更新 `Pxx-页面名` Frame，并把 fileKey、Page、Frame 链接、nodeId 和可编辑节点检查结果写入 GoalPlan 与 UIDesign。
+- 不得要求用户默认手动 Copy/Paste，也不得伪造 Figma nodeId。MCP 权限、额度或能力不可用时，阶段 3 必须记录阻塞和恢复动作；只有用户明确同意时，手动 Copy/Paste 才能作为降级方案。
 - Figma Frame 存在和用户设计确认是两个独立门禁；用户未明确确认 P0/P1 页面设计可开发时，不得进入阶段 4。
-- Stitch 不能替代 Figma，HTML/截图也不能作为最终设计稿。若最终没有可访问的 Figma Frame，第 4 步必须阻塞，不能作为 1:1 完成依据。
+- Stitch 不能替代 Figma，HTML/截图也不能作为最终设计稿。若最终没有可访问且可编辑的 Figma Frame，第 4 步必须阻塞，不能作为 1:1 完成依据。
 - Figma 页面 Frame 是视觉还原主依据。
 - `docs/设计还原文档-UIDesign.md` 必须记录 Figma Frame、视觉 token、页面结构、资源、状态、接口需求和逐页还原标准。
 - 如果用户只给 Figma 文件链接或 Page 根节点链接，先按页面编号、页面名和 Frame 名称自动匹配 Frame；只有重名、缺失或冲突时才要求用户补具体 Frame 链接。

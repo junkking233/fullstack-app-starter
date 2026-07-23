@@ -9,8 +9,8 @@
 | PRD | `docs/产品需求文档-PRD.md` | 待确认 |
 | Lovart Prompt | `design/lovart/原型生图提示词-LovartPrompt.md` | 待确认 |
 | Lovart 备份稿 | `design/lovart/` | 待确认 |
-| Stitch UI screen / HTML/截图备份 | `design/stitch/` 或 `.stitch/` | 待确认 |
-| Stitch -> Figma 交接 | 必须用户手动 Copy/Paste 到 Figma；目标 Figma 文件 / Page / Frame；缺失则阻塞 | 待确认 |
+| Stitch UI screen / htmlCode/designSystem/截图备份 | `design/stitch/` 或 `.stitch/` | 待确认 |
+| Stitch -> Figma MCP 同步 | 必须同步为目标 Figma 文件中的可编辑 Frame；记录 fileKey / Page / Frame / nodeId / 可编辑节点检查；缺失则阻塞 | 待确认 |
 | 用户设计确认 | P0/P1 页面已明确确认可进入开发；不能用 Frame 存在替代 | 待确认 |
 | Figma 文件 / Page / Frame |  | 待确认 |
 
@@ -26,6 +26,7 @@
 
 - 用户只提供 Figma 文件链接或 Page 根节点链接时，先读取 Figma metadata，不要直接要求用户逐页复制 Frame 链接。
 - 按页面编号、页面中文名、Lovart 文件名、Stitch screen 名称和 Figma Frame 名称建立匹配表。
+- Stitch 同步到 Figma 后，必须验证 Frame 内存在可编辑设计节点，例如 Frame、Text、Rectangle、Component；不能只是一张截图图片。
 - 优先读取当前 Page 第一层 Frame 树；只有页面名匹配失败时，才少量下钻候选节点。
 - 同一页面出现多个候选、找不到候选或命名明显冲突时，才向用户索要具体 Frame 链接。
 
@@ -74,11 +75,12 @@
 | Figma Frame |  |
 | Figma nodeId |  |
 | 第 4 步读取要求 | 实现前必须重新读取该 Frame；读取证据写入 GoalPlan |
-| Frame 匹配来源 | 用户直给 / metadata 自动匹配 / 待确认 |
+| Frame 匹配来源 | Figma MCP 同步 / 用户直给 / metadata 自动匹配 / 待确认 |
 | 匹配置信度 | 高 / 中 / 低 / 阻塞 |
 | 备用 Lovart 稿 |  |
-| Stitch screen / HTML |  |
-| Stitch -> Figma | 用户手动 Copy/Paste / 已完成 / 阻塞 |
+| Stitch screen / htmlCode |  |
+| Stitch -> Figma | Figma MCP 同步 / 用户明确降级手动 Copy/Paste / 阻塞 |
+| 可编辑节点检查 | Frame / Text / Rectangle / Component 等节点数量与检查方式 |
 | 用户设计确认 | 已确认可开发 / 需迭代 / 阻塞 |
 | 页面类型 | 一级 Tab / 二级功能 / 详情 / 表单 |
 | 范围状态 | P0/P1 有效 / P2 暂缓 / 仅参考 / 待确认 |

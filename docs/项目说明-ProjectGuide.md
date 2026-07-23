@@ -24,7 +24,7 @@
 | 0. 初始化/恢复上下文 | 解除脚手架 Git 关联，设置业务身份、独立数据库、Compose 项目名和密钥并执行预检 | `workflow/state.json`、`apps/.env`、`index.html`、`GoalPlan` |
 | 1. PRD 需求分析 | 用第一性原理确认用户、问题、角色、流程和边界 | `产品需求文档-PRD.md` |
 | 2. Lovart Prompt | 基于 PRD 生成受控单页提示词，自动生成网页翻页数据，并调用实际可用的 Lovart 能力生成 P0/P1 单页原型图 | `design/lovart/原型生图提示词-LovartPrompt.md`、`design/lovart/pages/`、`index.html`、GoalPlan Lovart 执行记录 |
-| 3. Stitch 重建与 Figma 设计稿拆解 | 用 Lovart 图片和页面提示词在 Stitch 重建 UI screen，等待用户手动 Copy/Paste 到目标 Figma 文件，最后拆解 Figma Frame | `design/stitch/`、`设计还原文档-UIDesign.md` |
+| 3. Stitch 重建与 Figma 设计稿拆解 | 用 Lovart 图片和页面提示词在 Stitch 重建 UI screen，再通过 Figma MCP 同步为目标 Figma 文件中的可编辑 Frame，最后拆解 Figma Frame | `design/stitch/`、`设计还原文档-UIDesign.md` |
 | 4. 基于 Figma 实现功能 | 先拆分 P0/P1 任务并判断串行或 Git Worktree 并行模式，再实现页面、接口、数据库、状态、资源和联调 | `apps/`、`db/db.sql`、`技术设计文档-TechDesign.md`、`GoalPlan` |
 | 5. 对抗式审查、修复与提交 | 查遗漏、范围膨胀、设计偏差、接口漂移、Worktree 合并/清理和运行风险 | 问题清单、Worktree 复核、修复提交 |
 
@@ -42,7 +42,7 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 
 ## Figma-first UI 还原
 
-- Lovart 用来生成单页原型图，出图后由用户从 Stitch 手动 Copy/Paste 到 Figma，形成真实 Figma Frame。
+- Lovart 用来生成单页原型图；Stitch 用 Lovart 图和页面提示词重建 UI screen；Figma MCP 再把 Stitch 结果同步为目标 Figma 文件中的真实可编辑 Frame。
 - 第 2 步生成正式提示词后，必须运行 `workflow.py sync`，从文档自动生成 `index.html` 的 Lovart 翻页数据；每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”。该区域仅第 2 步显示。
 - 第 2 步先探测当前环境实际暴露的 Lovart 能力（名称可能是 `lovart-api`、`lovart-skill` 或其他标识），记录认证、额度、模型和画幅；获得用户对页面数量和本批额度消耗的明确批准后，才能生成 P0/P1 单页原型图。
 - 先生成 1 张代表页面并获得用户方向确认，再受控并发生成其余页面。图片保存到 `design/lovart/pages/`，生成命令显式使用 `--prefix "Pxx-页面名"`；并在 GoalPlan 记录能力标识、用户批准、Project、thread、输出文件、模型、画幅和失败原因。
@@ -52,13 +52,15 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 - 每个页面只生成 1 张单页开发稿，不生成多变体、作品集图、交互图或独立状态图；同一页面微调重试时才复用该页面 thread。
 - 并发出图遇到 409/429、额度、风控、下载失败或无输出文件时，先记录失败页面和原因，再降低并发或排队重试；不得连续无控制重试消耗额度。
 - 没有可用 Lovart 能力、没有认证、未获额度批准、生成失败或没有输出文件时，阶段 2 必须记录阻塞和恢复动作，不得推进阶段 3。
-- 固定设计链路是 `Lovart 单页图 -> Stitch UI screen -> 用户手动 Copy/Paste 到 Figma -> Figma Frame -> 代码实现`。
+- 固定设计链路是 `Lovart 单页图 -> Stitch UI screen -> Figma MCP 同步可编辑 Frame -> Figma Frame -> 代码实现`。
 - Stitch 是必选重建层：先探测实际可执行的 Stitch 命名空间能力并检查 MCP/API Key 与额度；每张 Lovart 单页图和对应页面完整提示词都要上传到同名 Stitch Project，重建 1 个 UI screen。
-- Stitch 完成后，AI 输出 Stitch Project、screenId、HTML/截图备份和操作说明；用户在 Stitch 页面点击 Copy/Paste to Figma，把 screen 放入目标 Figma 文件，并按 `Pxx-页面名称` 命名 Frame；用户返回 Frame 链接/nodeId 后，AI 更新 GoalPlan 和 UIDesign。
-- AI 不代替用户完成 Stitch 网页 Copy/Paste，不伪造 Figma nodeId；没有用户回传的真实 Figma Frame 时，阶段 3 必须标为阻塞，不得推进阶段 4。
+- Stitch 完成后，AI 读取 Stitch Project、screenId、htmlCode/designSystem/screenMetadata 和截图备份；截图只用于视觉对照，不作为设计文件同步对象。
+- `Stitch -> Figma` 默认由 AI 通过 Figma MCP 完成：在目标 Figma 文件中创建或更新 `Pxx-页面名称` Frame，并写入可编辑 Text、Rectangle、Frame、Component 等设计图层，而不是上传一整张截图。
+- 同步完成后，AI 必须记录 Figma fileKey、Page、Frame 链接/nodeId、同步方式和可编辑节点检查结果，再更新 GoalPlan 和 UIDesign。
+- 不得要求用户默认手动 Copy/Paste，不得伪造 Figma nodeId；只有 Figma MCP 权限、额度或工具能力不可用且用户明确同意时，手动 Copy/Paste 才能作为降级方案，否则阶段 3 必须标为阻塞。
 - 真实 Figma Frame 只证明交接完成，不代表设计已经通过；必须再获得用户对 P0/P1 页面“可进入开发”的明确确认。
-- Stitch 的 HTML、截图和 screenId 只保存到 `design/stitch/` 或 `.stitch/` 做备份，并写入 GoalPlan。不要让 Stitch 生成多变体、作品集拼贴、交互大图或额外状态图。
-- 如果只有 Stitch HTML/截图、没有可访问的 Figma Frame，第 4 步不能开始；必须阻塞等待真实 Figma Frame。
+- Stitch 的 htmlCode、designSystem、截图和 screenId 保存到 `design/stitch/` 或 `.stitch/` 做备份，并写入 GoalPlan。不要让 Stitch 生成多变体、作品集拼贴、交互大图或额外状态图。
+- 如果只有 Stitch HTML、截图、Lovart PNG/PSD 或 Figma 中的一张截图图片，没有可访问且可编辑的 Figma Frame，第 4 步不能开始；必须阻塞等待真实 Figma Frame。
 - 代码还原以具体 Figma 页面 Frame 为准。
 - 第 4 步写页面代码前，AI 必须重新打开并读取当前页面的 Figma Frame；UIDesign 文档只是索引和摘要，不能替代 Figma 原型文件。
 - 每个页面按“读取 Figma Frame -> 提取视觉 token 和图层结构 -> 实现代码 -> 截图或静态对照 -> 修复偏差 -> 在 GoalPlan 记录证据”循环推进。

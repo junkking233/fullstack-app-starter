@@ -14,7 +14,7 @@
 4. 不生成作品集总览图、交互概览图、独立状态稿或独立弹层稿。
 5. 弹窗、底部弹层、表单错误、空态、加载态、成功提示只写入对应页面的“必要状态备注”。
 6. 所有页面共用同一套设计系统、导航规则、组件风格、颜色、字号、圆角和图标风格。
-7. Lovart 出图后优先进入 Stitch 重建 UI screen，再由用户手动 Copy/Paste 到目标 Figma 文件形成 Figma Frame；后续代码还原只使用具体 Figma 页面 Frame。
+7. Lovart 出图后进入 Stitch 重建 UI screen，再由 Figma MCP 同步到目标 Figma 文件形成可编辑 Figma Frame；后续代码还原只使用具体 Figma 页面 Frame。
 8. 每个页面的完整提示词必须能被 `workflow.py sync` 解析，一张图对应一张卡片。
 9. Lovart、Stitch 和 Figma 都是必选链路；缺少任一环节都必须阻塞，不能推进下一阶段。
 10. 先生成 1 张代表页面并获得用户方向确认，再批量生成其余页面。
@@ -122,7 +122,7 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 - 单页开发稿 PSD：`design/lovart/pages/P01-首页.psd`
 - `index.html` 阶段 2 Lovart 翻页复制区：运行 `python3 scripts/workflow.py sync`，由正式 Prompt 文档自动生成。
 - Lovart 必选记录：实际能力标识、认证/额度、用户批准、代表页确认、输出文件、Project/thread、模型、画幅、原模式/恢复结果、失败原因写入 GoalPlan。
-- Stitch 重建记录：Project、screenId、来源 Lovart 图、页面提示词、HTML/截图备份、用户手动 Copy/Paste 状态、目标文件和 Figma Frame 链接/nodeId 写入 `docs/Goal任务计划-GoalPlan.md`。
+- Stitch 重建记录：Project、screenId、来源 Lovart 图、页面提示词、htmlCode/designSystem/截图备份、目标 Figma 文件、Figma MCP 同步方式、Figma Frame 链接/nodeId 和可编辑节点检查结果写入 `docs/Goal任务计划-GoalPlan.md`。
 - Figma Frame：记录到 `docs/设计还原文档-UIDesign.md` 和 `docs/Goal任务计划-GoalPlan.md`
 
 ### 7. 必选 Lovart 能力执行规则
@@ -141,13 +141,16 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 - 如果自动生成失败、额度不足、环境变量缺失或工具不可用，把原因写入 GoalPlan 阻塞项，不得标记阶段 2 完成。
 - Lovart 输出图必须进入 Stitch 或 Figma 整理；第 4 步代码实现不能直接以 Lovart PNG/PSD 替代 Figma Frame。
 
-### 8. 必选 Stitch 重建与 Figma 交接规则
+### 8. 必选 Stitch 重建与 Figma 同步规则
 
 - 必须探测到实际可执行的 Stitch 重建/上传能力且 Stitch MCP/API Key 可用；不可用时阶段 3 必须阻塞。
+- 必须探测到可写入目标 Figma 文件的 Figma MCP 能力；不可用时阶段 3 必须阻塞。
 - 每个新业务需求新建或定位同名 Stitch Project。
 - 每个页面只使用当前页面的 Lovart 单页图和对应完整页面提示词，重建 1 个 UI screen。
 - 生成 screen 前先确认 Project、图片路径、文件大小和页面编号；不要在未确认时上传文件或消耗额度。
 - 不生成多变体、作品集拼贴、交互流程图、独立弹层图或独立状态图。
-- Stitch 输出的 screenId、HTML、截图写入 `docs/Goal任务计划-GoalPlan.md`，并归档到 `design/stitch/` 或 `.stitch/`。
-- Stitch 结果必须由用户在 Stitch 页面 Copy/Paste 到目标 Figma 文件，形成可访问的真实 Figma Frame。没有 Figma Frame 时，第 4 步不能开始。
+- Stitch 输出的 screenId、htmlCode、designSystem 和截图写入 `docs/Goal任务计划-GoalPlan.md`，并归档到 `design/stitch/` 或 `.stitch/`。
+- Figma MCP 必须把 Stitch screen 同步为目标 Figma 文件中的 `Pxx-页面名` 可编辑 Frame，记录 fileKey、Page、Frame 链接/nodeId、同步方式和节点检查结果。
+- 截图只能做视觉对照，不能作为 Figma 中唯一图层；如果 Figma 里只有一张截图图片，没有可编辑 Text、Rectangle、Frame、Component 等设计节点，第 4 步不能开始。
+- 手动 Copy/Paste 只允许作为用户明确同意的降级方案；默认不得要求用户手动粘贴。
 - 用户还必须明确确认 P0/P1 页面设计可进入开发；Frame 存在不能替代设计确认。

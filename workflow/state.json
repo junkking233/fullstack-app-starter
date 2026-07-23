@@ -10,10 +10,10 @@
     "currentStage": 0,
     "currentStageStatus": "pending",
     "completedStages": 0,
-    "lastUpdated": "2026-07-21",
+    "lastUpdated": "2026-07-23",
     "currentTask": "模板已就绪；复制为业务项目后执行阶段 0 初始化预检。",
-    "recentlyCompleted": "补充 Git Worktree 实测环境隔离规则：每个 worktree 需单独准备本地 .env 和依赖，不提交本地环境文件。",
-    "nextStep": "复制脚手架到真实业务目录并解除脚手架 Git remote；阶段 4 如启用 Worktree，先按 GoalPlan 准备外部工作区。",
+    "recentlyCompleted": "补充 Stitch MCP 到 Figma MCP 的可编辑设计文件同步门禁：截图只做对照，代码阶段必须读取真实 Figma Frame。",
+    "nextStep": "复制脚手架到真实业务目录并解除脚手架 Git remote；阶段 3 必须把 Stitch screen 同步为 Figma 可编辑 Frame 后再进入开发。",
     "gatePolicy": "current_stage_only",
     "stages": [
       {
@@ -38,7 +38,7 @@
         "id": 3,
         "name": "Stitch 重建与 Figma 设计确认",
         "status": "pending",
-        "summary": "重建 Stitch screen、完成人工交接，并获得真实 Figma Frame 与用户设计确认。"
+        "summary": "重建 Stitch screen，通过 Figma MCP 同步可编辑 Frame，并获得用户设计确认。"
       },
       {
         "id": 4,
@@ -147,13 +147,13 @@
         },
         {
           "id": "stitch_outputs",
-          "label": "每个有效页面都有 screenId、HTML/截图备份和来源映射",
+          "label": "每个有效页面都有 screenId、htmlCode/designSystem、截图备份和来源映射",
           "status": "pending",
           "evidence": ""
         },
         {
           "id": "figma_handoff",
-          "label": "用户已 Copy/Paste 到 Figma 并回传真实 Frame 链接/nodeId",
+          "label": "已通过 Figma MCP 同步为可编辑 Frame，并记录真实 Frame 链接/nodeId",
           "status": "pending",
           "evidence": ""
         },

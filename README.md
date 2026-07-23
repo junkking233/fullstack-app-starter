@@ -64,7 +64,7 @@ python3 scripts/workflow.py validate
 ├── design/
 │   ├── lovart/
 │   │   └── pages/                # Lovart 单页原型图，阶段 2 必选产物
-│   └── stitch/                   # Stitch 重建后的 screen/HTML/截图，阶段 3 必选产物
+│   └── stitch/                   # Stitch screen/htmlCode/designSystem/截图备份，阶段 3 必选产物
 ├── docs/
 │   ├── 项目说明-ProjectGuide.md
 │   ├── 产品需求文档-PRD.md
@@ -96,9 +96,9 @@ python3 scripts/workflow.py validate
 - 页面数量也要受控：单端首版建议不超过 8-10 个页面，多端合计超过 12 个页面时先合并、删减或延期。
 - Lovart、Stitch、Figma、API、DB、代码实现只做 P0/P1；P2/暂缓功能不得进入首版。
 - 第 2 步不是“只写提示词”。先探测并记录当前环境实际可用的 Lovart 能力、认证、额度和模型，获得用户对页面数量与本批额度消耗的批准；先生成 1 张代表页并确认方向，再受控并发生成其余 P0/P1 单页图。修改正式 Prompt 后运行 `workflow.py sync` 自动生成看板翻页数据。未安装、未配置、未获额度批准、代表页未确认或生成失败时，阶段 2 只能记录为阻塞。
-- 固定设计链路：Lovart 生成 P0/P1 单页高保真图片；Stitch 用 Lovart 图片 + 页面完整提示词重建可编辑 UI screen；再由用户在 Stitch 页面 Copy/Paste 到目标 Figma 文件，形成可读取的 Figma Frame；代码阶段仍以 Figma Frame 为准。
-- Stitch 和 Figma 都是必选门禁：先探测当前环境实际暴露的 Stitch/Figma 能力并记录认证与额度；阶段 3 必须产出 Stitch Project/screenId/HTML/截图备份，并由用户手动 Copy/Paste 到 Figma 后回传真实 Frame 链接/nodeId。真实 Frame 和用户明确设计确认缺一不可。
-- AI 不代替用户完成 Stitch -> Figma：AI 只输出 Stitch Project/screenId 和操作说明，等待用户手动 Copy/Paste 后回传 Frame 链接/nodeId。
+- 固定设计链路：Lovart 生成 P0/P1 单页高保真图片；Stitch 用 Lovart 图片 + 页面完整提示词重建 UI screen；再由 Figma MCP 将 Stitch 的 htmlCode/designSystem/screenMetadata 同步到目标 Figma 文件，形成可读取、可编辑的 Figma Frame；代码阶段仍以 Figma Frame 为准。
+- Stitch 和 Figma 都是必选门禁：先探测当前环境实际暴露的 Stitch/Figma MCP 能力并记录认证、额度和目标文件；阶段 3 必须产出 Stitch Project/screenId/htmlCode/designSystem/截图备份，并通过 Figma MCP 创建或更新 `Pxx-页面名` Frame，记录真实 Frame 链接/nodeId 和可编辑节点检查结果。真实 Frame 和用户明确设计确认缺一不可。
+- AI 默认负责 Stitch -> Figma MCP 同步：不得要求用户手动 Copy/Paste，不得把 Stitch 截图或 Lovart 图片作为 Figma 中唯一图层。只有 MCP 权限、额度或工具能力不可用时，才记录阻塞与恢复动作；手动 Copy/Paste 只能作为用户明确同意的降级方案，不能替代默认门禁。
 - UI 还原以 Figma Frame 为准，Lovart PNG/PSD、Stitch HTML 和截图只做备份参考。
 - 第 4 步实现 Web/小程序页面前，必须逐页重新读取 Figma Frame，并在 GoalPlan 记录读取证据和对照结论；不能只凭 UIDesign 摘要或组件库默认样式开发。
 - 第 4 步开发前必须先拆分 P0/P1 任务，并记录串行开发或 Git Worktree 并行开发模式。启用 Worktree 时，主控目录保留集成分支，每个独立任务使用一个独立分支和一个位于项目目录外部的 worktree；Worker 只修改分配范围，不能推进全局状态。
