@@ -44,9 +44,9 @@ PRD 阶段先控制范围，避免后续原型和代码变复杂。
 
 - Lovart 用来生成单页原型图；Stitch 用 Lovart 图和页面提示词重建 UI screen；Figma MCP 再把 Stitch 结果同步为目标 Figma 文件中的真实可编辑 Frame。
 - 第 2 步生成正式提示词后，必须运行 `workflow.py sync`，从文档自动生成 `index.html` 的 Lovart 翻页数据；每张卡片包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”。该区域仅第 2 步显示。
-- 第 2 步先探测当前环境实际暴露的 Lovart 能力（名称可能是 `lovart-api`、`lovart-skill` 或其他标识），记录认证、额度、模型和画幅；获得用户对页面数量和本批额度消耗的明确批准后，才能生成 P0/P1 单页原型图。
-- 先生成 1 张代表页面并获得用户方向确认，再受控并发生成其余页面。图片保存到 `design/lovart/pages/`，生成命令显式使用 `--prefix "Pxx-页面名"`；并在 GoalPlan 记录能力标识、用户批准、Project、thread、输出文件、模型、画幅和失败原因。
-- Lovart Skill 自动出图固定优先使用 `generate_image_gpt_image_2_medium`；APP/微信小程序页面默认 9:16，网页页面默认 16:9。切换模式前先执行 `query-mode` 记录原账户模式，默认临时切到 `unlimited` 省积分；只有用户明确要求速度时才使用 fast 模式。批次正常完成或失败退出后恢复原模式，用户明确要求保持新模式时除外。
+- 第 2 步先探测当前环境实际暴露的 Lovart 能力（名称可能是 `lovart-api`、`lovart-skill` 或其他标识），记录认证、额度、模型、分辨率和画幅；获得用户对页面数量和本批额度消耗的明确批准后，才能生成 P0/P1 单页原型图。
+- 先生成 1 张代表页面并获得用户方向确认，再受控并发生成其余页面。图片保存到 `design/lovart/pages/`，生成命令显式使用 `--prefix "Pxx-页面名"`；并在 GoalPlan 记录能力标识、用户批准、Project、thread、输出文件、模型、1K、画幅、fast 使用结果和失败原因。
+- Lovart 原型图固定指定 `generate_image_seedream_v5_pro`，输出 1K；APP/微信小程序页面默认 9:16，网页页面默认 16:9。页面提示词必须明确写入单张、1K 和画幅；命令显式传入 `--prefer-models '{"IMAGE":["generate_image_seedream_v5_pro"]}'`。切换前先执行 `query-mode`，获批后临时调用 `set-mode --fast`，每个新页面 thread 使用 `--mode fast`；批次正常完成或失败退出后恢复原模式，用户明确要求保持 fast 时除外。
 - 每个新业务需求都新建 Lovart Project，名称使用业务中文名称；生成后再次检查并校正 Project 名称，避免本地状态被 prompt 前缀覆盖。
 - Lovart 多页面出图必须受控并发执行：同一业务共用同一个 Lovart Project，每个 P0/P1 页面使用独立新 thread 并显式传入新 Project 的 `--project-id`；默认并发上限为 3，页面数量超过 3 时分批执行。
 - 每个页面只生成 1 张单页开发稿，不生成多变体、作品集图、交互图或独立状态图；同一页面微调重试时才复用该页面 thread。
