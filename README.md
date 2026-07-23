@@ -95,7 +95,7 @@ python3 scripts/workflow.py validate
 - PRD 先做 `ScopeBudget`：默认角色不超过 3 个，每个角色 P0/P1 核心功能最多 5 个。
 - 页面数量也要受控：单端首版建议不超过 8-10 个页面，多端合计超过 12 个页面时先合并、删减或延期。
 - Lovart、Stitch、Figma、API、DB、代码实现只做 P0/P1；P2/暂缓功能不得进入首版。
-- 第 2 步不是“只写提示词”。先探测并记录当前环境实际可用的 Lovart 能力、认证、额度和模型，获得用户对页面数量与本批额度消耗的批准；先生成 1 张代表页并确认方向，再受控并发生成其余 P0/P1 单页图。修改正式 Prompt 后运行 `workflow.py sync` 自动生成看板翻页数据。未安装、未配置、未获额度批准、代表页未确认或生成失败时，阶段 2 只能记录为阻塞。
+- 第 2 步不是“只写提示词”。原型图固定指定 `generate_image_seedream_v5_pro`、1K 输出；APP/小程序为 9:16，网页为 16:9。先探测并记录当前环境实际可用的 Lovart 能力、认证和额度，获得用户对页面数量与本批额度消耗的批准；再切换账户 `fast` 模式并使用 `--mode fast` 生成 1 张代表页，确认方向后受控并发生成其余 P0/P1 单页图。修改正式 Prompt 后运行 `workflow.py sync` 自动生成看板翻页数据。未安装、未配置、未获额度批准、代表页未确认、模型不符或生成失败时，阶段 2 只能记录为阻塞。
 - 固定设计链路：Lovart 生成 P0/P1 单页高保真图片；Stitch 用 Lovart 图片 + 页面完整提示词重建 UI screen；再由 Figma MCP 将 Stitch 的 htmlCode/designSystem/screenMetadata 同步到目标 Figma 文件，形成可读取、可编辑的 Figma Frame；代码阶段仍以 Figma Frame 为准。
 - Stitch 和 Figma 都是必选门禁：先探测当前环境实际暴露的 Stitch/Figma MCP 能力并记录认证、额度和目标文件；阶段 3 必须产出 Stitch Project/screenId/htmlCode/designSystem/截图备份，并通过 Figma MCP 创建或更新 `Pxx-页面名` Frame，记录真实 Frame 链接/nodeId 和可编辑节点检查结果。真实 Frame 和用户明确设计确认缺一不可。
 - AI 默认负责 Stitch -> Figma MCP 同步：不得要求用户手动 Copy/Paste，不得把 Stitch 截图或 Lovart 图片作为 Figma 中唯一图层。只有 MCP 权限、额度或工具能力不可用时，才记录阻塞与恢复动作；手动 Copy/Paste 只能作为用户明确同意的降级方案，不能替代默认门禁。

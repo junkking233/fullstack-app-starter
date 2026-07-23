@@ -105,7 +105,7 @@ window.WORKFLOW_DATA = {
         "2": [
           {
             "id": "lovart_preflight",
-            "label": "已记录实际 Lovart 能力标识、认证、额度、模型和画幅",
+            "label": "已记录实际 Lovart 能力标识、认证、额度、模型、1K 分辨率、画幅和 fast 模式",
             "status": "pending",
             "evidence": ""
           },

@@ -61,10 +61,10 @@
 - Lovart PNG/PSD 放 `design/lovart/`，并经 Stitch 重建后由 Figma MCP 同步到目标 Figma 文件，形成真实可编辑 Figma Frame；截图或图片不能作为唯一图层。
 - Lovart Prompt 正式文档写入 `design/lovart/原型生图提示词-LovartPrompt.md`，再运行 `workflow.py sync` 自动生成 `index.html` 的阶段 2 翻页数据；每张卡片必须包含“全局设计系统 + 导航规则 + Pxx 页面完整提示词”。
 - 第 2 步必须调用当前环境实际可用的 Lovart 能力出图（能力名可能显示为 `lovart-api`、`lovart-skill` 或其他已安装标识），不能只生成提示词文档或只同步 `index.html` 就标记完成。
-- Lovart 只允许生成 P0/P1 单页开发稿，产物保存到 `design/lovart/pages/`，每次显式使用 `--prefix "Pxx-页面名"`；并在 GoalPlan 记录生成方式、输出文件、Lovart project/thread、模型、画幅、原模式/恢复结果和失败原因。
-- Lovart 图片模型固定优先 `generate_image_gpt_image_2_medium`；APP/微信小程序页面默认 9:16，网页页面默认 16:9。
+- Lovart 只允许生成 P0/P1 单页开发稿，产物保存到 `design/lovart/pages/`，每次显式使用 `--prefix "Pxx-页面名"`；并在 GoalPlan 记录生成方式、输出文件、Lovart project/thread、模型、分辨率、画幅、原模式/恢复结果和失败原因。
+- Lovart 原型图固定指定 `generate_image_seedream_v5_pro`，输出 1K；APP/微信小程序页面默认 9:16，网页页面默认 16:9。完整页面提示词必须写明“单张、1K、对应画幅”，命令显式传入 `--prefer-models '{"IMAGE":["generate_image_seedream_v5_pro"]}'`；实际返回模型不符时不得标记该页完成。
 - 没有可用 Lovart 能力、缺少认证、额度不足、生成失败或没有输出文件时，必须把阶段 2 标记为阻塞并记录恢复动作；不得把“手动复制提示词路径”当作阶段完成。
-- 默认按省积分策略出图：生成前先执行 `query-mode` 记录原账户模式，再切换 `set-mode --unlimited`；除非用户明确要求加速或 fast credits，不主动使用 fast 模式。批次正常完成或失败退出后恢复原模式，用户明确要求保持新模式时除外。
+- 原型图批次固定使用 Lovart 账户 `fast` 模式：生成前先执行 `query-mode` 记录原账户模式，获得用户额度批准后执行 `set-mode --fast`；每个新页面 thread 显式使用 `--mode fast`。批次正常完成或失败退出后恢复原模式，用户明确要求保持 fast 时除外。
 - 批量出图前必须记录实际能力标识、认证、额度、模型、页面数量和预计批次，并获得用户对本批额度消耗的明确批准；不能把普通开发授权视为付费生成授权。
 - 先生成 1 张代表页面并获得用户方向确认，再生成其余页面；代表页未确认不得批量消耗额度。
 - 每个新业务需求都必须新建 Lovart Project，Project 名称使用业务中文名称；不要把新业务原型图生成到旧项目里。生成后必须再次检查并校正本地 Project 名称，防止被 prompt 前缀覆盖。

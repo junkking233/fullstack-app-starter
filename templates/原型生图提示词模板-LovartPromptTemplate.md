@@ -86,7 +86,7 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 
 ```text
 【Pxx-页面名称】
-生成目标：只生成 1 张完整单页开发稿，不要生成多屏拼贴，不要生成交互流程图。APP/微信小程序使用 9:16 竖屏，网页使用 16:9。
+生成目标：只生成 1 张 1K 完整单页开发稿，不要生成多屏拼贴，不要生成交互流程图。APP/微信小程序使用 9:16 竖屏，网页使用 16:9。
 
 引用全局设计系统：
 【粘贴 DesignSystemPrompt】
@@ -121,7 +121,7 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 - 单页开发稿 PNG：`design/lovart/pages/P01-首页.png`
 - 单页开发稿 PSD：`design/lovart/pages/P01-首页.psd`
 - `index.html` 阶段 2 Lovart 翻页复制区：运行 `python3 scripts/workflow.py sync`，由正式 Prompt 文档自动生成。
-- Lovart 必选记录：实际能力标识、认证/额度、用户批准、代表页确认、输出文件、Project/thread、模型、画幅、原模式/恢复结果、失败原因写入 GoalPlan。
+- Lovart 必选记录：实际能力标识、认证/额度、用户批准、代表页确认、输出文件、Project/thread、模型、1K、画幅、fast 使用结果、原模式/恢复结果、失败原因写入 GoalPlan。
 - Stitch 重建记录：Project、screenId、来源 Lovart 图、页面提示词、htmlCode/designSystem/截图备份、目标 Figma 文件、Figma MCP 同步方式、Figma Frame 链接/nodeId 和可编辑节点检查结果写入 `docs/Goal任务计划-GoalPlan.md`。
 - Figma Frame：记录到 `docs/设计还原文档-UIDesign.md` 和 `docs/Goal任务计划-GoalPlan.md`
 
@@ -130,11 +130,11 @@ APP/微信小程序一级 Tab 页面必须显示底部 Tab：{Tab1}、{Tab2}、{
 - 必须调用当前环境实际可用的 Lovart 能力自动出图；先记录能力标识、认证、额度和用户批次批准，缺任一项时阶段 2 必须阻塞。
 - 先生成 1 张代表页面并获得用户方向确认，再开始其余页面的受控批次。
 - 每个新业务需求都新建 Lovart Project，Project 名称使用业务中文名称，不复用旧业务项目。
-- 生成前先调用 `query-mode` 记录原账户模式，再临时调用 `set-mode --unlimited` 省积分；只有用户明确要求速度时才使用 fast 模式。批次正常完成或失败退出后恢复原模式，用户明确要求保持新模式时除外。
+- 生成前先调用 `query-mode` 记录原账户模式，获得用户额度批准后临时调用 `set-mode --fast`；每个新页面 thread 显式使用 `--mode fast`。批次正常完成或失败退出后恢复原模式，用户明确要求保持 fast 时除外。
 - 每次生成后重新检查并校正 Project 名称，防止本地状态被 prompt 前缀覆盖。
 - Lovart 多页面出图必须受控并发执行：同一业务共用同一个 Lovart Project，每个 P0/P1 页面使用独立新 thread 并显式传入新 Project 的 `--project-id`；默认并发上限为 3，页面数量超过 3 时分批执行。
-- 自动出图固定优先使用图片模型 `generate_image_gpt_image_2_medium`。
-- 画幅按端类型决定：APP/微信小程序页面使用 9:16，网页页面使用 16:9。
+- 自动出图固定指定图片模型 `generate_image_seedream_v5_pro`，输出 1K；命令显式传入 `--prefer-models '{"IMAGE":["generate_image_seedream_v5_pro"]}'`，实际返回模型不符时该页面不能完成。
+- 画幅按端类型决定：APP/微信小程序页面使用 9:16，网页页面使用 16:9；每张正式提示词必须写明“单张 1K + 对应画幅”。
 - 自动出图只使用本文件的单页完整提示词，不额外生成作品集总览、交互概览、独立弹窗或独立状态图。
 - 每个页面单独生成并保存到 `design/lovart/pages/`，生成命令显式使用 `--prefix "Pxx-页面名称"`；每个页面只生成 1 张单页开发稿，不生成多变体。
 - 同一页面微调重试时才允许复用该页面 thread；并发出图遇到 409/429、额度、风控、下载失败或无输出文件时，先记录失败页面和原因，再降低并发或排队重试，不连续无控制重试。
